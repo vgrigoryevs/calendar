@@ -6,6 +6,5 @@
 			<Label id="after" text=">" left="240" top="0"></Label>
 		</View>	
 		
-		<TableView id="monthView" left="30" separatorColor="#fff"></TableView>
 	</Window>
 </Alloy>
