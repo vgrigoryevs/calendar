@@ -1,0 +1,10 @@
+"Label": {
+    width: Ti.UI.SIZE,
+    height: Ti.UI.SIZE,
+    color: "#000", // black
+    transform: Alloy.Globals.rotateLeft // value is defined in the alloy.js file     
+}, 
+
+".container": {
+	backgroundColor:"white"
+}

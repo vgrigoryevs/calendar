@@ -1,0 +1,6 @@
+<Alloy>
+	<Window id="contain" class="container">
+		<TableView id="month" left="30" separatorColor="#fff">
+		</TableView>
+	</Window>
+</Alloy>
