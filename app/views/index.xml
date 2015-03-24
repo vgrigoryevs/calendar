@@ -1,6 +1,11 @@
 <Alloy>
-	<Window id="contain" class="container">
-		<TableView id="month" left="30" separatorColor="#fff">
-		</TableView>
+	<Window id="contain" class="container" layout="vertical">		
+		<View layout="horizontal" id="one" height="30" left="30">
+			<Label id="before" text="<"></Label>	
+			<Label id="monthSelector" left="40"></Label>
+			<Label id="after" text=">" left="240" top="0"></Label>
+		</View>	
+		
+		<TableView id="monthView" left="30" separatorColor="#fff"></TableView>
 	</Window>
 </Alloy>

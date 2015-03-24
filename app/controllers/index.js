@@ -1,10 +1,13 @@
+
+function showCalendar(year, month){
+
 var tbl_data = [],
+	month = month - 1,
 	tableHeader = Ti.UI.createTableViewRow(),
 	weekRow = Ti.UI.createTableViewRow(),
 	weekDays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
-	month = 3,
-	firstDay = new Date(2015, month, 1).getDay(),
-	lastDay = new Date(2015, month + 1, 0).getDate(),
+	firstDay = new Date(year, month, 1).getDay(),
+	lastDay = new Date(year, month + 1, 0).getDate(),
 	lastDayPrMnth = new Date(2015, month, 0).getDate(),
 	counter = 1,
 	innerCounter = 0,
@@ -62,7 +65,7 @@ else {
 	for (var i = 0; i < firstDay -1; i++) {
 		var label = Ti.UI.createLabel({
 	        left: i*40,
-	        text: lastDayPrMnth--,
+	        text: " ",
         	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
 	        height:20
@@ -137,7 +140,34 @@ for(;innerCounter < 7 ; innerCounter++) {
 		
 tbl_data.push(weekRow);
 
-var table = $.month;
-table.data = tbl_data;
+
+$.monthView.data = tbl_data;
+
+}
+
+$.monthSelector.addEventListener('click', function(){
+    $.contain.remove($.contain.children[1]);
+});
+
+var d = new Date();
+var month = [];
+month[0] = "Январь";
+month[1] = "Февраль";
+month[2] = "Март";
+month[3] = "Апрель";
+month[4] = "Май";
+month[5] = "Июнь";
+month[6] = "Июль";
+month[7] = "Август";
+month[8] = "Сентябрь";
+month[9] = "Октябрь";
+month[10] = "Ноябрь";
+month[11] = "Декабрь";
+var n = month[d.getMonth()];
+
+$.monthSelector.text = n;
  
 $.contain.open();
+
+
+showCalendar(2015, 2);
