@@ -19,6 +19,11 @@ function showCalendar(year, month){
 		innerCounter = 0,
 		nextMonthCntr = 1;
 
+		if(new Date().getMonth() != month) {
+			var today = 0;		
+		}
+
+
 	//Заголовок календаря
 	for(var i = 0; i < 7; i++) {
 		var label = Ti.UI.createLabel({
@@ -59,7 +64,8 @@ function showCalendar(year, month){
 		    text: counter,
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
-	        height:20
+	        height:20,
+		    labelId: counter + "-" + (month+1) + "-" + year
 	    });
 	    
 	    if(today === counter) {
@@ -93,7 +99,8 @@ function showCalendar(year, month){
 		        text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20
+		        height:20,
+		        labelId: counter + "-" + (month+1) + "-" + year
 	    	});
 	    	
 	    	if(today === counter) {
@@ -123,7 +130,8 @@ function showCalendar(year, month){
 			    text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20
+		        height:20,
+		        labelId: counter + "-" + (month+1) + "-" + year
 		    });
 		    
 		    if(today === counter) {
@@ -143,7 +151,8 @@ function showCalendar(year, month){
 			    text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20
+		        height:20,
+		        labelId: counter + "-" + (month+1) + "-" + year
 		    });
 		    
 		    if(today === counter) {
@@ -177,9 +186,17 @@ function showCalendar(year, month){
 	    separatorColor:"#fff"
 	});
 	
+	//Обработка события нажатия на дату
+	
+	table.addEventListener('click', function(e){
+    	console.log(e);
+	});
+	
 	$.contain.add(table);
 
 }
+
+//Переход на предыдущий месяц
 
 $.before.addEventListener('click', function(){
     $.contain.remove($.contain.children[1]);
@@ -193,6 +210,8 @@ $.before.addEventListener('click', function(){
     $.monthSelector.text = month[mon] + " " + y;
     showCalendar(y, mon);
 });
+
+//Переход на следующий месяц
 
 $.after.addEventListener('click', function(){
     $.contain.remove($.contain.children[1]);
@@ -208,6 +227,28 @@ $.after.addEventListener('click', function(){
     showCalendar(y, mon);
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Инициализация календаря с текущим месяцем
 var d = new Date();
 var month = [];
 month[0] = "Январь";
@@ -229,6 +270,5 @@ var y = d.getFullYear();
 $.monthSelector.text = n + " " + y;
  
 $.contain.open();
-
 
 showCalendar(y, mon);
