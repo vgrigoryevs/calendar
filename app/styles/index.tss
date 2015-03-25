@@ -8,4 +8,13 @@
 	left: 40,
 	width: 150,
 	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER
+},
+
+"#indexMenu" : {
+	backgroundColor: "#0E1E31",
+	height: 30
+},
+
+"#navigationView" : {
+	
 }

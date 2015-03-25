@@ -1,5 +1,9 @@
 <Alloy>
-	<Window id="contain" class="container">		
+	<Window id="contain" class="container">	
+		<View id="indexMenu">
+			<ImageView right="0" id="indexMenuBtn" image="/img/menu.png"></ImageView>
+		</View>
+			
 		<View id="navigationView" height="30" width="220">
 			<Label id="before" text="<" left="0"></Label>	
 			<Label id="monthSelector"></Label>

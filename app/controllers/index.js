@@ -40,16 +40,10 @@ function showCalendar(year, month){
 		var maxLength = myNotes.length;
 		
 		for(var ii = 0; ii < maxLength; ii++) {
-			datesWithNotes.push(myNotes[ii].attributes.parent);
+			var i =	(+ myNotes[ii].attributes.parent.split(".")[0]);//geting day number
+			datesWithNotes[i] = true;
 		}
 	}
-
-
-
-	console.log(datesWithNotes);
-
-
-
 
 
 	//Calendar header
@@ -103,6 +97,9 @@ function showCalendar(year, month){
 	    	label.color = "#CC0000";
 	    }
 	    
+	    if(datesWithNotes[counter]){
+	    	label.backgroundImage = '/img/test.png'; 
+	    }
 	    
 	    counter++;
 	    firstWeek.add(label);
@@ -139,6 +136,10 @@ function showCalendar(year, month){
 	    	if(today === counter) {
 	    		label.color = "#CC0000";
 	    	}
+	    	
+	    	if(datesWithNotes[counter]){
+	    		label.backgroundImage = '/img/test.png'; 
+	    	}
 	    
 	    	counter++;
 	    	firstWeek.add(label);
@@ -159,17 +160,21 @@ function showCalendar(year, month){
 			weekRow = Ti.UI.createTableViewRow();
 			
 			var label = Ti.UI.createLabel({
-				left: innerCounter*40,
-			    text: counter,
-	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width:20,
-		        height:20,
-		        color: "black",
-		        labelId: counter + "." + (month+1) + "." + year
-		    });
+					left: innerCounter*40,
+				    text: counter,
+		        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+			        width:20,
+			        height:20,
+			        color: "black",
+			        labelId: counter + "." + (month+1) + "." + year
+			    });
 		    
 		    if(today === counter) {
 		    	label.color = "#CC0000";
+		    }
+		    
+		    if(datesWithNotes[counter]){
+		    	label.backgroundImage = '/img/test.png'; 
 		    }
 		    
 		    counter++;
@@ -192,6 +197,10 @@ function showCalendar(year, month){
 		    
 		    if(today === counter) {
 		    	label.color = "#CC0000";
+		    }
+		    
+		    if(datesWithNotes[counter]){
+		    	label.backgroundImage = '/img/test.png'; 
 		    }
 		    
 		    counter++;
@@ -218,8 +227,8 @@ function showCalendar(year, month){
 	var table = Titanium.UI.createTableView({
 		    data: tbl_data,
 		    separatorColor: "transparent",
-		    width: Ti.UI.SIZE,
-		    height: Ti.UI.SIZE
+		    width: 285,
+		    height: Ti.UI.SIZE,
 		
 		});
 	
@@ -234,6 +243,7 @@ function showCalendar(year, month){
     			dateView = Alloy.createController("dateview", args).getView();
     			
 			dateView.open();
+			console.log(e.source.labelId);
     			
     	}
 	});
@@ -275,6 +285,12 @@ $.after.addEventListener('click', function(){
     
     $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
+});
+
+//Menu btns
+
+$.indexMenuBtn.addEventListener('click', function(){
+	console.log('tap');
 });
 
 
