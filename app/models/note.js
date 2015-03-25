@@ -2,16 +2,13 @@ exports.definition = {
 	config: {
 		columns: {
 		    "title": "text",
-		    "place": "text",
-		    "from": "date",
-		    "till": "date",
-		    "guests": "text",
 		    "description": "text",
-		    "color": "int",
-		    "parent": "string"
+		    "parent": "text",
+		    "dateFrom": "text",
+		    "dateTill": "text"
 		},
 		adapter: {
-			type: "sql",
+			type: "properties",
 			collection_name: "note"
 		}
 	},

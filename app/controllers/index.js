@@ -183,25 +183,25 @@ function showCalendar(year, month){
 	
 	for(;innerCounter < 7 ; innerCounter++) {
 		var label = Ti.UI.createLabel({
-			left: innerCounter*40,
-			text: nextMonthCntr++,
-	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	        width:20,
-	        height:20,
-		    color: "#BBBBB3"
-		});
+				left: innerCounter*40,
+				text: nextMonthCntr++,
+		        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
+		        width: 20,
+		        height: 20,
+			    color: "#BBBBB3"
+			});
 		weekRow.add(label);
 	}
 			
 	tbl_data.push(weekRow);
 	
 	var table = Titanium.UI.createTableView({
-	    data:tbl_data,
-	    right  : 10,
-    	left   : 10,
-	    separatorColor:"#fff",
-	
-	});
+		    data: tbl_data,
+		    separatorColor: "transparent",
+		    width: Ti.UI.SIZE,
+		    height: Ti.UI.SIZE
+		
+		});
 	
 	//Обработка события нажатия на дату
 	
@@ -212,14 +212,13 @@ function showCalendar(year, month){
     				labelId: selectedDate.labelId
     			},
     			dateView = Alloy.createController("dateview", args).getView();
-    			dateView.open();
     			
-    		
+			dateView.open();
+    			
     	}
 	});
 	
 	$.contain.add(table);
-
 }
 
 //Переход на предыдущий месяц
@@ -259,9 +258,6 @@ $.after.addEventListener('click', function(){
 });
 
 
-
-
-
 //Инициализация календаря с текущим месяцем
 var d = moment();
 	d.locale('ru');
@@ -274,3 +270,22 @@ $.monthSelector.text = n + " " + y;
 $.contain.open();
 
 showCalendar(y, mon);
+
+
+//базовая тестовая инфа
+
+
+var myNotes = Alloy.Collections.notes;
+
+//var note = Alloy.createModel('note', { 
+//    title: "Тестовая запись",
+//	description: "Описание",
+//	parent: "25-3-2015",
+//	dateFrom: "00",
+//	dateTill: "01"
+//});
+
+//myNotes.add(note);
+//note.save();
+myNotes.fetch();
+
