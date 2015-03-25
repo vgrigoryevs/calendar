@@ -1,4 +1,6 @@
 <Alloy>
-	<View class="container">
-	</View>
+	<Window class="container">
+		<TableView id="dateTable">
+		</TableView>
+	</Window>
 </Alloy>

@@ -199,7 +199,9 @@ function showCalendar(year, month){
 	//Обработка события нажатия на дату
 	
 	table.addEventListener('click', function(e){
-    	console.log(e);
+    	if(e.source.labelId){
+    		console.log(e.source.labelId);
+    	}
 	});
 	
 	$.contain.add(table);
@@ -241,9 +243,6 @@ $.after.addEventListener('click', function(){
     $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
 });
-
-
-
 
 
 
