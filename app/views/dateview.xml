@@ -1,6 +1,13 @@
 <Alloy>
 	<Window class="container">
+		
+		<Menu id="menu" platform="android">
+		    <MenuItem id="saveitem" title="Save" />
+		    <MenuItem id="closeitem" title="Close" />
+		</Menu>
+		
 		<TableView id="dateTable">
 		</TableView>
+	
 	</Window>
 </Alloy>

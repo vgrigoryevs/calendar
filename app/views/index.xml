@@ -2,7 +2,7 @@
 	<Window id="contain" class="container" layout="vertical">		
 		<View layout="horizontal" id="one" height="30" left="30">
 			<Label id="before" text="<"></Label>	
-			<Label id="monthSelector" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"></Label>
+			<Label id="monthSelector" left="40" width="150" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER"></Label>
 			<Label id="after" text=">" left="240" top="0"></Label>
 		</View>	
 		

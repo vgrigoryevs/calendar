@@ -1,4 +1,5 @@
-Ti.include('moment-with-locales.js');
+Ti.include('/moment-with-locales.js');
+
 
 
 String.prototype.capitalizeFirstLetter = function() {
@@ -75,6 +76,7 @@ function showCalendar(year, month){
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
 	        height:20,
+	        color: "black",
 		    labelId: counter + "-" + (month+1) + "-" + year
 	    });
 	    
@@ -110,6 +112,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
 		        height:20,
+		        color: "black",
 		        labelId: counter + "-" + (month+1) + "-" + year
 	    	});
 	    	
@@ -141,6 +144,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
 		        height:20,
+		        color: "black",
 		        labelId: counter + "-" + (month+1) + "-" + year
 		    });
 		    
@@ -162,6 +166,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
 		        height:20,
+		        color: "black",
 		        labelId: counter + "-" + (month+1) + "-" + year
 		    });
 		    
@@ -192,15 +197,24 @@ function showCalendar(year, month){
 	
 	var table = Titanium.UI.createTableView({
 	    data:tbl_data,
-	    left:30,
-	    separatorColor:"#fff"
+	    right  : 10,
+    	left   : 10,
+	    separatorColor:"#fff",
+	
 	});
 	
 	//Обработка события нажатия на дату
 	
 	table.addEventListener('click', function(e){
     	if(e.source.labelId){
-    		console.log(e.source.labelId);
+    		var selectedDate = e.source,
+    			args = {
+    				labelId: selectedDate.labelId
+    			},
+    			dateView = Alloy.createController("dateview", args).getView();
+    			dateView.open();
+    			
+    		
     	}
 	});
 	
