@@ -1,7 +1,13 @@
+Ti.include('moment-with-locales.js');
+
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 function showCalendar(year, month){
 	if(month === 0){
-		var	lastDayPrMnth = new Date(year - 1, 11 , 0).getDate();
+		var	lastDayPrMnth = new Date(year - 1, 12 , 0).getDate();
 	}
 	
 	else{
@@ -12,12 +18,14 @@ function showCalendar(year, month){
 		today = new Date().getDate();
 		tableHeader = Ti.UI.createTableViewRow(),
 		weekRow = Ti.UI.createTableViewRow(),
-		weekDays = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'],
 		firstDay = new Date(year, month, 1).getDay(),
 		lastDay = new Date(year, month + 1, 0).getDate(),
 		counter = 1,
 		innerCounter = 0,
-		nextMonthCntr = 1;
+		nextMonthCntr = 1,
+		prMonthCntr = firstDay-2,
+		weekDay = moment("12-25-1995", "MM-DD-YYYY");
+		weekDay.locale('ru');
 
 		if(new Date().getMonth() != month) {
 			var today = 0;		
@@ -28,12 +36,14 @@ function showCalendar(year, month){
 	for(var i = 0; i < 7; i++) {
 		var label = Ti.UI.createLabel({
 	        left: i*40,
-	        text: weekDays[i],
+	        text: weekDay.format('dd').capitalizeFirstLetter(),
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
-	        height:20
+	        height:20,
+	        color: "#BBBBB3"
 	    });
 	    
+	    weekDay.add(1, 'days');
 	    tableHeader.add(label);
 	}
 	tbl_data.push(tableHeader);
@@ -54,7 +64,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
 		        height:20,
-		        color: "#F2F1EC"
+		        color: "#BBBBB3"
 	    	});
 	    	firstWeek.add(label);
 		}
@@ -82,14 +92,14 @@ function showCalendar(year, month){
 		
 		for (var i = 0; i < firstDay -1; i++) {
 			var label = Ti.UI.createLabel({
-		        left: i*40,
-		        text: " ",
+		        left: prMonthCntr * 40,
+		        text: lastDayPrMnth--,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
 		        height:20,
-		        color: "#F2F1EC"
+		        color: "#BBBBB3"
 	    	});
-	    	
+	    	prMonthCntr--;
 	    	firstWeek.add(label);
 		}
 		
@@ -173,7 +183,7 @@ function showCalendar(year, month){
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
 	        height:20,
-		    color: "#F2F1EC"
+		    color: "#BBBBB3"
 		});
 		weekRow.add(label);
 	}
@@ -207,7 +217,10 @@ $.before.addEventListener('click', function(){
     	mon = 11;
     }
     
-    $.monthSelector.text = month[mon] + " " + y;
+    d.month(mon);
+    n = d.format('MMMM').capitalizeFirstLetter();
+    
+    $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
 });
 
@@ -222,8 +235,10 @@ $.after.addEventListener('click', function(){
     	y++;
     	mon = 0;
     }
+    d.month(mon);
+    n = d.format('MMMM').capitalizeFirstLetter();
     
-    $.monthSelector.text = month[mon] + " " + y;
+    $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
 });
 
@@ -234,38 +249,12 @@ $.after.addEventListener('click', function(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Инициализация календаря с текущим месяцем
-var d = new Date();
-var month = [];
-month[0] = "Январь";
-month[1] = "Февраль";
-month[2] = "Март";
-month[3] = "Апрель";
-month[4] = "Май";
-month[5] = "Июнь";
-month[6] = "Июль";
-month[7] = "Август";
-month[8] = "Сентябрь";
-month[9] = "Октябрь";
-month[10] = "Ноябрь";
-month[11] = "Декабрь";
-var mon = d.getMonth();
-var n = month[mon];
-var y = d.getFullYear();
+var d = moment();
+	d.locale('ru');
+var	mon = d.month(),
+	n = d.format('MMMM').capitalizeFirstLetter(),
+	y = d.year();
 
 $.monthSelector.text = n + " " + y;
  

@@ -7,4 +7,9 @@
 
 ".container": {
 	backgroundColor:"white"
+},
+
+"#monthSelector": {
+	left:"40",
+	width: "150"
 }
