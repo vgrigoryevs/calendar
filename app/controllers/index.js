@@ -28,12 +28,31 @@ function showCalendar(year, month){
 		weekDay = moment("12-25-1995", "MM-DD-YYYY");
 		weekDay.locale('ru');
 
-		if(new Date().getMonth() != month) {
-			var today = 0;		
+	if(new Date().getMonth() != month) {
+		var today = 0;		
+	}
+	
+	//Searching dates of existing notes in this month
+	var myNotes = Alloy.Collections.notes.where({monthNumber: month}),
+		datesWithNotes = [];
+	
+	if(myNotes[0]){
+		var maxLength = myNotes.length;
+		
+		for(var ii = 0; ii < maxLength; ii++) {
+			datesWithNotes.push(myNotes[ii].attributes.parent);
 		}
+	}
 
 
-	//Заголовок календаря
+
+	console.log(datesWithNotes);
+
+
+
+
+
+	//Calendar header
 	for(var i = 0; i < 7; i++) {
 		var label = Ti.UI.createLabel({
 	        left: i*40,
@@ -49,7 +68,7 @@ function showCalendar(year, month){
 	}
 	tbl_data.push(tableHeader);
 	
-	//Первая неделя
+	//First week
 	
 	if(firstDay === 1) {
 		
@@ -77,12 +96,13 @@ function showCalendar(year, month){
 	        width:20,
 	        height:20,
 	        color: "black",
-		    labelId: counter + "-" + (month+1) + "-" + year
+		    labelId: counter + "." + (month+1) + "." + year
 	    });
 	    
 	    if(today === counter) {
 	    	label.color = "#CC0000";
 	    }
+	    
 	    
 	    counter++;
 	    firstWeek.add(label);
@@ -113,7 +133,7 @@ function showCalendar(year, month){
 		        width:20,
 		        height:20,
 		        color: "black",
-		        labelId: counter + "-" + (month+1) + "-" + year
+		        labelId: counter + "." + (month+1) + "." + year
 	    	});
 	    	
 	    	if(today === counter) {
@@ -127,7 +147,7 @@ function showCalendar(year, month){
 		tbl_data.push(firstWeek);	
 	}
 	
-	//Недели календаря
+	//Adding weeks
 	
 	while(counter <= lastDay) {
 		
@@ -145,7 +165,7 @@ function showCalendar(year, month){
 		        width:20,
 		        height:20,
 		        color: "black",
-		        labelId: counter + "-" + (month+1) + "-" + year
+		        labelId: counter + "." + (month+1) + "." + year
 		    });
 		    
 		    if(today === counter) {
@@ -167,7 +187,7 @@ function showCalendar(year, month){
 		        width:20,
 		        height:20,
 		        color: "black",
-		        labelId: counter + "-" + (month+1) + "-" + year
+		        labelId: counter + "." + (month+1) + "." + year
 		    });
 		    
 		    if(today === counter) {
@@ -203,7 +223,7 @@ function showCalendar(year, month){
 		
 		});
 	
-	//Обработка события нажатия на дату
+	//Handler for date picking
 	
 	table.addEventListener('click', function(e){
     	if(e.source.labelId){
@@ -221,7 +241,7 @@ function showCalendar(year, month){
 	$.contain.add(table);
 }
 
-//Переход на предыдущий месяц
+//Change to previos month
 
 $.before.addEventListener('click', function(){
     $.contain.remove($.contain.children[1]);
@@ -239,7 +259,7 @@ $.before.addEventListener('click', function(){
     showCalendar(y, mon);
 });
 
-//Переход на следующий месяц
+//Change to next month
 
 $.after.addEventListener('click', function(){
     $.contain.remove($.contain.children[1]);
@@ -258,7 +278,28 @@ $.after.addEventListener('click', function(){
 });
 
 
-//Инициализация календаря с текущим месяцем
+//базовая тестовая инфа
+
+
+var myNotes = Alloy.Collections.notes;
+
+//var note = Alloy.createModel('note', { 
+//    title: "Тестовая запись",
+//	description: "Описание",
+//	parent: "25.3.2015",
+//	dateFrom: "00",
+//	dateTill: "01",
+//	guests: "Фред",
+//	color: 1,
+//	monthNumber: 2 
+//});
+
+//myNotes.add(note);
+//note.save();
+
+myNotes.fetch();	
+
+//Calendar initialization with current month
 var d = moment();
 	d.locale('ru');
 var	mon = d.month(),
@@ -272,20 +313,6 @@ $.contain.open();
 showCalendar(y, mon);
 
 
-//базовая тестовая инфа
 
 
-var myNotes = Alloy.Collections.notes;
-
-//var note = Alloy.createModel('note', { 
-//    title: "Тестовая запись",
-//	description: "Описание",
-//	parent: "25-3-2015",
-//	dateFrom: "00",
-//	dateTill: "01"
-//});
-
-//myNotes.add(note);
-//note.save();
-myNotes.fetch();
 

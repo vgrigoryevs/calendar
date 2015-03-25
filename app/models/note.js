@@ -3,9 +3,12 @@ exports.definition = {
 		columns: {
 		    "title": "text",
 		    "description": "text",
-		    "parent": "text",
 		    "dateFrom": "text",
-		    "dateTill": "text"
+		    "dateTill": "text",
+		    "parent": "text",
+		    "guests": "text",
+		    "color": "integer",
+		    "monthNumber": "integer"
 		},
 		adapter: {
 			type: "properties",
