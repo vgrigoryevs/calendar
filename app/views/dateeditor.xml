@@ -1,0 +1,73 @@
+<Alloy>
+	<Collection src="note"/>
+	<Window class="container">
+		<View id="dateEditorMenu">
+			<Label id="saveBtn" text="Сохранить" right="0"></Label>
+		</View>		
+				
+		<TableView dataCollection="note">
+			
+			<TableViewRow>
+				<Label text="Что"></Label>
+				<TextField value="{title}" hintText="Название мероприятия" id="titleField"></TextField>
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="Где"></Label>
+				<TextField value="{place}" hintText="Место" id="placeField"></TextField>
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="С"></Label>
+				<Picker id="fromDateField"
+				  class="datePicker"
+		          type="Ti.UI.PICKER_TYPE_DATE"
+		         >
+		        </Picker>	
+		        
+		        <Picker id="fromTimeField"
+		          class="timePicker"
+		          type="Ti.UI.PICKER_TYPE_TIME"
+		          >
+		        </Picker>		
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="До"></Label>
+				<Picker id="tillDateField"
+				  class="datePicker"
+		          type="Ti.UI.PICKER_TYPE_DATE"
+		          >
+		        </Picker>	
+		        
+		        <Picker id="tillTimeField"
+		          type="Ti.UI.PICKER_TYPE_TIME"
+		          class="timePicker"
+		          >
+		        </Picker>		
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="Гости"></Label>
+				<TextField value="{guests}" hintText="Гости" id="guestsField"></TextField>
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="Описание"></Label>
+				<TextField value="{description}" hintText="Описание" id="descriptionField"></TextField>
+			</TableViewRow>
+			
+			<TableViewRow>
+				<Label text="Цвет"></Label>
+				
+				<Picker id="colorField"
+		          type="Ti.UI.PICKER_TYPE_PLAIN"
+		          right="10"
+		          width="67%"
+		          >
+		        </Picker>		
+			</TableViewRow>
+			
+		</TableView>	
+	</Window>
+</Alloy>

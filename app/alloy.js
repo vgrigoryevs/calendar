@@ -9,5 +9,4 @@
 // object. For example:
 //
 // Alloy.Globals.someGlobalFunction = function(){};
-
-Alloy.Collections.notes = Alloy.createCollection('note');
+    			

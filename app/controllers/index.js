@@ -33,7 +33,7 @@ function showCalendar(year, month){
 	}
 	
 	//Searching dates of existing notes in this month
-	var myNotes = Alloy.Collections.notes.where({monthNumber: month}),
+	var myNotes = Alloy.Collections.note.where({monthNumber: month}),
 		datesWithNotes = [];
 	
 	if(myNotes[0]){
@@ -244,7 +244,7 @@ function showCalendar(year, month){
     			
 			dateView.open();
 			console.log(e.source.labelId);
-    			
+    		$.destroy();	
     	}
 	});
 	
@@ -290,14 +290,14 @@ $.after.addEventListener('click', function(){
 //Menu btns
 
 $.indexMenuBtn.addEventListener('click', function(){
-	console.log('tap');
+
 });
 
 
 //базовая тестовая инфа
 
 
-var myNotes = Alloy.Collections.notes;
+
 
 //var note = Alloy.createModel('note', { 
 //    title: "Тестовая запись",
@@ -313,7 +313,7 @@ var myNotes = Alloy.Collections.notes;
 //myNotes.add(note);
 //note.save();
 
-myNotes.fetch();	
+$.contain.open();	
 
 //Calendar initialization with current month
 var d = moment();
@@ -323,12 +323,9 @@ var	mon = d.month(),
 	y = d.year();
 
 $.monthSelector.text = n + " " + y;
+Alloy.Collections.note.fetch();
  
-$.contain.open();
-
 showCalendar(y, mon);
-
-
 
 
 

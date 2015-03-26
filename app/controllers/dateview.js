@@ -1,6 +1,6 @@
 var args = arguments[0] || {},
 	parentId = args.labelId || "",
-	myNotes = Alloy.Collections.notes;
+	myNotes = Alloy.Collections.note;
 
 
 var tableView = $.dateTable;
