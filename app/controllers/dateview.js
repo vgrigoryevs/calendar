@@ -2,7 +2,6 @@ var args = arguments[0] || {},
 	parentId = args.labelId || "",
 	myNotes = Alloy.Collections.note;
 
-
 var tableView = $.dateTable;
 
 
@@ -16,8 +15,8 @@ for(var i = 0; i < 24; i++) {
 	}
 	
 	//Grabin note description, if it exist
-	if(myNotes.where({parent: parentId, dateFrom: time})[0]){
-		var labelText = myNotes.where({parent: parentId, dateFrom: time})[0].attributes.description;
+	if(myNotes.where({parent: parentId, hoursFrom: time})[0]){
+		var labelText = myNotes.where({parent: parentId, hoursFrom: time})[0].attributes.description;
 	}
 	else{
 		var labelText = "";
@@ -53,6 +52,9 @@ for(var i = 0; i < 24; i++) {
 	tbl_data.push(tableRow);
 }
 
+tableView.addEventListener('click', function(e){    		
+	console.log(e);
+});
 
 tableView.data = tbl_data;
 

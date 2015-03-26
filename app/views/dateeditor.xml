@@ -1,27 +1,27 @@
 <Alloy>
-	<Collection src="note"/>
+	<Model src="note" />
 	<Window class="container">
 		<View id="dateEditorMenu">
-			<Label id="saveBtn" text="Сохранить" right="0"></Label>
+			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap"></Label>
 		</View>		
 				
-		<TableView dataCollection="note">
+		<TableView dataFilter="filterFunction" id="tabView">
 			
 			<TableViewRow>
 				<Label text="Что"></Label>
-				<TextField value="{title}" hintText="Название мероприятия" id="titleField"></TextField>
+				<TextField value="{note.title}" hintText="Название мероприятия" id="titleField"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Где"></Label>
-				<TextField value="{place}" hintText="Место" id="placeField"></TextField>
+				<TextField value="{note.place}" hintText="Место" id="placeField"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="С"></Label>
-				<Picker id="fromDateField"
-				  class="datePicker"
-		          type="Ti.UI.PICKER_TYPE_DATE"
+				<Picker id="fromDateField" 
+				  class="datePicker" 
+		          type="Ti.UI.PICKER_TYPE_DATE" 
 		         >
 		        </Picker>	
 		        
@@ -49,12 +49,12 @@
 			
 			<TableViewRow>
 				<Label text="Гости"></Label>
-				<TextField value="{guests}" hintText="Гости" id="guestsField"></TextField>
+				<TextField value="{note.guests}" hintText="Гости" id="guestsField"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Описание"></Label>
-				<TextField value="{description}" hintText="Описание" id="descriptionField"></TextField>
+				<TextField value="{note.description}" hintText="Описание" id="descriptionField"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>

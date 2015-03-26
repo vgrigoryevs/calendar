@@ -254,7 +254,7 @@ function showCalendar(year, month){
 //Change to previos month
 
 $.before.addEventListener('click', function(){
-    $.contain.remove($.contain.children[1]);
+    $.contain.remove($.contain.children[2]);
     mon--;
     
     if(mon === -1){
@@ -272,7 +272,7 @@ $.before.addEventListener('click', function(){
 //Change to next month
 
 $.after.addEventListener('click', function(){
-    $.contain.remove($.contain.children[1]);
+    $.contain.remove($.contain.children[2]);
     
     mon++;
     
@@ -290,7 +290,10 @@ $.after.addEventListener('click', function(){
 //Menu btns
 
 $.indexMenuBtn.addEventListener('click', function(){
-
+	var dateEditor = Alloy.createController("dateeditor").getView();
+    			
+	dateEditor.open();
+    $.destroy();
 });
 
 
