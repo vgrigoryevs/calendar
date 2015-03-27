@@ -14,17 +14,21 @@
 
 "TextField" : {
 	right: 10,
-	width: "67%" 
+	width: "67%",
+	color: "black",
+	borderColor: "black"
 },
 
 ".datePicker" : {
-	left: 40,
-	width: "43%"
+	left: 0,
+	color: "black",
+	width: "70%" 
 },
 
 ".timePicker" : {
-	right: 10,
-	width: "27%"
+	right: 0,
+	color: "black",
+	width: "30%" 
 },
 
 "#dateEditorMenu" : {
@@ -32,3 +36,7 @@
 	height: 30,
 },
 
+".pickerContainer" : {
+	width: "67%",
+	right: 10
+}

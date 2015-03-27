@@ -290,12 +290,53 @@ $.after.addEventListener('click', function(){
 //Menu btns
 
 $.indexMenuBtn.addEventListener('click', function(){
-	var dateEditor = Alloy.createController("dateeditor").getView();
-    			
-	dateEditor.open();
-    $.destroy();
-});
 
+	var win = Ti.UI.createWindow({
+		right: 0,
+		top: 0,
+		width: 200,
+		height: 50,
+		backgroundColor: "blue",
+	});
+	
+	var newBtn = Ti.UI.createLabel({
+		text: "Добавить запись",
+		height: 25,
+		top: 0
+	});
+	
+	var changeBack = Ti.UI.createLabel({
+		text: "Изменить фон",
+		height: 25,
+		top: 25
+	});
+	
+	var slideLeft = Ti.UI.createAnimation();
+    slideLeft.left = 0;
+    slideLeft.duration = 300;
+    slideLeft.backgroundColor = "red";
+	
+	
+	newBtn.addEventListener('click', function(e){
+		win.close();
+		
+		var dateEditor = Alloy.createController("dateeditor").getView();
+    			
+		dateEditor.open();
+  		$.destroy();
+	});
+	
+	changeBack.addEventListener('click', function(e){
+		console.log("change back");
+		win.animate(slideLeft);
+	});
+	
+	win.add(newBtn);
+	win.add(changeBack);
+	
+	win.open({animated: true});
+		
+});
 
 //базовая тестовая инфа
 

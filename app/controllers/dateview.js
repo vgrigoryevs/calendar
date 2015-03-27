@@ -39,7 +39,9 @@ for(var i = 0; i < 24; i++) {
 		    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		    height: 40,
 		    left: 50,
-		    color: "black"
+		    color: "black",
+		    hoursFrom: time
+		    
 		}),
 		
 		tableRow = Ti.UI.createTableViewRow({
@@ -53,7 +55,14 @@ for(var i = 0; i < 24; i++) {
 }
 
 tableView.addEventListener('click', function(e){    		
-	console.log(e);
+	var args = {
+		hoursFrom : e.source.hoursFrom
+	};
+	
+	var dateEditor = Alloy.createController("dateeditor").getView();
+    			
+	dateEditor.open();
+  	$.destroy();
 });
 
 tableView.data = tbl_data;

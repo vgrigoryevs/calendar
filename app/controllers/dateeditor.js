@@ -1,4 +1,7 @@
-var args = arguments[0] || {};
+var args = arguments[0] || {},
+	hoursFrom = args.hoursFrom || "";
+	
+console.log(hoursFrom);
 
 
 Alloy.Collections.note.fetch();
@@ -13,8 +16,7 @@ function saveBtnTap(event) {
 		hoursTill = date2.getHours();
 	hoursTill = ("0" + hoursTill).slice(-2);
 
-	note.set("title", $.titleField.value);
-	note.set("place", $.placeField.value);
+
 	note.set("dateFrom", new Date(
 		$.fromDateField.value.setHours($.fromTimeField.value.getHours())
 	));
@@ -23,9 +25,7 @@ function saveBtnTap(event) {
 		$.tillDateField.value.setHours($.tillTimeField.value.getHours())
 	));
 	note.set("hoursTill", hoursTill);
-	note.set("guests", $.guestsField.value);
-	note.set("description", $.descriptionField.value);
-	note.set("color", 1);
+
 	note.set("monthNumber", $.fromDateField.value.getMonth());
 	note.set("parent", $.fromDateField.value.getDate() + "." + ($.fromDateField.value.getMonth() + 1) + "." + $.fromDateField.value.getFullYear());
 	
@@ -36,4 +36,46 @@ function saveBtnTap(event) {
 }
 
 var note = Alloy.Models.note;
+note.set("color", 0);
+
+function titleChange(e){
+	note.set("title", e.value);
+}
+
+function placeChange(e){
+	note.set("place", e.value);
+}
+
+function guestsChange(e){
+	note.set("guests", e.value);
+}
+
+function descriptionChange(e){
+	note.set("description", e.value);
+}
+
+function colorChange(e){	
+	switch (e.rowIndex) {
+	  case 0:
+	    $.colorField.backgroundColor="red";
+	    note.set("color", 0);
+	    break;
+	  case 1:
+	    $.colorField.backgroundColor="green";
+	    note.set("color", 1);
+	    break;
+	  case 2:
+	    $.colorField.backgroundColor="blue";
+	    note.set("color", 2);
+	    break;
+	  case 3:
+	    $.colorField.backgroundColor="orange";
+	    note.set("color", 3);
+	    break;
+	  default:
+	    
+	}
+}
+
+
 

@@ -5,66 +5,80 @@
 			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap"></Label>
 		</View>		
 				
-		<TableView dataFilter="filterFunction" id="tabView">
+		<TableView dataFilter="filterFunction" id="tabView" top="20">
 			
 			<TableViewRow>
 				<Label text="Что"></Label>
-				<TextField value="{note.title}" hintText="Название мероприятия" id="titleField"></TextField>
+				<TextField value="{note.title}" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Где"></Label>
-				<TextField value="{note.place}" hintText="Место" id="placeField"></TextField>
+				<TextField value="{note.place}" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="С"></Label>
-				<Picker id="fromDateField" 
-				  class="datePicker" 
-		          type="Ti.UI.PICKER_TYPE_DATE" 
-		         >
-		        </Picker>	
-		        
-		        <Picker id="fromTimeField"
-		          class="timePicker"
-		          type="Ti.UI.PICKER_TYPE_TIME"
-		          >
-		        </Picker>		
+				<View class="pickerContainer">
+					<Picker id="fromDateField" 
+					  class="datePicker" 
+			          type="Ti.UI.PICKER_TYPE_DATE"
+			          value="Thu Jan 01 2015 00:21:33 GMT+0300 (Russia TZ 2 Standard Time)" 
+			         >
+			        </Picker>	
+			        
+			        <Picker id="fromTimeField"
+			          type="Ti.UI.PICKER_TYPE_TIME"
+			          class="timePicker"	
+			          >
+			        </Picker>
+			     </View>   		
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="До"></Label>
-				<Picker id="tillDateField"
-				  class="datePicker"
-		          type="Ti.UI.PICKER_TYPE_DATE"
-		          >
-		        </Picker>	
-		        
-		        <Picker id="tillTimeField"
-		          type="Ti.UI.PICKER_TYPE_TIME"
-		          class="timePicker"
-		          >
-		        </Picker>		
+				<View class="pickerContainer">
+					<Picker id="tillDateField"
+					  class="datePicker"
+			          type="Ti.UI.PICKER_TYPE_DATE"
+			          >
+			        </Picker>	
+			        
+			        <Picker id="tillTimeField"
+			          type="Ti.UI.PICKER_TYPE_TIME"
+			          class="timePicker"
+			          >
+			        </Picker>
+				</View>        		
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Гости"></Label>
-				<TextField value="{note.guests}" hintText="Гости" id="guestsField"></TextField>
+				<TextField value="{note.guests}" hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Описание"></Label>
-				<TextField value="{note.description}" hintText="Описание" id="descriptionField"></TextField>
+				<TextField value="{note.description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Цвет"></Label>
 				
 				<Picker id="colorField"
-		          type="Ti.UI.PICKER_TYPE_PLAIN"
 		          right="10"
 		          width="67%"
+		          selectionIndicator="true"
+		          backgroundColor="red"
+		          onChange="colorChange" 
 		          >
+		          	<Column>
+		                <PickerRow title="red"/>
+		                <Row title="green"/>
+		                <Row title="blue"/>
+		                <Row title="orange"/>
+		            </Column>
+		          
 		        </Picker>		
 			</TableViewRow>
 			
