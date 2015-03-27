@@ -9,12 +9,12 @@
 			
 			<TableViewRow>
 				<Label text="Что"></Label>
-				<TextField value="{note.title}" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
+				<TextField value="{note.title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Где"></Label>
-				<TextField value="{note.place}" hintText="Место" id="placeField" onChange="placeChange"></TextField>
+				<TextField value="{note.place}" maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
