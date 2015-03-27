@@ -14,12 +14,16 @@ for(var i = 0; i < 24; i++) {
 		time = "0" + time;
 	}
 	
+	var note = myNotes.where({parent: parentId, hoursFrom: time})[0];
+	
 	//Grabin note description, if it exist
-	if(myNotes.where({parent: parentId, hoursFrom: time})[0]){
-		var labelText = myNotes.where({parent: parentId, hoursFrom: time})[0].attributes.description;
+	if(note){
+		var labelText = note.attributes.description;
+		var backColor = note.attributes.color;
 	}
 	else{
 		var labelText = "";
+		var backColor = "white";
 	}
 	//End of grabin
 	
@@ -28,25 +32,30 @@ for(var i = 0; i < 24; i++) {
 			text: time,//This is a string
 		    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		    width: 50,
-		    height: 40,
+		    height: "100%",
 		    left: 0,
 		    color: "black",
-			backgroundColor: "#BBBBB3"
+			backgroundColor: "#BBBBB3",
+			hoursFrom: time
 		}),
 		//Label with description
 		label2 = Ti.UI.createLabel({
 			text: labelText,
-		    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		    height: 40,
+
 		    left: 50,
+		    width:"100%",
 		    color: "black",
-		    hoursFrom: time
+		    height: "100%",
+		    hoursFrom: time,
+		    backgroundColor: backColor,
+		    wordWrap: true
 		    
 		}),
 		
 		tableRow = Ti.UI.createTableViewRow({
-			height: 40,
-			separatorColor:"#BBBBB3"
+			separatorColor:"transparent",
+			hoursFrom: time,
+			backgroundColor: backColor
 		});
 	tableRow.add(label);
 	tableRow.add(label2);
@@ -56,10 +65,11 @@ for(var i = 0; i < 24; i++) {
 
 tableView.addEventListener('click', function(e){    		
 	var args = {
-		hoursFrom : e.source.hoursFrom
+		hoursFrom : e.source.hoursFrom,
+		parentId : parentId
 	};
 	
-	var dateEditor = Alloy.createController("dateeditor").getView();
+	var dateEditor = Alloy.createController("dateeditor", args).getView();
     			
 	dateEditor.open();
   	$.destroy();

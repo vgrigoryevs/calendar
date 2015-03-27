@@ -1,7 +1,6 @@
 
 ".container" : {
 	backgroundColor: "white",
-	layout: "vertical"
 },
 
 "#monthSelector" : {
@@ -12,9 +11,11 @@
 
 "#indexMenu" : {
 	backgroundColor: "#0E1E31",
-	height: 30
+	height: 30,
+	top: 0
 },
 
 "#navigationView" : {
 	
-}
+},
+

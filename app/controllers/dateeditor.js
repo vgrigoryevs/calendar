@@ -1,10 +1,24 @@
 var args = arguments[0] || {},
-	hoursFrom = args.hoursFrom || "";
-	
-console.log(hoursFrom);
-
-
+	hours = args.hoursFrom || "",
+	parentId = args.parentId || "";
 Alloy.Collections.note.fetch();
+
+var note = Alloy.Models.note;
+
+if(!Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
+
+}
+
+else {
+
+	
+}
+
+
+
+
+
+
 
 function saveBtnTap(event) {
 	//If it is new note
@@ -35,9 +49,6 @@ function saveBtnTap(event) {
 	
 }
 
-var note = Alloy.Models.note;
-note.set("color", 0);
-
 function titleChange(e){
 	note.set("title", e.value);
 }
@@ -58,19 +69,19 @@ function colorChange(e){
 	switch (e.rowIndex) {
 	  case 0:
 	    $.colorField.backgroundColor="red";
-	    note.set("color", 0);
+	    note.set("color", "red");
 	    break;
 	  case 1:
 	    $.colorField.backgroundColor="green";
-	    note.set("color", 1);
+	    note.set("color", "green");
 	    break;
 	  case 2:
 	    $.colorField.backgroundColor="blue";
-	    note.set("color", 2);
+	    note.set("color", "blue");
 	    break;
 	  case 3:
 	    $.colorField.backgroundColor="orange";
-	    note.set("color", 3);
+	    note.set("color", "orange");
 	    break;
 	  default:
 	    

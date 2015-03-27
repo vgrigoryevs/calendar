@@ -5,7 +5,7 @@
 			<ImageView right="0" id="indexMenuBtn" image="/img/menu.png"></ImageView>
 		</View>
 			
-		<View id="navigationView" height="30" width="220">
+		<View id="navigationView" top="50" height="30" width="220">
 			<Label id="before" text="<" left="0"></Label>	
 			<Label id="monthSelector"></Label>
 			<Label id="after" text=">" right="0"></Label>

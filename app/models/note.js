@@ -9,7 +9,7 @@ exports.definition = {
 		    "dateTill": "text",
 		    "guests": "text",
 		    "description": "text",
-		    "color": "int",
+		    "color": "text",
 		    "monthNumber": "int",
 		    "parent": "text",
 		},

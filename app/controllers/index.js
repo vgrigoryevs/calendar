@@ -7,6 +7,7 @@ String.prototype.capitalizeFirstLetter = function() {
 };
 
 function showCalendar(year, month){
+	
 	if(month === 0){
 		var	lastDayPrMnth = new Date(year - 1, 12 , 0).getDate();
 	}
@@ -228,7 +229,7 @@ function showCalendar(year, month){
 		    data: tbl_data,
 		    separatorColor: "transparent",
 		    width: 285,
-		    height: Ti.UI.SIZE,
+		    top: 70
 		
 		});
 	
@@ -254,6 +255,11 @@ function showCalendar(year, month){
 //Change to previos month
 
 $.before.addEventListener('click', function(){
+    if($.contain.menuOn){
+		$.contain.menuOn = false;
+		$.contain.remove($.contain.children[3]);
+	}
+    
     $.contain.remove($.contain.children[2]);
     mon--;
     
@@ -267,11 +273,17 @@ $.before.addEventListener('click', function(){
     
     $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
+	console.log("prev");
 });
 
 //Change to next month
 
 $.after.addEventListener('click', function(){
+    if($.contain.menuOn){
+		$.contain.menuOn = false;
+		$.contain.remove($.contain.children[3]);
+	}
+    
     $.contain.remove($.contain.children[2]);
     
     mon++;
@@ -291,57 +303,61 @@ $.after.addEventListener('click', function(){
 
 $.indexMenuBtn.addEventListener('click', function(){
 
-	var win = Ti.UI.createWindow({
-		right: 0,
-		top: 0,
-		width: 200,
-		height: 50,
-		backgroundColor: "blue",
-	});
-	
-	var newBtn = Ti.UI.createLabel({
-		text: "Добавить запись",
-		height: 25,
-		top: 0
-	});
-	
-	var changeBack = Ti.UI.createLabel({
-		text: "Изменить фон",
-		height: 25,
-		top: 25
-	});
-	
-	var slideLeft = Ti.UI.createAnimation();
-    slideLeft.left = 0;
-    slideLeft.duration = 300;
-    slideLeft.backgroundColor = "red";
-	
-	
-	newBtn.addEventListener('click', function(e){
-		win.close();
+	if($.contain.menuOn){
+		$.contain.menuOn = false;
+		$.contain.remove($.contain.children[3]);
+	}
+	else{
+		$.contain.menuOn = true;
 		
-		var dateEditor = Alloy.createController("dateeditor").getView();
-    			
-		dateEditor.open();
-  		$.destroy();
-	});
-	
-	changeBack.addEventListener('click', function(e){
-		console.log("change back");
-		win.animate(slideLeft);
-	});
-	
-	win.add(newBtn);
-	win.add(changeBack);
-	
-	win.open({animated: true});
+		var win = Ti.UI.createView({
+			right: 0,
+			top: 30,
+			width: 200,
+			height: 50,
+			backgroundColor:  "red",
+			zIndex: 100,
+			id: "lol"
+		});
 		
+		var newBtn = Ti.UI.createLabel({
+			text: "Добавить запись",
+			height: 25,
+			top: 0,
+			color: "black"
+		});
+		
+		var changeBack = Ti.UI.createLabel({
+			text: "Изменить фон",
+			height: 25,
+			top: 25,
+			color: "black"
+		});
+		
+		var showMenu = Ti.UI.createAnimation();
+	    showMenu.backgroundColor = "red";
+	    showMenu.duration = 300;
+			
+		newBtn.addEventListener('click', function(e){		
+			var dateEditor = Alloy.createController("dateeditor").getView();
+	    			
+			dateEditor.open();
+			$.contain.remove(win);
+	  		$.destroy();
+		});
+		
+		changeBack.addEventListener('click', function(e){
+			console.log("change back");
+		});
+		
+		win.add(newBtn);
+		win.add(changeBack);
+		
+		$.contain.add(win);
+	}		
 });
 
 //базовая тестовая инфа
-
-
-
 
 //var note = Alloy.createModel('note', { 
 //    title: "Тестовая запись",
