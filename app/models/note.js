@@ -15,7 +15,7 @@ exports.definition = {
 		    "parent": "text",
 		},
 		adapter: {
-			type: "sql",
+			type: "properties",
 			collection_name: "note"
 		}
 	},

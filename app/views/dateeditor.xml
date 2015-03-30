@@ -1,84 +1,46 @@
 <Alloy>
-	<Model src="note" />
+	<Collection src="note" />
 	<Window class="container">
 		<View id="dateEditorMenu">
 			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap"></Label>
 		</View>		
 				
-		<TableView dataFilter="filterFunction" id="tabView" top="20">
+		<TableView dataFilter="filterFunction" dataCollection="note" id="tabView" top="20">
 			
 			<TableViewRow>
 				<Label text="Что"></Label>
-				<TextField value="{note.title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
+				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Где"></Label>
-				<TextField value="{note.place}" maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
+				<TextField value="{place}" maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="С"></Label>
 				<View class="pickerContainer">
-					<Picker id="fromDateField" 
-					  class="datePicker" 
-			          type="Ti.UI.PICKER_TYPE_DATE"
-			         >
-			        </Picker>	
-			        
-			        <Picker id="fromTimeField"
-			          type="Ti.UI.PICKER_TYPE_TIME"
-			          class="timePicker"	
-			          >
-			        </Picker>
-			     </View>   		
+			    </View>   		
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="До"></Label>
 				<View class="pickerContainer">
-					<Picker id="tillDateField"
-					  class="datePicker"
-			          type="Ti.UI.PICKER_TYPE_DATE"
-			          >
-			        </Picker>	
-			        
-			        <Picker id="tillTimeField"
-			          type="Ti.UI.PICKER_TYPE_TIME"
-			          class="timePicker"
-			          >
-			        </Picker>
 				</View>        		
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Гости"></Label>
-				<TextField value="{note.guests}" hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
+				<TextField value="{guests}" hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Описание"></Label>
-				<TextField value="{note.description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
+				<TextField value="{description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
 				<Label text="Цвет"></Label>
-				
-				<Picker id="colorField"
-		          right="10"
-		          width="67%"
-		          selectionIndicator="true"
-		          backgroundColor="red"
-		          onChange="colorChange" 
-		          >
-		          	<Column>
-		                <PickerRow title="red"/>
-		                <Row title="green"/>
-		                <Row title="blue"/>
-		                <Row title="orange"/>
-		            </Column>
-		          
-		        </Picker>		
 			</TableViewRow>
 			
 		</TableView>	

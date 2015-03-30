@@ -1,6 +1,6 @@
 <Alloy>
-	<Window class="container">		
-		<TableView id="dateTable" backgrondColor="red" height="500">
+	<Window class="container">	
+		<TableView id="dateTable" backgrondColor="red">
 		</TableView>
 	</Window>
 </Alloy>

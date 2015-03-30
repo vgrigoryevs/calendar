@@ -15,18 +15,15 @@
 "TextField" : {
 	right: 10,
 	width: "67%",
-	color: "black",
-	borderColor: "black"
+	color: "black"
 },
 
 ".datePicker" : {
-	left: 0,
-	color: "black",
+	left: 0
 },
 
 ".timePicker" : {
-	right: 0,
-	color: "black",
+	right: 0
 },
 
 "#dateEditorMenu" : {

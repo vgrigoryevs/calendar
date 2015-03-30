@@ -380,5 +380,3 @@ Alloy.Collections.note.fetch();
  
 showCalendar(y, mon);
 
-
-

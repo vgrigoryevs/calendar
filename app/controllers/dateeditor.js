@@ -1,19 +1,37 @@
 var args = arguments[0] || {},
-	hours = args.hoursFrom || "",
-	parentId = args.parentId || "";
+	today = new Date(),
+	hours = args.hoursFrom || today.getHours(),
+	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
 Alloy.Collections.note.fetch();
 
-var note = Alloy.Models.note;
+function filterFunction(collection) {
 
-if(!Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
-	console.log('new');
+ 
+	if(!collection.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
+		var note = Alloy.createModel('note', {
+			"title": "",
+		    "place": "",
+		    "dateFrom": today.getDate(),
+		    "hoursFrom": hours,
+		    "hoursTill": today.getHours()+1,
+		    "dateTill": today.getDate(),
+		    "guests": "",
+		    "description": "",
+		    "color": "red",
+		    "monthNumber": today.getMonth(),
+		    "yearNumber": today.getFullYear(),
+		    "parent": parentId
+		});
+		
+		collection.add(note);
+		return collection.where({parent: parentId, hoursFrom: hours});
+	}
+	
+	else {
+		return collection.where({parent: parentId, hoursFrom: hours});
+	}
+
 }
-
-else {
-	console.log('exist');
-}
-
-
 
 
 

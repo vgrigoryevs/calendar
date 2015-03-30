@@ -32,7 +32,8 @@ for(var i = 0; i < 24; i++) {
 			text: time,//This is a string
 		    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		    width: 50,
-		    height: "100%",
+		    //height: "100%",
+		    height: 50,
 		    left: 0,
 		    color: "black",
 			backgroundColor: "#BBBBB3",
@@ -45,7 +46,8 @@ for(var i = 0; i < 24; i++) {
 		    left: 50,
 		    width:"100%",
 		    color: "black",
-		    height: "100%",
+		    //height: "100%",
+		    height: 50,
 		    hoursFrom: time,
 		    backgroundColor: backColor,
 		    wordWrap: true
@@ -55,7 +57,8 @@ for(var i = 0; i < 24; i++) {
 		tableRow = Ti.UI.createTableViewRow({
 			separatorColor:"transparent",
 			hoursFrom: time,
-			backgroundColor: backColor
+			backgroundColor: 'pink',//backColor, 
+			height: 50
 		});
 	tableRow.add(label);
 	tableRow.add(label2);
