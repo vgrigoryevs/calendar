@@ -315,9 +315,9 @@ $.indexMenuBtn.addEventListener('click', function(){
 			top: 30,
 			width: 200,
 			height: 50,
-			backgroundColor:  "red",
+			backgroundColor:  "#BBBBB3",
 			zIndex: 100,
-			id: "lol"
+			opacity: 0
 		});
 		
 		var newBtn = Ti.UI.createLabel({
@@ -335,43 +335,36 @@ $.indexMenuBtn.addEventListener('click', function(){
 		});
 		
 		var showMenu = Ti.UI.createAnimation();
-	    showMenu.backgroundColor = "red";
 	    showMenu.duration = 300;
+	    showMenu.width = 200;
+	    showMenu.height = 50;
+	    showMenu.right = 0;
+	    showMenu.opacity = 1;
 			
 		newBtn.addEventListener('click', function(e){		
 			var dateEditor = Alloy.createController("dateeditor").getView();
-	    			
+	    	
+	    	$.contain.menuOn = false;
+			$.contain.remove($.contain.children[3]);
+			
 			dateEditor.open();
-			$.contain.remove(win);
 	  		$.destroy();
 		});
 		
 		changeBack.addEventListener('click', function(e){
 			console.log("change back");
+
 		});
 		
 		win.add(newBtn);
 		win.add(changeBack);
 		
 		$.contain.add(win);
+		
+		win.animate(showMenu);
 	}		
 });
 
-//базовая тестовая инфа
-
-//var note = Alloy.createModel('note', { 
-//    title: "Тестовая запись",
-//	description: "Описание",
-//	parent: "25.3.2015",
-//	dateFrom: "00",
-//	dateTill: "01",
-//	guests: "Фред",
-//	color: 1,
-//	monthNumber: 2 
-//});
-
-//myNotes.add(note);
-//note.save();
 
 $.contain.open();	
 

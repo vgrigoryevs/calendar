@@ -23,7 +23,6 @@
 					<Picker id="fromDateField" 
 					  class="datePicker" 
 			          type="Ti.UI.PICKER_TYPE_DATE"
-			          value="Thu Jan 01 2015 00:21:33 GMT+0300 (Russia TZ 2 Standard Time)" 
 			         >
 			        </Picker>	
 			        

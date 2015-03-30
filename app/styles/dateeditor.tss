@@ -22,13 +22,11 @@
 ".datePicker" : {
 	left: 0,
 	color: "black",
-	width: "70%" 
 },
 
 ".timePicker" : {
 	right: 0,
 	color: "black",
-	width: "30%" 
 },
 
 "#dateEditorMenu" : {
@@ -37,6 +35,6 @@
 },
 
 ".pickerContainer" : {
-	width: "67%",
+	width: "80%",
 	right: 10
 }
