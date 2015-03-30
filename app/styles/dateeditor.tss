@@ -7,7 +7,7 @@
 	separatorColor: "transparent"
 },
 
-"Label" : {
+".anno" : {
 	left: 10,
 	color: "#BBBBB3"
 },
@@ -32,6 +32,6 @@
 },
 
 ".pickerContainer" : {
-	width: "80%",
+	width: "67%",
 	right: 10
 }

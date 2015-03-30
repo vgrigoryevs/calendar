@@ -1,46 +1,46 @@
 <Alloy>
 	<Collection src="note" />
-	<Window class="container">
+	<Window class="container" id="editorWin">
 		<View id="dateEditorMenu">
-			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap"></Label>
+			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap" color="white"></Label>
 		</View>		
 				
 		<TableView dataFilter="filterFunction" dataCollection="note" id="tabView" top="20">
 			
 			<TableViewRow>
-				<Label text="Что"></Label>
+				<Label class="anno" text="Что"></Label>
 				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
-				<Label text="Где"></Label>
+				<Label class="anno" text="Где"></Label>
 				<TextField value="{place}" maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
-				<Label text="С"></Label>
-				<View class="pickerContainer">
-			    </View>   		
+				<Label class="anno" text="С"></Label>
+				<Label onClick="fromClick" right="10" width="67%" title="{parent}"></Label>		
 			</TableViewRow>
 			
 			<TableViewRow>
-				<Label text="До"></Label>
+				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
 				</View>        		
 			</TableViewRow>
 			
 			<TableViewRow>
-				<Label text="Гости"></Label>
+				<Label class="anno" text="Гости"></Label>
 				<TextField value="{guests}" hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
 			</TableViewRow>
 			
 			<TableViewRow>
-				<Label text="Описание"></Label>
+				<Label class="anno" text="Описание"></Label>
 				<TextField value="{description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
 			</TableViewRow>
 			
-			<TableViewRow>
-				<Label text="Цвет"></Label>
+			<TableViewRow id="colorPicker">
+				<Label class="anno" text="Цвет"></Label>
+				<Label onClick="colorClick" right="10" width="67%" backgroundColor="{color}" borderColor="black" id="colorLabel"></Label>
 			</TableViewRow>
 			
 		</TableView>	

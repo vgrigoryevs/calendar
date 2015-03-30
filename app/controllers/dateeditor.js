@@ -1,23 +1,25 @@
 var args = arguments[0] || {},
 	today = new Date(),
-	hours = args.hoursFrom || today.getHours(),
-	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear();
+	hours = args.hoursFrom ||"" + today.getHours(),
+	hoursTill = "" + (today.getHours() + 1),
+	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear(),
+	thisNote;
+
 Alloy.Collections.note.fetch();
+thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
 
 function filterFunction(collection) {
-
- 
 	if(!collection.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
 		var note = Alloy.createModel('note', {
 			"title": "",
 		    "place": "",
 		    "dateFrom": today.getDate(),
 		    "hoursFrom": hours,
-		    "hoursTill": today.getHours()+1,
+		    "hoursTill": hoursTill,
 		    "dateTill": today.getDate(),
 		    "guests": "",
 		    "description": "",
-		    "color": "red",
+		    "color": "white",
 		    "monthNumber": today.getMonth(),
 		    "yearNumber": today.getFullYear(),
 		    "parent": parentId
@@ -34,77 +36,72 @@ function filterFunction(collection) {
 }
 
 
+      
+
+
+
+
+
+
+
+
+
+
 
 
 
 function saveBtnTap(event) {
-	//If it is new note
-	var date = $.fromTimeField.value,
-		hoursFrom = date.getHours();
-	hoursFrom = ("0" + hoursFrom).slice(-2);
-	
-	var date2 = $.tillTimeField.value,
-		hoursTill = date2.getHours();
-	hoursTill = ("0" + hoursTill).slice(-2);
 
-
-	note.set("dateFrom", new Date(
-		$.fromDateField.value.setHours($.fromTimeField.value.getHours())
-	));
-	note.set("hoursFrom", hoursFrom);
-	note.set("dateTill", new Date(
-		$.tillDateField.value.setHours($.tillTimeField.value.getHours())
-	));
-	note.set("hoursTill", hoursTill);
-
-	note.set("monthNumber", $.fromDateField.value.getMonth());
-	note.set("yearNumber", $.fromDateField.value.getFullYear());
-	note.set("parent", $.fromDateField.value.getDate() + "." + ($.fromDateField.value.getMonth() + 1) + "." + $.fromDateField.value.getFullYear());
-	
-	console.log(note);
-	Alloy.Collections.note.add(note);
-	note.save();
-	
-	Alloy.Collections.note.fetch();
-	$.dateeditor.close();
+	$.editorWin.close();
 }
 
 function titleChange(e){
-	note.set("title", e.value);
+	thisNote.attributes.title = e.value;
 }
 
 function placeChange(e){
-	note.set("place", e.value);
+	thisNote.attributes.place = e.value;
+}
+
+function fromClick(e){
+	
 }
 
 function guestsChange(e){
-	note.set("guests", e.value);
+	thisNote.attributes.guests = e.value;
 }
 
 function descriptionChange(e){
-	note.set("description", e.value);
+	thisNote.attributes.description = e.value;
 }
 
-function colorChange(e){	
-	switch (e.rowIndex) {
-	  case 0:
-	    $.colorField.backgroundColor="red";
-	    note.set("color", "red");
-	    break;
-	  case 1:
-	    $.colorField.backgroundColor="green";
-	    note.set("color", "green");
-	    break;
-	  case 2:
-	    $.colorField.backgroundColor="blue";
-	    note.set("color", "blue");
-	    break;
-	  case 3:
-	    $.colorField.backgroundColor="orange";
-	    note.set("color", "orange");
-	    break;
-	  default:
-	    
-	}
+
+function colorClick(e) {
+	var data = [];
+	data[0]=Ti.UI.createTableViewRow({title:'Белый', color:"white"});
+	data[1]=Ti.UI.createTableViewRow({title:'Красный', color:"red"});
+	data[2]=Ti.UI.createTableViewRow({title:'Зеленый', color:"green"});
+	data[3]=Ti.UI.createTableViewRow({title:'Синий', color:"blue"});
+	data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', color:"orange"});
+	 
+	var pickerTable = Ti.UI.createTableView({
+	    data: data
+	});
+	
+	pickerTable.addEventListener('click', function(e){
+		thisNote.attributes.color = e.source.color;
+		$.colorLabel.backgroundColor = e.source.color;
+	    pickerDialog.hide();
+	});
+	 
+	var pickerDialog = Ti.UI.createAlertDialog({
+	    androidView: pickerTable
+	});
+	pickerDialog.show();
 }
 
+
+$.editorWin.addEventListener('close', function() {
+    $.destroy();
+    console.log('close');
+});
