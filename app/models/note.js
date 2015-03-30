@@ -11,6 +11,7 @@ exports.definition = {
 		    "description": "text",
 		    "color": "text",
 		    "monthNumber": "int",
+		    "yearNumber": "int",
 		    "parent": "text",
 		},
 		adapter: {

@@ -6,12 +6,11 @@ Alloy.Collections.note.fetch();
 var note = Alloy.Models.note;
 
 if(!Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
-
+	console.log('new');
 }
 
 else {
-
-	
+	console.log('exist');
 }
 
 
@@ -41,12 +40,15 @@ function saveBtnTap(event) {
 	note.set("hoursTill", hoursTill);
 
 	note.set("monthNumber", $.fromDateField.value.getMonth());
+	note.set("yearNumber", $.fromDateField.value.getFullYear());
 	note.set("parent", $.fromDateField.value.getDate() + "." + ($.fromDateField.value.getMonth() + 1) + "." + $.fromDateField.value.getFullYear());
 	
 	console.log(note);
 	Alloy.Collections.note.add(note);
 	note.save();
 	
+	Alloy.Collections.note.fetch();
+	$.dateeditor.close();
 }
 
 function titleChange(e){
@@ -87,6 +89,4 @@ function colorChange(e){
 	    
 	}
 }
-
-
 

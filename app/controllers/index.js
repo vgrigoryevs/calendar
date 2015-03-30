@@ -29,12 +29,12 @@ function showCalendar(year, month){
 		weekDay = moment("12-25-1995", "MM-DD-YYYY");
 		weekDay.locale('ru');
 
-	if(new Date().getMonth() != month) {
+	if(new Date().getMonth() != month || new Date().getFullYear() != year) {
 		var today = 0;		
 	}
 	
 	//Searching dates of existing notes in this month
-	var myNotes = Alloy.Collections.note.where({monthNumber: month}),
+	var myNotes = Alloy.Collections.note.where({monthNumber: month, yearNumber: year}),
 		datesWithNotes = [];
 	
 	if(myNotes[0]){

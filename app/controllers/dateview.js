@@ -69,6 +69,7 @@ tableView.addEventListener('click', function(e){
 		parentId : parentId
 	};
 	
+	Alloy.Models.note = Alloy.Collections.note.where({parent: parentId, hoursFrom: e.source.hoursFrom})[0];
 	var dateEditor = Alloy.createController("dateeditor", args).getView();
     			
 	dateEditor.open();
