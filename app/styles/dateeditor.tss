@@ -3,10 +3,6 @@
 	layout: "vertical"
 },
 
-"TableView" : {
-	separatorColor: "transparent"
-},
-
 ".anno" : {
 	left: 10,
 	color: "#BBBBB3"
@@ -15,15 +11,14 @@
 "TextField" : {
 	right: 10,
 	width: "67%",
-	color: "black"
+	color: "black",
+	height : Ti.UI.SIZE,
+
 },
 
-".datePicker" : {
-	left: 0
-},
-
-".timePicker" : {
-	right: 0
+".viewRow" : {
+	height: 50,
+	top: 30
 },
 
 "#dateEditorMenu" : {

@@ -2,7 +2,8 @@
 	<Collection src="note" />
 	<Window class="container" id="editorWin">
 		<View id="dateEditorMenu">
-			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap" color="white"></Label>
+			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap" color="white" right="10"></Label>
+			<Label id="removeBtn" text="Удалить" onClick="removeBtnTap" color="white" left="10"></Label>
 		</View>		
 				
 		<View dataFilter="filterFunction" 
@@ -13,17 +14,17 @@
 				   layout="vertical"
 				   >
 			
-			<View height="18">
+			<View height="50">
 				<Label class="anno" text="Что"></Label>
-				<TextField value="{title}" height="18" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
+				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="Где"></Label>
 				<TextField value="{place}"  maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="С"></Label>
 				<View class="pickerContainer">
 					<Label onClick="fromDateClick" left="20" text="{parent}" color="black" ></Label>
@@ -31,7 +32,7 @@
 				</View>		
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
 					<Label onClick="tillDateClick" left="20" text="{parent}" color="black"></Label>
@@ -39,17 +40,17 @@
 				</View>       		
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="Гости"></Label>
 				<TextField value="{guests}"  hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="Описание"></Label>
 				<TextField value="{description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
 			</View>
 			
-			<View height="18" top="40">
+			<View class="viewRow">
 				<Label class="anno" text="Цвет"></Label>
 				<Label onClick="colorClick" right="10" width="67%" borderColor="black" id="colorLabel" backgroundColor="{color}"></Label>
 			</View>

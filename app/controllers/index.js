@@ -54,7 +54,7 @@ function showCalendar(year, month){
 	        text: weekDay.format('dd').capitalizeFirstLetter(),
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
-	        height:20,
+	        height:30,
 	        color: "#BBBBB3"
 	    });
 	    
@@ -78,7 +78,7 @@ function showCalendar(year, month){
 		        text: (lastDayPrMnth - 5) + i,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20,
+		        height:30,
 		        color: "#BBBBB3"
 	    	});
 	    	firstWeek.add(label);
@@ -89,7 +89,7 @@ function showCalendar(year, month){
 		    text: counter,
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:20,
-	        height:20,
+	        height:30,
 	        color: "black",
 		    labelId: counter + "." + (month+1) + "." + year
 	    });
@@ -116,7 +116,7 @@ function showCalendar(year, month){
 		        text: lastDayPrMnth--,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20,
+		        height:30,
 		        color: "#BBBBB3"
 	    	});
 	    	prMonthCntr--;
@@ -129,7 +129,7 @@ function showCalendar(year, month){
 		        text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20,
+		        height:30,
 		        color: "black",
 		        labelId: counter + "." + (month+1) + "." + year
 	    	});
@@ -165,7 +165,7 @@ function showCalendar(year, month){
 				    text: counter,
 		        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 			        width:20,
-			        height:20,
+			        height:30,
 			        color: "black",
 			        labelId: counter + "." + (month+1) + "." + year
 			    });
@@ -191,7 +191,7 @@ function showCalendar(year, month){
 			    text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:20,
-		        height:20,
+		        height:30,
 		        color: "black",
 		        labelId: counter + "." + (month+1) + "." + year
 		    });
@@ -217,7 +217,7 @@ function showCalendar(year, month){
 				text: nextMonthCntr++,
 		        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width: 20,
-		        height: 20,
+		        height: 30,
 			    color: "#BBBBB3"
 			});
 		weekRow.add(label);

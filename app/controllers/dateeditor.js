@@ -60,7 +60,14 @@ function transformFunction(model) {
 
 
 function saveBtnTap(event) {
+	thisNote.save();
+	Alloy.Collections.note.fetch();
+	
+	$.editorWin.close();
+}
 
+function removeBtnTap(event) {
+	thisNote.destroy();
 	$.editorWin.close();
 }
 
@@ -80,22 +87,58 @@ function fromDateClick(e){
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
-                $.tabView.children[2].children[1].children[0].text = e.value;
+            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+            	thisNote.attributes.dateFrom = e.value.getDate();
+            	thisNote.attributes.monthNumber = e.value.getMonth();
+                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
             }
         }
     });
 }
 
 function fromTimeClick(e){
-
+	var picker = Ti.UI.createPicker();
+    
+    picker.showTimePickerDialog({
+    	callback: function(e) {
+        	if (e.cancel) {
+            	Ti.API.info('user canceled dialog');
+            } else {
+            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
+            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+            }
+        }
+    });
 }
 
 function tillDateClick(e){
-	
+	var picker = Ti.UI.createPicker();
+    
+    picker.showDatePickerDialog({
+    	callback: function(e) {
+        	if (e.cancel) {
+            	Ti.API.info('user canceled dialog');
+            } else {
+            	thisNote.attributes.dateTill = e.value.getDate();
+                $.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+            }
+        }
+    });
 }
 
 function tillTimeClick(e){
-	
+	var picker = Ti.UI.createPicker();
+    
+    picker.showTimePickerDialog({
+    	callback: function(e) {
+        	if (e.cancel) {
+            	Ti.API.info('user canceled dialog');
+            } else {
+            	thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
+            	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+            }
+        }
+    });
 }
 
 function guestsChange(e){
