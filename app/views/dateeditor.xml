@@ -5,44 +5,55 @@
 			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap" color="white"></Label>
 		</View>		
 				
-		<TableView dataFilter="filterFunction" dataCollection="note" id="tabView" top="20">
+		<View dataFilter="filterFunction" 
+				   dataCollection="note" 
+				   dataTransform="transformFunction"
+				   id="tabView" 
+				   top="20"
+				   layout="vertical"
+				   >
 			
-			<TableViewRow>
+			<View height="18">
 				<Label class="anno" text="Что"></Label>
-				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
-			</TableViewRow>
+				<TextField value="{title}" height="18" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
+			</View>
 			
-			<TableViewRow>
+			<View height="18" top="40">
 				<Label class="anno" text="Где"></Label>
-				<TextField value="{place}" maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
-			</TableViewRow>
+				<TextField value="{place}"  maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
+			</View>
 			
-			<TableViewRow>
+			<View height="18" top="40">
 				<Label class="anno" text="С"></Label>
-				<Label onClick="fromClick" right="10" width="67%" title="{parent}"></Label>		
-			</TableViewRow>
+				<View class="pickerContainer">
+					<Label onClick="fromDateClick" left="20" text="{parent}" color="black" ></Label>
+					<Label onClick="fromTimeClick" right="20" text="{customHoursFrom}" color="black"></Label>
+				</View>		
+			</View>
 			
-			<TableViewRow>
+			<View height="18" top="40">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
-				</View>        		
-			</TableViewRow>
+					<Label onClick="tillDateClick" left="20" text="{parent}" color="black"></Label>
+					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black"></Label>
+				</View>       		
+			</View>
 			
-			<TableViewRow>
+			<View height="18" top="40">
 				<Label class="anno" text="Гости"></Label>
-				<TextField value="{guests}" hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
-			</TableViewRow>
+				<TextField value="{guests}"  hintText="Гости" id="guestsField" onChange="guestsChange"></TextField>
+			</View>
 			
-			<TableViewRow>
+			<View height="18" top="40">
 				<Label class="anno" text="Описание"></Label>
 				<TextField value="{description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextField>
-			</TableViewRow>
+			</View>
 			
-			<TableViewRow id="colorPicker">
+			<View height="18" top="40">
 				<Label class="anno" text="Цвет"></Label>
-				<Label onClick="colorClick" right="10" width="67%" backgroundColor="{color}" borderColor="black" id="colorLabel"></Label>
-			</TableViewRow>
+				<Label onClick="colorClick" right="10" width="67%" borderColor="black" id="colorLabel" backgroundColor="{color}"></Label>
+			</View>
 			
-		</TableView>	
+		</View>	
 	</Window>
 </Alloy>

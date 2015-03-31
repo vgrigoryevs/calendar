@@ -1,7 +1,7 @@
 var args = arguments[0] || {},
 	today = new Date(),
 	hours = args.hoursFrom ||"" + today.getHours(),
-	hoursTill = "" + (today.getHours() + 1),
+	hoursTill = args.hoursFrom ||"" + today.getHours(),
 	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear(),
 	thisNote;
 
@@ -35,7 +35,16 @@ function filterFunction(collection) {
 
 }
 
+function transformFunction(model) {
+ // Need to convert the model to a JSON object
+    var transform = model.toJSON();
+ // Example of creating a custom attribute, reference in the view using {custom}
+    transform.custom = transform.parent + " " + transform.hoursFrom;
+    transform.customHoursFrom = transform.hoursFrom + " : " + "00";
+    transform.customHoursTill = transform.hoursTill + " : " + "00";
 
+ return transform;
+}
       
 
 
@@ -63,7 +72,29 @@ function placeChange(e){
 	thisNote.attributes.place = e.value;
 }
 
-function fromClick(e){
+function fromDateClick(e){
+	var picker = Ti.UI.createPicker();
+    
+    picker.showDatePickerDialog({
+    	callback: function(e) {
+        	if (e.cancel) {
+            	Ti.API.info('user canceled dialog');
+            } else {
+                $.tabView.children[2].children[1].children[0].text = e.value;
+            }
+        }
+    });
+}
+
+function fromTimeClick(e){
+
+}
+
+function tillDateClick(e){
+	
+}
+
+function tillTimeClick(e){
 	
 }
 
@@ -78,19 +109,19 @@ function descriptionChange(e){
 
 function colorClick(e) {
 	var data = [];
-	data[0]=Ti.UI.createTableViewRow({title:'Белый', color:"white"});
-	data[1]=Ti.UI.createTableViewRow({title:'Красный', color:"red"});
-	data[2]=Ti.UI.createTableViewRow({title:'Зеленый', color:"green"});
-	data[3]=Ti.UI.createTableViewRow({title:'Синий', color:"blue"});
-	data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', color:"orange"});
+	data[0]=Ti.UI.createTableViewRow({title:'Белый', colorBack:"white"});
+	data[1]=Ti.UI.createTableViewRow({title:'Красный', colorBack:"red"});
+	data[2]=Ti.UI.createTableViewRow({title:'Зеленый', colorBack:"green"});
+	data[3]=Ti.UI.createTableViewRow({title:'Синий', colorBack:"blue"});
+	data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', colorBack:"orange"});
 	 
 	var pickerTable = Ti.UI.createTableView({
 	    data: data
 	});
 	
 	pickerTable.addEventListener('click', function(e){
-		thisNote.attributes.color = e.source.color;
-		$.colorLabel.backgroundColor = e.source.color;
+		thisNote.attributes.color = e.source.colorBack;
+		$.tabView.children[6].children[1].backgroundColor = e.source.colorBack;
 	    pickerDialog.hide();
 	});
 	 
