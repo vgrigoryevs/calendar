@@ -18,8 +18,8 @@ function showCalendar(year, month){
 	
 	var tbl_data = [],
 		today = new Date().getDate();
-		tableHeader = Ti.UI.createTableViewRow({height: "14%"}),
-		weekRow = Ti.UI.createTableViewRow({height: "14%"}),
+		tableHeader = Ti.UI.createTableViewRow({height: "50"}),
+		weekRow = Ti.UI.createTableViewRow({height: "50"}),
 		firstDay = new Date(year, month, 1).getDay(),
 		lastDay = new Date(year, month + 1, 0).getDate(),
 		counter = 1,
@@ -71,7 +71,7 @@ function showCalendar(year, month){
 	}
 	
 	else if(firstDay === 0) {
-		firstWeek = Ti.UI.createTableViewRow({height: "14%"});
+		firstWeek = Ti.UI.createTableViewRow({height: "50"});
 		
 		for (var i = 0; i < 6; i++) {
 			var label = Ti.UI.createLabel({
@@ -111,7 +111,7 @@ function showCalendar(year, month){
 	}
 	
 	else {
-		firstWeek = Ti.UI.createTableViewRow({height: "14%"});
+		firstWeek = Ti.UI.createTableViewRow({height: "50"});
 		
 		for (var i = 0; i < firstDay -1; i++) {
 			var label = Ti.UI.createLabel({
@@ -163,7 +163,7 @@ function showCalendar(year, month){
 			innerCounter = 0;
 			tbl_data.push(weekRow);
 			
-			weekRow = Ti.UI.createTableViewRow({height: "14%"});
+			weekRow = Ti.UI.createTableViewRow({height: "50"});
 			
 			var label = Ti.UI.createLabel({
 					left: (innerCounter*14)+"%",
