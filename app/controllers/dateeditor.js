@@ -1,12 +1,33 @@
 var args = arguments[0] || {},
 	today = new Date(),
-	hours = args.hoursFrom ||"" + today.getHours(),
-	hoursTill = args.hoursFrom ||"" + today.getHours(),
+	hours = args.hoursFrom ||("0" + today.getHours()).slice(-2),
+	hoursTill = "" + (today.getHours() + 1),
 	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear(),
-	thisNote;
+	thisNote,
+	usedDates,
+	timeArray = [];
 
 Alloy.Collections.note.fetch();
 thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
+usedDates = Alloy.Collections.note.where({parent: parentId});
+
+for(child in usedDates) {
+	if(usedDates[child].attributes.hoursFrom != hours){
+	 
+	duration = usedDates[child].attributes.hoursTill - usedDates[child].attributes.hoursFrom;
+	
+	for(var i = 0; i <= duration; i++){
+		timeArray[(+usedDates[child].attributes.hoursFrom)+i] = true;
+	}
+	
+		if(duration === 1) {
+			timeArray[+usedDates[child].attributes.hoursTill] = undefined;
+		}
+		
+	}	
+}
+
+console.log(timeArray);
 
 function filterFunction(collection) {
 	if(!collection.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
@@ -80,7 +101,9 @@ function placeChange(e){
 }
 
 function fromDateClick(e){
-	var picker = Ti.UI.createPicker();
+	var picker = Ti.UI.createPicker({
+		value:new Date(2014,3,12)
+	});
     
     picker.showDatePickerDialog({
     	callback: function(e) {
@@ -97,45 +120,74 @@ function fromDateClick(e){
 }
 
 function fromTimeClick(e){
-	var picker = Ti.UI.createPicker();
+	var picker = Ti.UI.createPicker({
+		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom, thisNote.attributes.hoursFrom)
+	});
     
     picker.showTimePickerDialog({
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
-            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
-            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+            	
+            	if(timeArray[e.value.getHours()]){
+            		alert("Существует запись на это время");
+            	}
+            	else{
+	            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
+	            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+				}            
             }
         }
     });
 }
 
 function tillDateClick(e){
-	var picker = Ti.UI.createPicker();
+	var picker = Ti.UI.createPicker({
+		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom)
+	});
     
     picker.showDatePickerDialog({
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
-            	thisNote.attributes.dateTill = e.value.getDate();
-                $.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+            	if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
+            		alert("Дата должна быть больше начальной");
+            	}
+            	
+            	else{
+            		thisNote.attributes.dateTill = e.value.getDate();
+                	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+            	}
             }
         }
     });
 }
 
 function tillTimeClick(e){
-	var picker = Ti.UI.createPicker();
+	var picker = Ti.UI.createPicker({
+		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom, thisNote.attributes.hoursTill)
+	});
     
     picker.showTimePickerDialog({
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
+            	
+            	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
+            		alert("Время должно быть больше начального");
+            	}
+            	
+            	else if(timeArray[e.value.getHours()]){
+            		alert("Существует запись на это время");
+            	}
+            	
+            	else{
             	thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
             	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+            	}
             }
         }
     });
