@@ -1,7 +1,7 @@
 var args = arguments[0] || {},
 	today = new Date(),
 	hours = args.hoursFrom ||("0" + today.getHours()).slice(-2),
-	hoursTill = "" + (today.getHours() + 1),
+	hoursTill =("0" + ((+hours)+1)).slice(-2) ,
 	parentId = args.parentId || today.getDate() + "." + (today.getMonth() + 1) + "." + today.getFullYear(),
 	thisNote,
 	usedDates,
@@ -9,25 +9,30 @@ var args = arguments[0] || {},
 
 Alloy.Collections.note.fetch();
 thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
-usedDates = Alloy.Collections.note.where({parent: parentId});
 
-for(child in usedDates) {
-	if(usedDates[child].attributes.hoursFrom != hours){
-	 
-	duration = usedDates[child].attributes.hoursTill - usedDates[child].attributes.hoursFrom;
+function getUsedDates(parentId) {
+	usedDates = Alloy.Collections.note.where({parent: parentId});
+	timeArray = [];
 	
-	for(var i = 0; i <= duration; i++){
-		timeArray[(+usedDates[child].attributes.hoursFrom)+i] = true;
+	for(child in usedDates) {
+		if(usedDates[child].attributes.hoursFrom != hours){
+		 
+			duration = usedDates[child].attributes.hoursTill - usedDates[child].attributes.hoursFrom;
+			
+			for(var i = 0; i <= duration; i++){
+				timeArray[(+usedDates[child].attributes.hoursFrom)+i] = true;
+			}
+			
+				if(duration === 1) {
+					timeArray[+usedDates[child].attributes.hoursTill] = undefined;
+				}
+			
+		}	
 	}
 	
-		if(duration === 1) {
-			timeArray[+usedDates[child].attributes.hoursTill] = undefined;
-		}
-		
-	}	
+	console.log(timeArray);
 }
 
-console.log(timeArray);
 
 function filterFunction(collection) {
 	if(!collection.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
@@ -102,10 +107,13 @@ function placeChange(e){
 
 function fromDateClick(e){
 	var picker = Ti.UI.createPicker({
-		value:new Date(2014,3,12)
+		type: Ti.UI.PICKER_TYPE_DATE,
 	});
+	
+	var arr = thisNote.attributes.parent.split(".");
     
     picker.showDatePickerDialog({
+    	value: new Date(arr[2],arr[1]-1,arr[0]),
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
@@ -121,14 +129,18 @@ function fromDateClick(e){
 
 function fromTimeClick(e){
 	var picker = Ti.UI.createPicker({
-		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom, thisNote.attributes.hoursFrom)
 	});
     
+    var arr = thisNote.attributes.parent.split(".");
+    
     picker.showTimePickerDialog({
+    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom),
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
+            	
+            	getUsedDates(thisNote.attributes.parent);
             	
             	if(timeArray[e.value.getHours()]){
             		alert("Существует запись на это время");
@@ -144,10 +156,12 @@ function fromTimeClick(e){
 
 function tillDateClick(e){
 	var picker = Ti.UI.createPicker({
-		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom)
 	});
     
+    var arr = thisNote.attributes.parent.split(".");
+    
     picker.showDatePickerDialog({
+    	value: new Date(arr[2],arr[1]-1,arr[0]),
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
@@ -167,14 +181,18 @@ function tillDateClick(e){
 
 function tillTimeClick(e){
 	var picker = Ti.UI.createPicker({
-		value:new Date(thisNote.attributes.yearNumber, thisNote.attributes.monthNumber, thisNote.attributes.dateFrom, thisNote.attributes.hoursTill)
 	});
     
+    var arr = thisNote.attributes.parent.split(".");
+    
     picker.showTimePickerDialog({
+    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill),
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } else {
+            	
+            	getUsedDates(thisNote.attributes.parent);
             	
             	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
             		alert("Время должно быть больше начального");

@@ -16,6 +16,8 @@
 },
 
 "#navigationView" : {
-	
 },
 
+".labels" : {
+	font:{fontSize: '24sp'}
+}
