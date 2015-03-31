@@ -28,16 +28,16 @@
 			<View class="viewRow">
 				<Label class="anno" text="С"></Label>
 				<View class="pickerContainer">
-					<Label onClick="fromDateClick" left="20" text="{parent}" color="black" ></Label>
-					<Label onClick="fromTimeClick" right="20" text="{customHoursFrom}" color="black"></Label>
+					<Label onClick="fromDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
+					<Label onClick="fromTimeClick" right="20" text="{customHoursFrom}" color="black" backgroundImage = "/img/picker.png"></Label>
 				</View>		
 			</View>
 			
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
-					<Label onClick="tillDateClick" left="20" text="{parent}" color="black"></Label>
-					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black"></Label>
+					<Label onClick="tillDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
+					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black" backgroundImage = "/img/picker.png"></Label>
 				</View>       		
 			</View>
 			

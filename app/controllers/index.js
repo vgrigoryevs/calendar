@@ -50,12 +50,13 @@ function showCalendar(year, month){
 	//Calendar header
 	for(var i = 0; i < 7; i++) {
 		var label = Ti.UI.createLabel({
-	        left: i*40,
+	        left: (i*14)+"%",
 	        text: weekDay.format('dd').capitalizeFirstLetter(),
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	        width:20,
+	        width:30,
 	        height:30,
-	        color: "#BBBBB3"
+	        color: "#BBBBB3",
+	        font:{fontSize: '24sp'}
 	    });
 	    
 	    weekDay.add(1, 'days');
@@ -74,24 +75,26 @@ function showCalendar(year, month){
 		
 		for (var i = 0; i < 6; i++) {
 			var label = Ti.UI.createLabel({
-		        left: i*40,
+		        left: (i*14)+"%",
 		        text: (lastDayPrMnth - 5) + i,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width:20,
+		        width:30,
 		        height:30,
-		        color: "#BBBBB3"
+		        color: "#BBBBB3",
+	        	font:{fontSize: '24sp'}
 	    	});
 	    	firstWeek.add(label);
 		}
 		
 		var label = Ti.UI.createLabel({
-			left: 6*40,
+			left: (6*14)+"%",
 		    text: counter,
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-	        width:20,
+	        width:30,
 	        height:30,
 	        color: "black",
-		    labelId: counter + "." + (month+1) + "." + year
+		    labelId: counter + "." + (month+1) + "." + year,
+	        font:{fontSize: '24sp'}
 	    });
 	    
 	    if(today === counter) {
@@ -112,12 +115,13 @@ function showCalendar(year, month){
 		
 		for (var i = 0; i < firstDay -1; i++) {
 			var label = Ti.UI.createLabel({
-		        left: prMonthCntr * 40,
+		        left: (prMonthCntr*14)+"%",
 		        text: lastDayPrMnth--,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width:20,
+		        width:30,
 		        height:30,
-		        color: "#BBBBB3"
+		        color: "#BBBBB3",
+	        	font:{fontSize: '24sp'}
 	    	});
 	    	prMonthCntr--;
 	    	firstWeek.add(label);
@@ -125,13 +129,14 @@ function showCalendar(year, month){
 		
 		for (; i < 7 ; i++ ) {
 			var label = Ti.UI.createLabel({
-		        left: i*40,
+		        left: (i*14)+"%",
 		        text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width:20,
+		        width:30,
 		        height:30,
 		        color: "black",
-		        labelId: counter + "." + (month+1) + "." + year
+		        labelId: counter + "." + (month+1) + "." + year,
+	        	font:{fontSize: '24sp'}
 	    	});
 	    	
 	    	if(today === counter) {
@@ -161,13 +166,14 @@ function showCalendar(year, month){
 			weekRow = Ti.UI.createTableViewRow();
 			
 			var label = Ti.UI.createLabel({
-					left: innerCounter*40,
+					left: (innerCounter*14)+"%",
 				    text: counter,
 		        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-			        width:20,
+			        width:30,
 			        height:30,
 			        color: "black",
-			        labelId: counter + "." + (month+1) + "." + year
+			        labelId: counter + "." + (month+1) + "." + year,
+	        		font:{fontSize: '24sp'}
 			    });
 		    
 		    if(today === counter) {
@@ -187,13 +193,14 @@ function showCalendar(year, month){
 		else {
 			
 			var label = Ti.UI.createLabel({
-				left: innerCounter*40,
+				left: (innerCounter*14)+"%",
 			    text: counter,
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width:20,
+		        width:30,
 		        height:30,
 		        color: "black",
-		        labelId: counter + "." + (month+1) + "." + year
+		        labelId: counter + "." + (month+1) + "." + year,
+	        	font:{fontSize: '24sp'}
 		    });
 		    
 		    if(today === counter) {
@@ -213,12 +220,13 @@ function showCalendar(year, month){
 	
 	for(;innerCounter < 7 ; innerCounter++) {
 		var label = Ti.UI.createLabel({
-				left: innerCounter*40,
+				left: (innerCounter*14)+"%",
 				text: nextMonthCntr++,
 		        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
-		        width: 20,
+		        width: 30,
 		        height: 30,
-			    color: "#BBBBB3"
+			    color: "#BBBBB3",
+	        	font:{fontSize: '24sp'}
 			});
 		weekRow.add(label);
 	}
@@ -228,8 +236,8 @@ function showCalendar(year, month){
 	var table = Titanium.UI.createTableView({
 		    data: tbl_data,
 		    separatorColor: "transparent",
-		    width: 285,
-		    top: 70
+		    top: 90,
+		    left: "4%"
 		
 		});
 	
