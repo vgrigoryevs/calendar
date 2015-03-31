@@ -1,6 +1,11 @@
 <Alloy>
-	<Window class="container">	
-		<TableView id="dateTable" backgrondColor="red">
+	<Window class="container">
+		<View id="indexMenu">
+			<Label id="dateLabel" text="" left="10" color="white" />
+			<Label text="Добавить" right="10" onClick="addBtnTap" color="white"/>
+		</View>
+			
+		<TableView id="dateTable" top="30">
 		</TableView>
 	</Window>
 </Alloy>

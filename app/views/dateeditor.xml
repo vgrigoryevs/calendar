@@ -2,8 +2,9 @@
 	<Collection src="note" />
 	<Window class="container" id="editorWin">
 		<View id="dateEditorMenu">
-			<Label id="saveBtn" text="Сохранить" onClick="saveBtnTap" color="white" right="10"></Label>
-			<Label id="removeBtn" text="Удалить" onClick="removeBtnTap" color="white" left="10"></Label>
+			<Label text="Заметка" left="10" color="white" />
+			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" right="10" />
+			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap" color="white" right="50" />
 		</View>		
 				
 		<View dataFilter="filterFunction" 

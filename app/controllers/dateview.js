@@ -2,6 +2,8 @@ var args = arguments[0] || {},
 	parentId = args.labelId || "",
 	myNotes = Alloy.Collections.note;
 
+$.dateLabel.text = parentId;
+
 var tableView = $.dateTable;
 
 
@@ -81,4 +83,13 @@ tableView.addEventListener('click', function(e){
 
 tableView.data = tbl_data;
 
-
+function addBtnTap() {
+	var args = {
+		parentId : parentId
+	};
+	
+	var dateEditor = Alloy.createController("dateeditor", args).getView();
+    			
+	dateEditor.open();
+  	$.destroy();
+}
