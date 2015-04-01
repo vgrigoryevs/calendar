@@ -57,7 +57,8 @@ function createDescRow(time, labelText, backColor, i, hoursTill) {
 		text: labelText,
 	    left: 30,
 	    color: "black",
-	    width: "100%",
+	    width: "80%",
+	    textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		height: 70 * duration,
 		hoursFrom: time,
 	    wordWrap: true

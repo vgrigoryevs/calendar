@@ -16,6 +16,13 @@
 
 },
 
+"TextArea" : {
+	right: 10,
+	width: "67%",
+	color: "black",
+	height : Ti.UI.SIZE,
+},
+
 ".viewRow" : {
 	height: 50,
 	top: 30

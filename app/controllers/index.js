@@ -360,7 +360,25 @@ $.indexMenuBtn.addEventListener('click', function(){
 		});
 		
 		changeBack.addEventListener('click', function(e){
-			console.log("change back");
+			$.contain.menuOn = false;
+			$.contain.remove($.contain.children[3]);
+			
+			var myArray = ['Использовать камеру','Использовать галлерею','Отмена'];
+
+			var opts = {
+			  cancel: 2,
+			  options: myArray,
+			  selectedIndex: 2,
+			};
+			
+			var dialog = Ti.UI.createOptionDialog(opts);
+			    dialog.show();
+			    dialog.addEventListener('click', onSelectDialog);
+			
+			function onSelectDialog(event){
+
+			}
+			
 
 		});
 		
