@@ -43,6 +43,7 @@
         <application android:theme="@style/Theme.NoActionBar"/>
         <!-- Need to specify at least API level 11 for Titanium SDK 3.2.x and prior -->
         <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19"/>
+        <uses-permission android:name="android.permission.CAMERA" />
     </manifest>
 </android>
     <mobileweb>

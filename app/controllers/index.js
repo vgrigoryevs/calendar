@@ -376,11 +376,32 @@ $.indexMenuBtn.addEventListener('click', function(){
 			    dialog.addEventListener('click', onSelectDialog);
 			
 			function onSelectDialog(e){
-				if(e.source.selectedIndex === 0){
-					var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
-					alert(f.nativePath);
+				if(e.source.selectedIndex === 0){//Camera choice
+					Titanium.Media.showCamera({
+						success:function(event) {
+							 var selectedImg = event.media;
+							 if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+							 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+								f.write(selectedImg);
+									
+								$.contain.backgroundImage = f.nativePath;
+							 } 
+							 else {
+							 	alert("got the wrong type back ="+event.mediaType);
+							 }
+						},
+						cancel:function() {
+					 // called when user cancels taking a picture
+						},
+						error:function() {
+					 // called when there's an error
+						},
+						
+						saveToPhotoGallery:true,
+					 // allowEditing and mediaTypes are iOS-only settings
+					});
 				}
-				else if(e.source.selectedIndex === 1){
+				else if(e.source.selectedIndex === 1){//gallery choice	
 					Titanium.Media.openPhotoGallery({
 						success : function(event) {
 							var selectedImg = event.media;

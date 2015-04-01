@@ -119,7 +119,13 @@ function fromDateClick(e){
     	callback: function(e) {
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
-            } else {
+            } 
+            
+            else if(e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
+            	alert("Дата должна быть меньше максимальной");
+            }
+            
+            else {
             	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
             	thisNote.attributes.dateFrom = e.value.getDate();
             	thisNote.attributes.monthNumber = e.value.getMonth();
@@ -147,6 +153,11 @@ function fromTimeClick(e){
             	if(timeArray[e.value.getHours()]){
             		alert("Существует запись на это время");
             	}
+            	
+            	else if(e.value > moment($.tabView.children[3].children[1].children[1].text, "DD-MM-YYYY")) {
+            		alert("Время дожно быть меньше максимального");
+            	}
+            	
             	else{
 	            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
 	            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
