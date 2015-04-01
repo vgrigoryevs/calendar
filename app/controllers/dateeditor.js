@@ -6,6 +6,8 @@ var args = arguments[0] || {},
 	thisNote,
 	usedDates,
 	timeArray = [];
+	
+$.editorWin.backgroundImage = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg').nativePath;
 
 Alloy.Collections.note.fetch();
 thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];

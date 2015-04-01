@@ -375,8 +375,33 @@ $.indexMenuBtn.addEventListener('click', function(){
 			    dialog.show();
 			    dialog.addEventListener('click', onSelectDialog);
 			
-			function onSelectDialog(event){
-
+			function onSelectDialog(e){
+				if(e.source.selectedIndex === 0){
+					var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+					alert(f.nativePath);
+				}
+				else if(e.source.selectedIndex === 1){
+					Titanium.Media.openPhotoGallery({
+						success : function(event) {
+							var selectedImg = event.media;
+						    	if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+									var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+									f.write(selectedImg);
+									
+									$.contain.backgroundImage = f.nativePath;
+								}
+						},
+						
+						cancel : function() {
+						//While cancellation of the process
+						},
+						
+						error : function(error) {
+						               // If any error occurs during the process
+						}
+					});
+				}
+				
 			}
 			
 
@@ -391,6 +416,7 @@ $.indexMenuBtn.addEventListener('click', function(){
 	}		
 });
 
+$.contain.backgroundImage = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg').nativePath;
 
 $.contain.open();	
 

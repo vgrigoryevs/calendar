@@ -4,7 +4,7 @@ var args = arguments[0] || {},
 	win = $.dateWin;
 
 $.dateLabel.text = parentId;
-
+$.win.backgroundImage = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg').nativePath;
 
 function createTimeRow(time, i) {
   var row = Ti.UI.createView({
