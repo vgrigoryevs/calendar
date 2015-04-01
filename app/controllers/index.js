@@ -431,7 +431,7 @@ $.indexMenuBtn.addEventListener('click', function(){
 					   f.deleteFile();
 					    
 					   var image = $.backImage;
-					   image.image = f; 
+					   image.image = ""; 
 					}
 				}
 				
@@ -448,13 +448,18 @@ $.indexMenuBtn.addEventListener('click', function(){
 		win.animate(showMenu);
 	}		
 });
+var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
 
 var image = $.backImage;
-	image.image = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+		
 	image.top = 0;
 	image.width = "100%";
 	image.height = "100%";
 	image.opacity = "0.3";
+
+if(f.exists()){
+	image.image = f;
+}
 
 $.contain.open();	
 
