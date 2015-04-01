@@ -363,12 +363,12 @@ $.indexMenuBtn.addEventListener('click', function(){
 			$.contain.menuOn = false;
 			$.contain.remove($.contain.children[4]);
 			
-			var myArray = ['Использовать камеру','Использовать галлерею','Отмена'];
+			var myArray = ['Использовать камеру','Использовать галлерею','Убрать фон','Отмена'];
 
 			var opts = {
-			  cancel: 2,
+			  cancel: 3,
 			  options: myArray,
-			  selectedIndex: 2,
+			  selectedIndex: 3,
 			};
 			
 			var dialog = Ti.UI.createOptionDialog(opts);
@@ -425,6 +425,16 @@ $.indexMenuBtn.addEventListener('click', function(){
 					});
 				}
 				
+				else if(e.source.selectedIndex === 2){
+					var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+					if(f.exists()) {
+					   f.deleteFile();
+					    
+					   var image = $.backImage;
+					   image.image = f; 
+					}
+				}
+				
 			}
 			
 
@@ -444,7 +454,7 @@ var image = $.backImage;
 	image.top = 0;
 	image.width = "100%";
 	image.height = "100%";
-	image.opacity = "0.5";
+	image.opacity = "0.3";
 
 $.contain.open();	
 
