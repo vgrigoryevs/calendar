@@ -117,11 +117,16 @@ function fromDateClick(e){
     picker.showDatePickerDialog({
     	value: new Date(arr[2],arr[1]-1,arr[0]),
     	callback: function(e) {
+    		e.value.setHours(0);
+    		e.value.setMinutes(0);
+    		e.value.setSeconds(0);
+    		e.value.setMilliseconds(0);
+    		
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } 
             
-            else if(e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
+            else if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
             	alert("Дата должна быть меньше максимальной");
             }
             
@@ -152,10 +157,6 @@ function fromTimeClick(e){
             	
             	if(timeArray[e.value.getHours()]){
             		alert("Существует запись на это время");
-            	}
-            	
-            	else if(e.value > moment($.tabView.children[3].children[1].children[1].text, "DD-MM-YYYY")) {
-            		alert("Время дожно быть меньше максимального");
             	}
             	
             	else{

@@ -55,7 +55,7 @@ function showCalendar(year, month){
 	        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 	        width:30,
 	        height:30,
-	        color: "#BBBBB3",
+	        color: "#6b6767",
 	        font:{fontSize: '24sp'}
 	    });
 	    
@@ -80,7 +80,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:30,
 		        height:30,
-		        color: "#BBBBB3",
+		        color: "#6b6767",
 	        	font:{fontSize: '24sp'}
 	    	});
 	    	firstWeek.add(label);
@@ -120,7 +120,7 @@ function showCalendar(year, month){
 	        	textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width:30,
 		        height:30,
-		        color: "#BBBBB3",
+		        color: "#6b6767",
 	        	font:{fontSize: '24sp'}
 	    	});
 	    	prMonthCntr--;
@@ -225,7 +225,7 @@ function showCalendar(year, month){
 		        textAlign: Ti.UI.TEXT_ALIGNMENT_CENTER,
 		        width: 30,
 		        height: 30,
-			    color: "#BBBBB3",
+			    color: "#6b6767",
 	        	font:{fontSize: '24sp'}
 			});
 		weekRow.add(label);
@@ -265,10 +265,10 @@ function showCalendar(year, month){
 $.before.addEventListener('click', function(){
     if($.contain.menuOn){
 		$.contain.menuOn = false;
-		$.contain.remove($.contain.children[3]);
+		$.contain.remove($.contain.children[4]);
 	}
     
-    $.contain.remove($.contain.children[2]);
+    $.contain.remove($.contain.children[3]);
     mon--;
     
     if(mon === -1){
@@ -289,10 +289,10 @@ $.before.addEventListener('click', function(){
 $.after.addEventListener('click', function(){
     if($.contain.menuOn){
 		$.contain.menuOn = false;
-		$.contain.remove($.contain.children[3]);
+		$.contain.remove($.contain.children[4]);
 	}
     
-    $.contain.remove($.contain.children[2]);
+    $.contain.remove($.contain.children[3]);
     
     mon++;
     
@@ -313,7 +313,7 @@ $.indexMenuBtn.addEventListener('click', function(){
 
 	if($.contain.menuOn){
 		$.contain.menuOn = false;
-		$.contain.remove($.contain.children[3]);
+		$.contain.remove($.contain.children[4]);
 	}
 	else{
 		$.contain.menuOn = true;
@@ -353,7 +353,7 @@ $.indexMenuBtn.addEventListener('click', function(){
 			var dateEditor = Alloy.createController("dateeditor").getView();
 	    	
 	    	$.contain.menuOn = false;
-			$.contain.remove($.contain.children[3]);
+			$.contain.remove($.contain.children[4]);
 			
 			dateEditor.open();
 	  		$.destroy();
@@ -361,7 +361,7 @@ $.indexMenuBtn.addEventListener('click', function(){
 		
 		changeBack.addEventListener('click', function(e){
 			$.contain.menuOn = false;
-			$.contain.remove($.contain.children[3]);
+			$.contain.remove($.contain.children[4]);
 			
 			var myArray = ['Использовать камеру','Использовать галлерею','Отмена'];
 
@@ -384,7 +384,8 @@ $.indexMenuBtn.addEventListener('click', function(){
 							 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
 								f.write(selectedImg);
 									
-								$.contain.backgroundImage = f.nativePath;
+								var image = $.backImage;
+								image.image = f;
 							 } 
 							 else {
 							 	alert("got the wrong type back ="+event.mediaType);
@@ -409,7 +410,8 @@ $.indexMenuBtn.addEventListener('click', function(){
 									var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
 									f.write(selectedImg);
 									
-									$.contain.backgroundImage = f.nativePath;
+									var image = $.backImage;
+									image.image = f;
 								}
 						},
 						
@@ -437,7 +439,12 @@ $.indexMenuBtn.addEventListener('click', function(){
 	}		
 });
 
-$.contain.backgroundImage = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg').nativePath;
+var image = $.backImage;
+	image.image = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
+	image.top = 0;
+	image.width = "100%";
+	image.height = "100%";
+	image.opacity = "0.5";
 
 $.contain.open();	
 
