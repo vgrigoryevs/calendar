@@ -4,7 +4,7 @@
 		<View id="dateEditorMenu">
 			<Label text="Заметка" left="10" color="white" />
 			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" right="10" />
-			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap" color="white" right="50" />
+			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap" color="white" right="80" />
 		</View>		
 				
 		<ScrollView dataFilter="filterFunction" 
