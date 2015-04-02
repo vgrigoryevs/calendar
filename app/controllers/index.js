@@ -236,7 +236,7 @@ function showCalendar(year, month){
 	var table = Titanium.UI.createTableView({
 		    data: tbl_data,
 		    separatorColor: "transparent",
-		    top: 90,
+		    top: 120,
 		    left: "4%"
 		
 		});
@@ -320,9 +320,9 @@ $.indexMenuBtn.addEventListener('click', function(){
 		
 		var win = Ti.UI.createView({
 			right: 0,
-			top: 30,
-			width: 200,
-			height: 50,
+			top: 60,
+			width: 300,
+			height: 100,
 			backgroundColor:  "#BBBBB3",
 			zIndex: 100,
 			opacity: 0
@@ -330,15 +330,15 @@ $.indexMenuBtn.addEventListener('click', function(){
 		
 		var newBtn = Ti.UI.createLabel({
 			text: "Добавить запись",
-			height: 25,
+			height: 50,
 			top: 0,
 			color: "black"
 		});
 		
 		var changeBack = Ti.UI.createLabel({
 			text: "Изменить фон",
-			height: 25,
-			top: 25,
+			height: 50,
+			top: 50,
 			color: "black"
 		});
 		
@@ -452,7 +452,7 @@ var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'background
 
 var image = $.backImage;
 		
-	image.top = 0;
+	image.top = 60;
 	image.width = "100%";
 	image.height = "100%";
 	image.opacity = "0.3";

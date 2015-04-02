@@ -73,18 +73,6 @@ function transformFunction(model) {
 }
       
 
-
-
-
-
-
-
-
-
-
-
-
-
 function saveBtnTap(event) {
 	thisNote.save();
 	Alloy.Collections.note.fetch();
@@ -115,11 +103,13 @@ function fromDateClick(e){
     picker.showDatePickerDialog({
     	value: new Date(arr[2],arr[1]-1,arr[0]),
     	callback: function(e) {
-    		e.value.setHours(0);
-    		e.value.setMinutes(0);
-    		e.value.setSeconds(0);
-    		e.value.setMilliseconds(0);
-    		
+    		if(!e.cancel){
+    			e.value.setHours(0);
+    			e.value.setMinutes(0);
+    			e.value.setSeconds(0);
+    			e.value.setMilliseconds(0);
+    		}
+     		
         	if (e.cancel) {
             	Ti.API.info('user canceled dialog');
             } 
@@ -239,7 +229,9 @@ function colorClick(e) {
 	data[2]=Ti.UI.createTableViewRow({title:'Зеленый', colorBack:"green"});
 	data[3]=Ti.UI.createTableViewRow({title:'Синий', colorBack:"blue"});
 	data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', colorBack:"orange"});
-	 
+	data[5]=Ti.UI.createTableViewRow({title:'Розовый', colorBack:"pink"});
+	data[6]=Ti.UI.createTableViewRow({title:'Желтый', colorBack:"yellow"}); 
+	
 	var pickerTable = Ti.UI.createTableView({
 	    data: data
 	});

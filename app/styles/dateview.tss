@@ -4,6 +4,6 @@
 
 "#indexMenu": {
 	backgroundColor: "#0E1E31",
-	height: 30,
+	height: 60,
 	top: 0
 }

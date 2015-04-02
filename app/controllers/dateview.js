@@ -87,7 +87,7 @@ function createDescRow(time, labelText, backColor, i, hoursTill) {
 }
 
 var scrollView = Ti.UI.createScrollView({
-  top:30,
+  top:60,
   contentHeight: 'auto'
 });
 
