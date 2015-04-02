@@ -316,7 +316,7 @@ $.after.addEventListener('click', function(){
 
 //Menu btns
 
-$.indexMenuBtn.addEventListener('click', function(){
+function indexMenuBtnClick(){
 
 	if($.contain.menuOn){
 		$.contain.menuOn = false;
@@ -460,7 +460,8 @@ $.indexMenuBtn.addEventListener('click', function(){
 		
 		win.animate(showMenu);
 	}		
-});
+}
+
 var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
 
 var image = $.backImage;

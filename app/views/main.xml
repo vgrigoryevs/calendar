@@ -1,10 +1,13 @@
 <Alloy>
 	<Collection src="note"/>
 	<Window id="contain" class="container">	
+		<RightNavButton onClick="indexMenuBtnClick" systemButton="ACTION"/>
 		<ImageView id="backImage"></ImageView>
 		
-		<View id="indexMenu">
-			<ImageView id="indexMenuBtn"></ImageView>
+		<View id="indexMenu" platform="android">
+			<ImageView id="indexMenuBtn" onClick="indexMenuBtnClick"></ImageView>
+		</View>
+		<View platform="ios">
 		</View>
 			
 		<View id="navigationView">
