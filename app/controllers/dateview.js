@@ -77,8 +77,14 @@ function createDescRow(time, labelText, backColor, i, hoursTill) {
 	Alloy.Models.note = Alloy.Collections.note.where({parent: parentId, hoursFrom: e.source.hoursFrom})[0];
 	var dateEditor = Alloy.createController("dateeditor", args).getView();
     			
-	dateEditor.open();
-	win.close();
+	if(OS_IOS) { 
+		Alloy.Globals.mainWindow.openWindow(dateEditor);
+	} 
+	if (OS_ANDROID) { 
+		dateEditor.open(); 
+	}
+
+	
   	$.destroy();
   });	
   
@@ -129,7 +135,13 @@ function addBtnTap() {
 	
 	var dateEditor = Alloy.createController("dateeditor", args).getView();
     			
-	dateEditor.open();
-	win.close();
+	if(OS_IOS) { 
+		Alloy.Globals.mainWindow.openWindow(dateEditor);
+	} 
+	if (OS_ANDROID) { 
+		dateEditor.open(); 
+	}
+
+	
   	$.destroy();
 }

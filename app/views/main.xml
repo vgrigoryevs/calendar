@@ -1,0 +1,17 @@
+<Alloy>
+	<Collection src="note"/>
+	<Window id="contain" class="container">	
+		<ImageView id="backImage"></ImageView>
+		
+		<View id="indexMenu">
+			<ImageView id="indexMenuBtn"></ImageView>
+		</View>
+			
+		<View id="navigationView">
+			<Label id="before" class="labels" text="<"></Label>	
+			<Label id="monthSelector" class="labels" ></Label>
+			<Label id="after" class="labels" text=">"></Label>
+		</View>	
+		
+	</Window>
+</Alloy>
