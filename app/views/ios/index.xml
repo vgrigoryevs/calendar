@@ -1,0 +1,19 @@
+<Alloy>
+	<Collection src="note"/>
+	<NavigationWindow id="navGroupWin">
+		<Window id="contain" class="container">	
+			<ImageView id="backImage"></ImageView>
+			
+			<View id="indexMenu">
+				<ImageView right="0" id="indexMenuBtn" image="/img/menu.png"></ImageView>
+			</View>
+				
+			<View id="navigationView">
+				<Label id="before" class="labels" text="<" left="0"></Label>	
+				<Label id="monthSelector" class="labels" ></Label>
+				<Label id="after" class="labels" text=">" right="0"></Label>
+			</View>	
+			
+		</Window>
+	</NavigationWindow>
+</Alloy>

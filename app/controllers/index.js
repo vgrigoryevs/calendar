@@ -251,8 +251,13 @@ function showCalendar(year, month){
     			},
     			dateView = Alloy.createController("dateview", args).getView();
     			
-			dateView.open();
-			console.log(e.source.labelId);
+			if (OS_IOS) {
+				$.navGroupWin.openWindow(dateEditor);
+			}
+			if (OS_ANDROID) {
+				dateEditor.open();
+			 }
+			 
     		$.destroy();	
     	}
 	});
@@ -344,8 +349,8 @@ $.indexMenuBtn.addEventListener('click', function(){
 		
 		var showMenu = Ti.UI.createAnimation();
 	    showMenu.duration = 300;
-	    showMenu.width = 200;
-	    showMenu.height = 50;
+	    showMenu.width = 300;
+	    showMenu.height = 100;
 	    showMenu.right = 0;
 	    showMenu.opacity = 1;
 			
@@ -355,7 +360,13 @@ $.indexMenuBtn.addEventListener('click', function(){
 	    	$.contain.menuOn = false;
 			$.contain.remove($.contain.children[4]);
 			
-			dateEditor.open();
+			if (OS_IOS) {
+				$.navGroupWin.openWindow(dateEditor);
+			}
+			if (OS_ANDROID) {
+				dateEditor.open();
+			 }
+			  
 	  		$.destroy();
 		});
 		
@@ -461,7 +472,12 @@ if(f.exists()){
 	image.image = f;
 }
 
-$.contain.open();	
+if(OS_IOS) { 
+   $.navGroupWin.open();
+} 
+if (OS_ANDROID) { 
+   $.contain.open(); 
+}
 
 //Calendar initialization with current month
 var d = moment();
