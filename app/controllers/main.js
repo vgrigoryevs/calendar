@@ -240,6 +240,10 @@ function showCalendar(year, month){
 		    left: "4%"
 		
 		});
+		
+	if(OS_IOS) { 
+		table.top = 70;
+	} 
 	
 	//Handler for date picking
 	
@@ -250,6 +254,10 @@ function showCalendar(year, month){
     				labelId: selectedDate.labelId
     			},
     			dateView = Alloy.createController("dateview", args).getView();
+    			if($.contain.menuOn){
+	    			$.contain.menuOn = false;
+					$.contain.remove($.contain.children[4]);
+				}
     			
 				if(OS_IOS) { 
 				   Alloy.Globals.mainWindow.openWindow(dateView);
@@ -328,12 +336,16 @@ function indexMenuBtnClick(){
 		var win = Ti.UI.createView({
 			right: 0,
 			top: 60,
-			width: 300,
+			width: "100%",
 			height: 100,
 			backgroundColor:  "#BBBBB3",
 			zIndex: 100,
 			opacity: 0
 		});
+		
+		if(OS_IOS) { 
+			win.top = 0;
+		} 
 		
 		var newBtn = Ti.UI.createLabel({
 			text: "Добавить запись",
@@ -474,6 +486,10 @@ var image = $.backImage;
 if(f.exists()){
 	image.image = f;
 }
+
+if(OS_IOS) { 
+	$.navigationView.top = 20;
+} 
 
 //Calendar initialization with current month
 var d = moment();

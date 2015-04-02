@@ -1,7 +1,7 @@
 <Alloy>
 	<Collection src="note"/>
 	<Window id="contain" class="container">	
-		<RightNavButton onClick="indexMenuBtnClick" systemButton="ACTION"/>
+		<RightNavButton onClick="indexMenuBtnClick" platform="ios" systemButton="ACTION"/>
 		<ImageView id="backImage"></ImageView>
 		
 		<View id="indexMenu" platform="android">
