@@ -220,10 +220,63 @@ function guestsChange(e){
 	thisNote.attributes.guests = e.value;
 }
 
+function guestsPlaceholder() {
+	var textArea = $.tabView.children[4].children[1];
+	textArea._hintText = "Гости";
+	
+	if(textArea.value === "") {
+		textArea.value = "Гости";
+		textArea.color = "gray";
+	}
+	 
+	textArea.addEventListener('focus',function(e){
+	    if(e.source.value == e.source._hintText){
+	        e.source.value = "";
+	        e.source.color = "black";
+	    }
+	});
+	textArea.addEventListener('blur',function(e){
+	    if(e.source.value==""){
+	        e.source.value = e.source._hintText;
+	        e.source.color = "gray";
+	    }
+	});
+}
+
+if(OS_IOS) { 
+	guestsPlaceholder();
+}
+
 function descriptionChange(e){
 	thisNote.attributes.description = e.value;
 }
 
+function descrPlaceholder() {
+	var textArea = $.tabView.children[5].children[1];
+	textArea._hintText = "Описание";
+	
+	if(textArea.value === "") {
+		textArea.value = "Описание";
+		textArea.color = "gray";
+	}
+	 
+	textArea.addEventListener('focus',function(e){
+	    if(e.source.value == e.source._hintText){
+	        e.source.value = "";
+	        e.source.color = "black";
+	    }
+	});
+	textArea.addEventListener('blur',function(e){
+	    if(e.source.value==""){
+	        e.source.value = e.source._hintText;
+	        e.source.color = "gray";
+	    }
+	});
+}
+
+if(OS_IOS) { 
+	descrPlaceholder();
+}
 
 function colorClick(e) {
 	var data = [];
