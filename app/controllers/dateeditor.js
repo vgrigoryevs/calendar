@@ -311,31 +311,49 @@ if(OS_IOS) {
 }
 
 function colorClick(e) {
-	var data = [];
-	data[0]=Ti.UI.createTableViewRow({title:'Белый', colorBack:"white"});
-	data[1]=Ti.UI.createTableViewRow({title:'Красный', colorBack:"red"});
-	data[2]=Ti.UI.createTableViewRow({title:'Зеленый', colorBack:"green"});
-	data[3]=Ti.UI.createTableViewRow({title:'Синий', colorBack:"blue"});
-	data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', colorBack:"orange"});
-	data[5]=Ti.UI.createTableViewRow({title:'Розовый', colorBack:"pink"});
-	data[6]=Ti.UI.createTableViewRow({title:'Желтый', colorBack:"yellow"}); 
-	
-	var pickerTable = Ti.UI.createTableView({
-	    data: data
-	});
-	
-	pickerTable.addEventListener('click', function(e){
-		thisNote.attributes.color = e.source.colorBack;
-		$.tabView.children[6].children[1].backgroundColor = e.source.colorBack;
-	    pickerDialog.hide();
-	});
-	 
-	var pickerDialog = Ti.UI.createAlertDialog({
-	    androidView: pickerTable
-	});
-	pickerDialog.show();
-}
+	if (OS_ANDROID) { 
+		var data = [];
+		data[0]=Ti.UI.createTableViewRow({title:'Белый', colorBack:"white"});
+		data[1]=Ti.UI.createTableViewRow({title:'Красный', colorBack:"red"});
+		data[2]=Ti.UI.createTableViewRow({title:'Зеленый', colorBack:"green"});
+		data[3]=Ti.UI.createTableViewRow({title:'Синий', colorBack:"blue"});
+		data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', colorBack:"orange"});
+		data[5]=Ti.UI.createTableViewRow({title:'Розовый', colorBack:"pink"});
+		data[6]=Ti.UI.createTableViewRow({title:'Желтый', colorBack:"yellow"}); 
+		
+		var pickerTable = Ti.UI.createTableView({
+		    data: data
+		});
+		
+		pickerTable.addEventListener('click', function(e){
+			thisNote.attributes.color = e.source.colorBack;
+			$.tabView.children[6].children[1].backgroundColor = e.source.colorBack;
+		    pickerDialog.hide();
+		});
+		 
+		var pickerDialog = Ti.UI.createAlertDialog({
+		    androidView: pickerTable
+		});
+		pickerDialog.show();
+	}
+	if (OS_IOS) {
+		var myArray = ['Белый','Красный','Зеленый','Синий', 'Оранжевый', 'Розовый', 'Желтый'];
 
+		var opts = {
+			options: myArray,
+			selectedIndex: 0,
+		};
+			
+		var dialog = Ti.UI.createOptionDialog(opts);
+		
+		dialog.show();
+		dialog.addEventListener('click', onSelectDialog);
+			
+		function onSelectDialog(e){
+			alert(e.index);
+		}
+	}
+}
 
 $.editorWin.addEventListener('close', function() {
     $.destroy();

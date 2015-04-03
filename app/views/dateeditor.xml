@@ -60,6 +60,7 @@
 			<View class="viewRow">
 				<Label class="anno" text="Цвет"></Label>
 				<Label onClick="colorClick" right="10" width="67%" borderColor="black" id="colorLabel" backgroundColor="{color}"></Label>
+
 			</View>
 			
 		</ScrollView>	

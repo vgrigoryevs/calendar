@@ -488,6 +488,7 @@ if(OS_IOS) {
 $.contain.addEventListener('focus', function() {
 	if(Alloy.Globals.redrawIndex){
 		Alloy.Collections.note.fetch();
+		$.contain.remove($.contain.children[3]);
 		
 		showCalendar(y, mon);
 		Alloy.Globals.redrawIndex = false;
