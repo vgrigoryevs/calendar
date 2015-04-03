@@ -1,10 +1,8 @@
 <Alloy>
 	<Window class="container" id="dateWin">
 		<RightNavButton title="Добавить" platform="ios" onClick="addBtnTap"/>
-		
-		<Label id="dateLabel" text="gg" left="10" color="black" />
 		<View id="indexMenu" platform="android">
-			<Label text="" left="10" color="white" />
+			<Label id="dateLabel" text="" left="10" color="white" />
 			<Label text="Добавить" right="10" onClick="addBtnTap" color="white"/>
 		</View>
 	</Window>

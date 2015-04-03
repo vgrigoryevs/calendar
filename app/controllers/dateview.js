@@ -2,8 +2,13 @@ var args = arguments[0] || {},
 	parentId = args.labelId || "",
 	myNotes = Alloy.Collections.note,
 	win = $.dateWin;
-
-$.dateLabel.text = parentId;
+	
+if(OS_IOS) { 
+	win.title = parentId;
+} 
+if (OS_ANDROID) { 
+	$.dateLabel.text = parentId; 
+}
 
 function createTimeRow(time, i) {
   var row = Ti.UI.createView({
@@ -96,6 +101,10 @@ var scrollView = Ti.UI.createScrollView({
   top:60,
   contentHeight: 'auto'
 });
+
+if(OS_IOS) { 
+	scrollView.top = 0;
+} 
 
 for(var i = 0; i < 24; i++) {
 	var time ="" + i;

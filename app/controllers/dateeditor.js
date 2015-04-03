@@ -29,8 +29,6 @@ function getUsedDates(parentId) {
 			
 		}	
 	}
-	
-	console.log(timeArray);
 }
 
 
@@ -71,17 +69,18 @@ function transformFunction(model) {
 
  return transform;
 }
-      
 
-function saveBtnTap(event) {
+function saveBtnTap() {
 	thisNote.save();
 	Alloy.Collections.note.fetch();
 	
 	$.editorWin.close();
 }
 
-function removeBtnTap(event) {
+function removeBtnTap() {
 	thisNote.destroy();
+	Alloy.Collections.note.fetch();
+	
 	$.editorWin.close();
 }
 

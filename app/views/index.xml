@@ -2,4 +2,5 @@
 	<NavigationWindow id="navWindow" platform="ios">
 		<Require type="view" src="main" id="mainView"/>
 	</NavigationWindow>
+	<Require type="view" src="main" id="mainView" platform="android"/>
 </Alloy>

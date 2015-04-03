@@ -1,7 +1,13 @@
 <Alloy>
 	<Collection src="note" />
 	<Window class="container" id="editorWin">
-		<View id="dateEditorMenu">
+		<RightNavButtons platform=ios>
+			<Button systemButton="Ti.UI.iPhone.SystemButton.SAVE" onClick="saveBtnTap" />
+        	<Button systemButton="Ti.UI.iPhone.SystemButton.TRASH" onClick="removeBtnTap" />
+        </RightNavButtons>
+		
+		
+		<View id="dateEditorMenu" platform="android">
 			<Label text="Заметка" left="10" color="white" />
 			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" right="10" />
 			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap" color="white" right="80" />
