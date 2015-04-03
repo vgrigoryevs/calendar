@@ -265,10 +265,6 @@ function showCalendar(year, month){
 				if (OS_ANDROID) { 
 				   dateView.open(); 
 				}
-
-
-			 
-    		$.destroy();	
     	}
 	});
 	
@@ -380,8 +376,6 @@ function indexMenuBtnClick(){
 			if (OS_ANDROID) { 
 				dateEditor.open(); 
 			}
-			  
-	  		$.destroy();
 		});
 		
 		changeBack.addEventListener('click', function(e){
@@ -489,7 +483,16 @@ if(f.exists()){
 
 if(OS_IOS) { 
 	$.navigationView.top = 20;
-} 
+}
+
+$.contain.addEventListener('focus', function() {
+	if(Alloy.Globals.redrawIndex){
+		Alloy.Collections.note.fetch();
+		
+		showCalendar(y, mon);
+		Alloy.Globals.redrawIndex = false;
+	}
+});
 
 //Calendar initialization with current month
 var d = moment();
@@ -502,3 +505,4 @@ $.monthSelector.text = n + " " + y;
 Alloy.Collections.note.fetch();
  
 showCalendar(y, mon);
+Alloy.Globals.redrawIndex = false;

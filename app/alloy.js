@@ -10,3 +10,5 @@
 //
 // Alloy.Globals.someGlobalFunction = function(){};
 Alloy.Globals.mainWindow;
+Alloy.Globals.redrawIndex;
+Alloy.Globals.redrawEditor = false;

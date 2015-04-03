@@ -73,6 +73,8 @@ function transformFunction(model) {
 function saveBtnTap() {
 	thisNote.save();
 	Alloy.Collections.note.fetch();
+	Alloy.Globals.redrawIndex = true;
+	Alloy.Globals.redrawEditor = true;
 	
 	$.editorWin.close();
 }
@@ -80,6 +82,8 @@ function saveBtnTap() {
 function removeBtnTap() {
 	thisNote.destroy();
 	Alloy.Collections.note.fetch();
+	Alloy.Globals.redrawIndex = true;
+	Alloy.Globals.redrawEditor = true;
 	
 	$.editorWin.close();
 }
