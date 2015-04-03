@@ -350,7 +350,39 @@ function colorClick(e) {
 		dialog.addEventListener('click', onSelectDialog);
 			
 		function onSelectDialog(e){
-			alert(e.index);
+			switch (e.index) {
+			  case 0:
+				$.tabView.children[6].children[1].backgroundColor = "white";
+				thisNote.attributes.color = "white";
+			    break;
+			  case 1:
+				$.tabView.children[6].children[1].backgroundColor = "red";
+				thisNote.attributes.color = "red";
+			    break;
+			  case 2:
+				$.tabView.children[6].children[1].backgroundColor = "green";
+				thisNote.attributes.color = "green";
+			    break;
+			  case 3:
+				$.tabView.children[6].children[1].backgroundColor = "blue";
+				thisNote.attributes.color = "blue";
+			    break;
+			  case 4:
+			  	$.tabView.children[6].children[1].backgroundColor = "orange";
+				thisNote.attributes.color = "orange";
+			    break;
+			  case 5:
+			  	$.tabView.children[6].children[1].backgroundColor = "pink";
+				thisNote.attributes.color = "pink";
+			    break;
+			  case 6:
+			  	$.tabView.children[6].children[1].backgroundColor = "yellow";
+				thisNote.attributes.color = "yellow";
+			    break;
+			  default:
+				$.tabView.children[6].children[1].backgroundColor = "white";
+				thisNote.attributes.color = "white";
+			}
 		}
 	}
 }

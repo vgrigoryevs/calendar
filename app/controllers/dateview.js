@@ -19,6 +19,16 @@ if(OS_IOS) {
 } 
 if (OS_ANDROID) { 
 	$.dateLabel.text = parentId; 
+	
+	win.addEventListener('focus', function() {
+		if(Alloy.Globals.redrawEditor){
+			Alloy.Collections.note.fetch();
+			win.remove(win.children[1]);
+			
+			showEvents();
+			Alloy.Globals.redrawEditor = false;
+		}
+	});
 }
 
 function showEvents() {
