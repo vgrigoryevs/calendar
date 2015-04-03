@@ -41,10 +41,13 @@
 			
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
-				<View class="pickerContainer">
+				<View class="pickerContainer" platform="android">
 					<Label onClick="tillDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
 					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black" backgroundImage = "/img/picker.png"></Label>
-				</View>       		
+				</View>
+				
+					<Picker type="PICKER_TYPE_DATE_AND_TIME" />
+      		
 			</View>
 			
 			<View class="viewRow">

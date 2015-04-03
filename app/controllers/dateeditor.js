@@ -81,7 +81,13 @@ function saveBtnTap() {
 				output = output.slice(0, - 2);
 			}
 		}
-		alert(output);
+		var dialog = Ti.UI.createAlertDialog({
+		    message: output,
+		    ok: 'OK',
+		    title: 'Ошибка!'
+		});
+		
+		dialog.show();
 	}
 	else{
 		thisNote.save();
@@ -150,7 +156,13 @@ function fromDateClick(e){
             } 
             
             else if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
-            	alert("Дата должна быть меньше максимальной");
+            	var dialog = Ti.UI.createAlertDialog({
+				    message: 'Дата должна быть меньше максимальной',
+				    ok: 'ОК',
+				    title: 'Ошибка!'
+				});
+				
+				dialog.show();
             }
             
             else {
@@ -179,7 +191,13 @@ function fromTimeClick(e){
             	getUsedDates(thisNote.attributes.parent);
             	
             	if(timeArray[e.value.getHours()]){
-            		alert("Существует запись на это время");
+            		var dialog = Ti.UI.createAlertDialog({
+				    message: 'Существует запись на это время',
+				    ok: 'ОК',
+				    title: 'Ошибка!'
+				});
+				
+				dialog.show();
             	}
             	
             	else{
@@ -204,7 +222,13 @@ function tillDateClick(e){
             	Ti.API.info('user canceled dialog');
             } else {
             	if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
-            		alert("Дата должна быть больше начальной");
+            		var dialog = Ti.UI.createAlertDialog({
+				    message: 'Дата должна быть больше начальной',
+				    ok: 'ОК',
+				    title: 'Ошибка!'
+				});
+				
+				dialog.show();
             	}
             	
             	else{
@@ -232,11 +256,23 @@ function tillTimeClick(e){
             	getUsedDates(thisNote.attributes.parent);
             	
             	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
-            		alert("Время должно быть больше начального");
+            		var dialog = Ti.UI.createAlertDialog({
+				    message: 'Время должно быть больше начального',
+				    ok: 'ОК',
+				    title: 'Ошибка!'
+				});
+				
+				dialog.show();
             	}
             	
             	else if(timeArray[e.value.getHours()]){
-            		alert("Существует запись на это время");
+            		var dialog = Ti.UI.createAlertDialog({
+				    message: 'Существует запись на это время',
+				    ok: 'ОК',
+				    title: 'Ошибка!'
+				});
+				
+				dialog.show();
             	}
             	
             	else{
@@ -350,39 +386,10 @@ function colorClick(e) {
 		dialog.addEventListener('click', onSelectDialog);
 			
 		function onSelectDialog(e){
-			switch (e.index) {
-			  case 0:
-				$.tabView.children[6].children[1].backgroundColor = "white";
-				thisNote.attributes.color = "white";
-			    break;
-			  case 1:
-				$.tabView.children[6].children[1].backgroundColor = "red";
-				thisNote.attributes.color = "red";
-			    break;
-			  case 2:
-				$.tabView.children[6].children[1].backgroundColor = "green";
-				thisNote.attributes.color = "green";
-			    break;
-			  case 3:
-				$.tabView.children[6].children[1].backgroundColor = "blue";
-				thisNote.attributes.color = "blue";
-			    break;
-			  case 4:
-			  	$.tabView.children[6].children[1].backgroundColor = "orange";
-				thisNote.attributes.color = "orange";
-			    break;
-			  case 5:
-			  	$.tabView.children[6].children[1].backgroundColor = "pink";
-				thisNote.attributes.color = "pink";
-			    break;
-			  case 6:
-			  	$.tabView.children[6].children[1].backgroundColor = "yellow";
-				thisNote.attributes.color = "yellow";
-			    break;
-			  default:
-				$.tabView.children[6].children[1].backgroundColor = "white";
-				thisNote.attributes.color = "white";
-			}
+			var colors = ['white', 'red', 'green', 'blue', 'orange', 'pink', 'yellow'];
+			
+			$.tabView.children[6].children[1].backgroundColor = colors[e.index];
+			thisNote.attributes.color = colors[e.index];
 		}
 	}
 }
