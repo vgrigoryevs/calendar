@@ -6,6 +6,8 @@ var args = arguments[0] || {},
 	thisNote,
 	usedDates,
 	timeArray = [];
+	
+var iosModal = require('iosModal');
 
 Alloy.Collections.note.fetch();
 thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
@@ -141,60 +143,23 @@ function placeChange(e){
 function fromDateClick(e){
 	var picker = Ti.UI.createPicker({
 		type: Ti.UI.PICKER_TYPE_DATE,
-		bottom: 30
 	});
 	
 	var arr = thisNote.attributes.parent.split(".");
     
     if(OS_IOS) {
-    	var view = Titanium.UI.createView({
-    		bottom: -600,
-    		opacity: 0,
-  
-    	});
     	
-    	var buttonsHolder = Titanium.UI.createView({
-    		bottom: 0,
-    		height: 30,
-    		backgroundColor: 'white'
-    	});
+    	var modalPicker = iosModal.createModalPicker(
+    		picker,
+    		function(){
+    			alert(picker.value);
+    		},
+    		function(){
+    			$.editorWin.remove(modalPicker);
+    		}
+    	 );
     	
-    	var okBtn = Titanium.UI.createButton({
-    		left: 30,
-    		title: "OK"
-    	});
-    	
-    	var cancelBtn = Titanium.UI.createButton({
-    		right: 30,
-    		title: "Отмена"
-    	});
-    	
-    	var backgroundView = Titanium.UI.createView({
-    		height: "100%",
-    		bottom: 0,
-    		opacity: 0,
-    		backgroundColor: "gray"
-    	});
-    	
-    	
-    	var showPicker = Ti.UI.createAnimation();
-	    showPicker.duration = 300;
-	    showPicker.opacity = 1;
-	    showPicker.bottom = 0;
-	    
-	    var showModal = Ti.UI.createAnimation();
-	    showModal.duration = 300;
-	    showModal.opacity = "0.5";
-
-    	buttonsHolder.add(okBtn);
-    	buttonsHolder.add(cancelBtn);
-    	view.add(picker);
-    	view.add(buttonsHolder);
-    	
-    	$.editorWin.add(backgroundView);
-    	$.editorWin.add(view);
-    	backgroundView.animate(showModal);
-    	view.animate(showPicker);
+    	$.editorWin.add(modalPicker);
     }
     
     if(OS_ANDROID) { 
