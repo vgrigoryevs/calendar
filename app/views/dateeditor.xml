@@ -17,7 +17,7 @@
 				   dataCollection="note" 
 				   dataTransform="transformFunction"
 				   id="tabView" 
-				   top="20"
+				   top="80"
 				   layout="vertical"
 				   >
 			
@@ -41,12 +41,10 @@
 			
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
-				<View class="pickerContainer" platform="android">
+				<View class="pickerContainer">
 					<Label onClick="tillDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
 					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black" backgroundImage = "/img/picker.png"></Label>
 				</View>
-				
-					<Picker type="PICKER_TYPE_DATE_AND_TIME" />
       		
 			</View>
 			

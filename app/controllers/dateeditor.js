@@ -10,6 +10,10 @@ var args = arguments[0] || {},
 Alloy.Collections.note.fetch();
 thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
 
+if(OS_IOS) { 
+	$.tabView.top = 0;
+}
+
 function getUsedDates(parentId) {
 	usedDates = Alloy.Collections.note.where({parent: parentId});
 	timeArray = [];
@@ -137,42 +141,96 @@ function placeChange(e){
 function fromDateClick(e){
 	var picker = Ti.UI.createPicker({
 		type: Ti.UI.PICKER_TYPE_DATE,
+		bottom: 30
 	});
 	
 	var arr = thisNote.attributes.parent.split(".");
     
-    picker.showDatePickerDialog({
-    	value: new Date(arr[2],arr[1]-1,arr[0]),
-    	callback: function(e) {
-    		if(!e.cancel){
-    			e.value.setHours(0);
-    			e.value.setMinutes(0);
-    			e.value.setSeconds(0);
-    			e.value.setMilliseconds(0);
-    		}
-     		
-        	if (e.cancel) {
-            	Ti.API.info('user canceled dialog');
-            } 
-            
-            else if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
-            	var dialog = Ti.UI.createAlertDialog({
-				    message: 'Дата должна быть меньше максимальной',
-				    ok: 'ОК',
-				    title: 'Ошибка!'
-				});
-				
-				dialog.show();
-            }
-            
-            else {
-            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-            	thisNote.attributes.dateFrom = e.value.getDate();
-            	thisNote.attributes.monthNumber = e.value.getMonth();
-                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-            }
-        }
-    });
+    if(OS_IOS) {
+    	var view = Titanium.UI.createView({
+    		bottom: -600,
+    		opacity: 0,
+  
+    	});
+    	
+    	var buttonsHolder = Titanium.UI.createView({
+    		bottom: 0,
+    		height: 30,
+    		backgroundColor: 'white'
+    	});
+    	
+    	var okBtn = Titanium.UI.createButton({
+    		left: 30,
+    		title: "OK"
+    	});
+    	
+    	var cancelBtn = Titanium.UI.createButton({
+    		right: 30,
+    		title: "Отмена"
+    	});
+    	
+    	var backgroundView = Titanium.UI.createView({
+    		height: "100%",
+    		bottom: 0,
+    		opacity: 0,
+    		backgroundColor: "gray"
+    	});
+    	
+    	
+    	var showPicker = Ti.UI.createAnimation();
+	    showPicker.duration = 300;
+	    showPicker.opacity = 1;
+	    showPicker.bottom = 0;
+	    
+	    var showModal = Ti.UI.createAnimation();
+	    showModal.duration = 300;
+	    showModal.opacity = "0.5";
+
+    	buttonsHolder.add(okBtn);
+    	buttonsHolder.add(cancelBtn);
+    	view.add(picker);
+    	view.add(buttonsHolder);
+    	
+    	$.editorWin.add(backgroundView);
+    	$.editorWin.add(view);
+    	backgroundView.animate(showModal);
+    	view.animate(showPicker);
+    }
+    
+    if(OS_ANDROID) { 
+	    picker.showDatePickerDialog({
+	    	value: new Date(arr[2],arr[1]-1,arr[0]),
+	    	callback: function(e) {
+	    		if(!e.cancel){
+	    			e.value.setHours(0);
+	    			e.value.setMinutes(0);
+	    			e.value.setSeconds(0);
+	    			e.value.setMilliseconds(0);
+	    		}
+	     		
+	        	if (e.cancel) {
+	            	Ti.API.info('user canceled dialog');
+	            } 
+	            
+	            else if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
+	            	var dialog = Ti.UI.createAlertDialog({
+					    message: 'Дата должна быть меньше максимальной',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            }
+	            
+	            else {
+	            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	thisNote.attributes.dateFrom = e.value.getDate();
+	            	thisNote.attributes.monthNumber = e.value.getMonth();
+	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            }
+	        }
+	    });
+    }
 }
 
 function fromTimeClick(e){
