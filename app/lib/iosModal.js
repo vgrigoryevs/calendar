@@ -18,6 +18,9 @@ exports.createModalPicker = function(picker, saveBtnTap, cancelBtnTap) {
 	    	});
 	    	
 	    	okBtn.addEventListener('click', function(){
+	    		backgroundView.animate(closeModal);
+	    		view.animate(closePicker);
+	    		
 	    		saveBtnTap();
 	    	});
 	    	

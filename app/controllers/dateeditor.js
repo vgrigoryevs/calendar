@@ -141,18 +141,43 @@ function placeChange(e){
 }
 
 function fromDateClick(e){
+	var arr = thisNote.attributes.parent.split(".");
+	
 	var picker = Ti.UI.createPicker({
 		type: Ti.UI.PICKER_TYPE_DATE,
+		value: new Date(2015,0,1,0,0,0,0)
 	});
-	
-	var arr = thisNote.attributes.parent.split(".");
     
     if(OS_IOS) {
     	
     	var modalPicker = iosModal.createModalPicker(
     		picker,
     		function(){
-    			alert(picker.value);
+    			var e = picker;
+    			
+    			var abc = picker.value;
+    			abc.setHours(2);
+    			abc.setMinutes(22);
+	    		alert(abc);
+	    		
+	    		if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
+	            	var dialog = Ti.UI.createAlertDialog({
+					    message: 'Дата должна быть меньше максимальной',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            }
+	            
+	            else {
+	            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	thisNote.attributes.dateFrom = e.value.getDate();
+	            	thisNote.attributes.monthNumber = e.value.getMonth();
+	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            }
+	    			
+    			$.editorWin.remove(modalPicker);
     		},
     		function(){
     			$.editorWin.remove(modalPicker);
