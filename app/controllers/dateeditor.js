@@ -71,12 +71,44 @@ function transformFunction(model) {
 }
 
 function saveBtnTap() {
-	thisNote.save();
-	Alloy.Collections.note.fetch();
-	Alloy.Globals.redrawIndex = true;
-	Alloy.Globals.redrawEditor = true;
+	var validation = checkValidation();
+	if(validation) {
+		var output = "Заполните необходимые поля: ";
+		for(var i = 0; i < validation.length; i++){
+			output += validation[i] + ", ";
+			
+			if(i === validation.length - 1) {
+				output = output.slice(0, - 2);
+			}
+		}
+		alert(output);
+	}
+	else{
+		thisNote.save();
+		Alloy.Collections.note.fetch();
+		Alloy.Globals.redrawIndex = true;
+		Alloy.Globals.redrawEditor = true;
+		
+		$.editorWin.close();
+	}
+}
+
+function checkValidation() {
+	var output = [];
+	if(thisNote.attributes.title === ""){
+		output.push("Что");
+	}
+	if(thisNote.attributes.place === ""){
+		output.push("Где");
+	}
+	if(thisNote.attributes.description === ""){
+		output.push("Описание");
+	}
 	
-	$.editorWin.close();
+	if(output.length > 0){
+		return output;
+	}
+	return false;
 }
 
 function removeBtnTap() {
