@@ -59,11 +59,21 @@ function showEvents() {
 	  return row;
 	}
 
-	function createDescRow(time, labelText, backColor, i, hoursTill) {
+	function createDescRow(time, labelText, backColor, i, hoursTill, hoursFrom, noteTill, dateTill, dateFrom) {
 		var duration = hoursTill - time;
 		
 		if(duration === 0){
 			duration = 1;
+		}
+		
+		if(dateTill > dateFrom) {
+			duration = 24 - hoursFrom;
+		}
+		
+		
+		if(noteTill == 23) {
+			duration = duration +1;
+			
 		}
 		
 		
@@ -92,6 +102,10 @@ function showEvents() {
 		});
 		
 	  if(duration > 1) {
+	  	row.zIndex = 999;
+	  }
+	  
+	  else if(dateTill > dateFrom) {
 	  	row.zIndex = 999;
 	  }
 	  
@@ -142,16 +156,24 @@ function showEvents() {
 			var labelText = note.attributes.description;
 			var backColor = note.attributes.color;
 			var hoursTill = note.attributes.hoursTill;
+			var hoursFrom = note.attributes.hoursFrom;
+			var noteTill = note.attributes.hoursTill;
+			var dateTill = note.attributes.dateTill;
+			var dateFrom = note.attributes.dateFrom;
 		}
 		else{
 			var labelText = "";
 			var backColor = "white";
 			var hoursTill = i + 1;
+			var hoursFrom = false;
+			var noteTill = false;
+			var dateTill = false;
+			var dateFrom = false;
 		}
 		//End of grabin
 		
 		var row = createTimeRow(time, i);
-		var descRow = createDescRow(time, labelText, backColor, i, hoursTill);
+		var descRow = createDescRow(time, labelText, backColor, i, hoursTill, hoursFrom, noteTill, dateTill, dateFrom);
 	  	scrollView.add(row);
 	  	scrollView.add(descRow);
 	}

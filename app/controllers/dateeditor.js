@@ -43,10 +43,10 @@ function filterFunction(collection) {
 		var note = Alloy.createModel('note', {
 			"title": "",
 		    "place": "",
-		    "dateFrom": today.getDate(),
+		    "dateFrom": +(parentId.split(".")[0]),
 		    "hoursFrom": hours,
 		    "hoursTill": hoursTill,
-		    "dateTill": today.getDate(),
+		    "dateTill": +(parentId.split(".")[0]),
 		    "guests": "",
 		    "description": "",
 		    "color": "white",
@@ -70,8 +70,10 @@ function transformFunction(model) {
     var transform = model.toJSON();
  // Example of creating a custom attribute, reference in the view using {custom}
     transform.custom = transform.parent + " " + transform.hoursFrom;
+    transform.dateTill = parseInt(transform.dateTill, 10);
     transform.customHoursFrom = transform.hoursFrom + " : " + "00";
     transform.customHoursTill = transform.hoursTill + " : " + "00";
+    transform.customDateTill = transform.dateTill + "." + (transform.monthNumber + 1) + "." + transform.yearNumber;
 
  return transform;
 }
@@ -96,12 +98,42 @@ function saveBtnTap() {
 		dialog.show();
 	}
 	else{
-		thisNote.save();
+		thisNote.save();		
+		
+		if(thisNote.attributes.dateTill > thisNote.attributes.dateFrom) {
+			for(var i = 1; i <= thisNote.attributes.dateTill - thisNote.attributes.dateFrom; i++){
+				var parent = thisNote.attributes.parent.split(".");
+					parent[0] = (+parent[0]) + i;
+					parent = parent.join(".");
+				
+				var note = Alloy.createModel('note', {
+					"title": thisNote.attributes.title,
+				    "place": thisNote.attributes.place,
+				    "dateFrom": thisNote.attributes.dateTill,
+				    "hoursFrom": "00",
+				    "hoursTill": thisNote.attributes.hoursTill,
+				    "dateTill": thisNote.attributes.dateTill,
+				    "guests": thisNote.attributes.guests,
+				    "description": thisNote.attributes.description,
+				    "color": thisNote.attributes.color,
+				    "monthNumber": thisNote.attributes.monthNumber,
+				    "yearNumber": thisNote.attributes.yearNumber,
+				    "parent": parent
+				});
+				
+				Alloy.Collections.note.add(note);
+				note.save();
+			}
+		}
+		
+		
+		
+		
 		Alloy.Collections.note.fetch();
 		Alloy.Globals.redrawIndex = true;
 		Alloy.Globals.redrawEditor = true;
-		
 		$.editorWin.close();
+
 	}
 }
 
@@ -124,6 +156,20 @@ function checkValidation() {
 }
 
 function removeBtnTap() {
+	
+	if(thisNote.attributes.dateTill > thisNote.attributes.dateFrom) {
+		for(var i = 1; i <= thisNote.attributes.dateTill - thisNote.attributes.dateFrom; i++){
+			var parent = thisNote.attributes.parent.split(".");
+			
+			parent[0] = (+parent[0]) + i;
+			parent = parent.join(".");
+				
+			Alloy.Collections.note.where({parent: parent})[0].destroy();
+		}	
+	}
+	
+	
+	
 	thisNote.destroy();
 	Alloy.Collections.note.fetch();
 	Alloy.Globals.redrawIndex = true;
@@ -210,7 +256,7 @@ function fromDateClick(e){
 	            
 	            else {
 	            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-	            	thisNote.attributes.dateFrom = e.value.getDate();
+	            	thisNote.attributes.dateFrom = +(e.value.getDate());
 	            	thisNote.attributes.monthNumber = e.value.getMonth();
 	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            }
@@ -310,7 +356,6 @@ function tillDateClick(e){
     		picker,
     		function(){
     			var e = picker;
-	    		
 	    		if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
 	            	var dialog = Ti.UI.createAlertDialog({
 				    	message: 'Дата должна быть больше начальной',
@@ -322,7 +367,7 @@ function tillDateClick(e){
 	            	}
 	            	
 	            else{
-	            	thisNote.attributes.dateTill = e.value.getDate();
+	            	thisNote.attributes.dateTill = +(e.value.getDate());
 	               	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            }
 	    			
@@ -355,7 +400,7 @@ function tillDateClick(e){
 	            	}
 	            	
 	            	else{
-	            		thisNote.attributes.dateTill = e.value.getDate();
+	            		thisNote.attributes.dateTill = +(e.value.getDate());
 	                	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            	}
 	            }

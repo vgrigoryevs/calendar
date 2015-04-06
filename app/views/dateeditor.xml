@@ -39,7 +39,7 @@
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
-					<Label class="dateLabel" onClick="tillDateClick" text="{parent}"></Label>
+					<Label class="dateLabel" onClick="tillDateClick" text="{customDateTill}"></Label>
 					<Label class="timeLabel" onClick="tillTimeClick" text="{customHoursTill}"></Label>
 				</View>
       		

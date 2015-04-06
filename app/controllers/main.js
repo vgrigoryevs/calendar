@@ -321,7 +321,7 @@ $.after.addEventListener('click', function(){
 });
 
 $.contain.addEventListener('swipe', function(e) {
-   if (e.direction == 'left') {
+   if (e.direction == 'right') {
    		if($.contain.menuOn){
 			$.contain.menuOn = false;
 			$.contain.remove($.contain.children[4]);
@@ -341,7 +341,7 @@ $.contain.addEventListener('swipe', function(e) {
 	    $.monthSelector.text = n + " " + y;
 	    showCalendar(y, mon);
    
-   } else if (e.direction == 'right') {
+   } else if (e.direction == 'left') {
 		if($.contain.menuOn){
 			$.contain.menuOn = false;
 			$.contain.remove($.contain.children[4]);
