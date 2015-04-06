@@ -11,9 +11,9 @@
 		</View>
 			
 		<View id="navigationView">
-			<Label id="before" class="labels" text="<"></Label>	
+			<Label id="before" class="labels"></Label>	
 			<Label id="monthSelector" class="labels" ></Label>
-			<Label id="after" class="labels" text=">"></Label>
+			<Label id="after" class="labels"></Label>
 		</View>	
 		
 	</Window>

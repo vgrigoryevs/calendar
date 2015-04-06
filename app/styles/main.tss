@@ -30,9 +30,11 @@
 },
 
 "#before" : {
-	left: 0
+	left: 0,
+	text: "<"
 },
 
 "#after" : {
-	right: 0
+	right: 0,
+	text: ">"
 }

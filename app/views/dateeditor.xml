@@ -7,20 +7,18 @@
         </RightNavButtons>
 		
 		<View id="dateEditorMenu" platform="android">
-			<Label text="Заметка" left="10" color="white" />
-			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" right="10" />
-			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap" color="white" right="80" />
+			<Label text="Заметка" id="noteLabel" />
+			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" />
+			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap"/>
 		</View>		
 				
 		<ScrollView dataFilter="filterFunction" 
 				   dataCollection="note" 
 				   dataTransform="transformFunction"
 				   id="tabView" 
-				   top="80"
-				   layout="vertical"
 				   >
 			
-			<View height="50">
+			<View id="firstRow">
 				<Label class="anno" text="Что"></Label>
 				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</View>
@@ -33,16 +31,16 @@
 			<View class="viewRow">
 				<Label class="anno" text="С"></Label>
 				<View class="pickerContainer">
-					<Label onClick="fromDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
-					<Label onClick="fromTimeClick" right="20" text="{customHoursFrom}" color="black" backgroundImage = "/img/picker.png"></Label>
+					<Label class="dateLabel" onClick="fromDateClick" text="{parent}"></Label>
+					<Label class="timeLabel" onClick="fromTimeClick" text="{customHoursFrom}"></Label>
 				</View>		
 			</View>
 			
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
-					<Label onClick="tillDateClick" left="20" text="{parent}" color="black" backgroundImage = "/img/picker.png"></Label>
-					<Label onClick="tillTimeClick" right="20" text="{customHoursTill}" color="black" backgroundImage = "/img/picker.png"></Label>
+					<Label class="dateLabel" onClick="tillDateClick" text="{parent}"></Label>
+					<Label class="timeLabel" onClick="tillTimeClick" text="{customHoursTill}"></Label>
 				</View>
       		
 			</View>
@@ -59,7 +57,7 @@
 			
 			<View class="viewRow">
 				<Label class="anno" text="Цвет"></Label>
-				<Label onClick="colorClick" right="10" width="67%" borderColor="black" id="colorLabel" backgroundColor="{color}"></Label>
+				<Label onClick="colorClick" id="colorLabel" backgroundColor="{color}"></Label>
 
 			</View>
 			

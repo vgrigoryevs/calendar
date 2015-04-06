@@ -2,8 +2,8 @@
 	<Window class="container" id="dateWin">
 		<RightNavButton title="Добавить" platform="ios" onClick="addBtnTap"/>
 		<View id="indexMenu" platform="android">
-			<Label id="dateLabel" text="" left="10" color="white" />
-			<Label text="Добавить" right="10" onClick="addBtnTap" color="white"/>
+			<Label id="dateLabel"/>
+			<Label id="addLabel" onClick="addBtnTap" />
 		</View>
 	</Window>
 </Alloy>

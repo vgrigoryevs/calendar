@@ -36,4 +36,45 @@
 ".pickerContainer" : {
 	width: "67%",
 	right: 10
+},
+
+"#noteLabel" : {
+	left: 10,
+	color: "white"
+},
+
+"#saveBtn" : {
+	left: 10
+},
+
+"#removeBtn" : {
+	color: "white",
+	right: 80
+},
+
+"#tabView" : {
+	top: 80,
+	layout: "vertical"
+},
+
+"#firstRow" : {
+	height: 50
+},
+
+".dateLabel" : {
+	left: 20,
+	color: "black",
+	backgroundImage: "/img/picker.png"
+},
+
+".timeLabel" : {
+	right: 20,
+	color: "black",
+	backgroundImage: "/img/picker.png"
+},
+
+"#colorLabel" : {
+	 right: 10,
+	 width: "67%",
+	 borderColor: "black"
 }

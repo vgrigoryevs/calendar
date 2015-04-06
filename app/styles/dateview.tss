@@ -1,9 +1,21 @@
-".container": {
+".container" : {
 	backgroundColor:"white"
 },
 
-"#indexMenu": {
+"#indexMenu" : {
 	backgroundColor: "#0E1E31",
 	height: 60,
 	top: 0
+},
+
+"#dateLabel" : {
+	left: 10,
+	color: "white",
+	text: "" 
+},
+
+"#addLabel" : {
+	right: 10,
+	color: "white",
+	text: "Добавить"
 }
