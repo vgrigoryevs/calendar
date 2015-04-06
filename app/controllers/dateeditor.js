@@ -52,7 +52,8 @@ function filterFunction(collection) {
 		    "color": "white",
 		    "monthNumber": today.getMonth(),
 		    "yearNumber": today.getFullYear(),
-		    "parent": parentId
+		    "parent": parentId,
+		    "unicId": new Date()
 		});
 		
 		collection.add(note);
@@ -118,17 +119,15 @@ function saveBtnTap() {
 				    "color": thisNote.attributes.color,
 				    "monthNumber": thisNote.attributes.monthNumber,
 				    "yearNumber": thisNote.attributes.yearNumber,
-				    "parent": parent
+				    "parent": parent,
+				    "unicId": thisNote.attributes.unicId
 				});
 				
 				Alloy.Collections.note.add(note);
 				note.save();
 			}
 		}
-		
-		
-		
-		
+
 		Alloy.Collections.note.fetch();
 		Alloy.Globals.redrawIndex = true;
 		Alloy.Globals.redrawEditor = true;
@@ -158,18 +157,11 @@ function checkValidation() {
 function removeBtnTap() {
 	
 	if(thisNote.attributes.dateTill > thisNote.attributes.dateFrom) {
-		for(var i = 1; i <= thisNote.attributes.dateTill - thisNote.attributes.dateFrom; i++){
-			var parent = thisNote.attributes.parent.split(".");
-			
-			parent[0] = (+parent[0]) + i;
-			parent = parent.join(".");
-				
-			Alloy.Collections.note.where({parent: parent})[0].destroy();
+		while(Alloy.Collections.note.where({unicId: thisNote.attributes.unicId})[0]){
+			Alloy.Collections.note.where({unicId: thisNote.attributes.unicId})[0].destroy();
 		}	
 	}
-	
-	
-	
+
 	thisNote.destroy();
 	Alloy.Collections.note.fetch();
 	Alloy.Globals.redrawIndex = true;

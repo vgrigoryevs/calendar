@@ -13,6 +13,7 @@ exports.definition = {
 		    "monthNumber": "int",
 		    "yearNumber": "int",
 		    "parent": "text",
+		    "unicId": "text"
 		},
 		adapter: {
 			type: "sql",
