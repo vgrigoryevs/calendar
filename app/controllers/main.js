@@ -237,7 +237,8 @@ function showCalendar(year, month){
 		    data: tbl_data,
 		    separatorColor: "transparent",
 		    top: 120,
-		    left: "4%"
+		    left: "4%",
+		    backgroundColor: "transparent"
 		
 		});
 		
@@ -395,8 +396,8 @@ function indexMenuBtnClick(){
 			    dialog.addEventListener('click', onSelectDialog);
 			
 			function onSelectDialog(e){
-				alert(e.source.index);
-				if(e.source.selectedIndex === 0){//Camera choice
+
+				if(e.index === 0){//Camera choice
 					Titanium.Media.showCamera({
 						success:function(event) {
 							 var selectedImg = event.media;
@@ -422,7 +423,7 @@ function indexMenuBtnClick(){
 					 // allowEditing and mediaTypes are iOS-only settings
 					});
 				}
-				else if(e.source.selectedIndex === 1){//gallery choice	
+				else if(e.index === 1){//gallery choice	
 					Titanium.Media.openPhotoGallery({
 						success : function(event) {
 							var selectedImg = event.media;
@@ -445,7 +446,7 @@ function indexMenuBtnClick(){
 					});
 				}
 				
-				else if(e.source.selectedIndex === 2){
+				else if(e.index === 2){
 					var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory,'backgroundPicture.jpg');
 					if(f.exists()) {
 					   f.deleteFile();
@@ -477,6 +478,10 @@ var image = $.backImage;
 	image.width = "100%";
 	image.height = "100%";
 	image.opacity = "0.3";
+	
+if(OS_IOS) { 
+	image.top = 0;
+}
 
 if(f.exists()){
 	image.image = f;
