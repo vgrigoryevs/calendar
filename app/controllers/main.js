@@ -18,8 +18,8 @@ function showCalendar(year, month){
 	
 	var tbl_data = [],
 		today = new Date().getDate();
-		tableHeader = Ti.UI.createTableViewRow({height: "50"}),
-		weekRow = Ti.UI.createTableViewRow({height: "50"}),
+		tableHeader = Ti.UI.createTableViewRow({height: "50", selectedBackgroundColor: "transparent"}),
+		weekRow = Ti.UI.createTableViewRow({height: "50", selectedBackgroundColor: "transparent"}),
 		firstDay = new Date(year, month, 1).getDay(),
 		lastDay = new Date(year, month + 1, 0).getDate(),
 		counter = 1,
@@ -71,7 +71,7 @@ function showCalendar(year, month){
 	}
 	
 	else if(firstDay === 0) {
-		firstWeek = Ti.UI.createTableViewRow({height: "50"});
+		firstWeek = Ti.UI.createTableViewRow({height: "50", selectedBackgroundColor: "transparent"});
 		
 		for (var i = 0; i < 6; i++) {
 			var label = Ti.UI.createLabel({
@@ -111,7 +111,7 @@ function showCalendar(year, month){
 	}
 	
 	else {
-		firstWeek = Ti.UI.createTableViewRow({height: "50"});
+		firstWeek = Ti.UI.createTableViewRow({height: "50", selectedBackgroundColor: "transparent"});
 		
 		for (var i = 0; i < firstDay -1; i++) {
 			var label = Ti.UI.createLabel({
@@ -163,7 +163,7 @@ function showCalendar(year, month){
 			innerCounter = 0;
 			tbl_data.push(weekRow);
 			
-			weekRow = Ti.UI.createTableViewRow({height: "50"});
+			weekRow = Ti.UI.createTableViewRow({height: "50", selectedBackgroundColor: "transparent"});
 			
 			var label = Ti.UI.createLabel({
 					left: (innerCounter*14)+"%",
@@ -360,7 +360,7 @@ function indexMenuBtnClick(){
 		
 		var showMenu = Ti.UI.createAnimation();
 	    showMenu.duration = 300;
-	    showMenu.width = 300;
+	    showMenu.width = "100%";
 	    showMenu.height = 100;
 	    showMenu.right = 0;
 	    showMenu.opacity = 1;
