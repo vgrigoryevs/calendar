@@ -296,6 +296,7 @@ $.before.addEventListener('click', function(){
 	console.log("prev");
 });
 
+
 //Change to next month
 
 $.after.addEventListener('click', function(){
@@ -317,6 +318,49 @@ $.after.addEventListener('click', function(){
     
     $.monthSelector.text = n + " " + y;
     showCalendar(y, mon);
+});
+
+$.contain.addEventListener('swipe', function(e) {
+   if (e.direction == 'left') {
+   		if($.contain.menuOn){
+			$.contain.menuOn = false;
+			$.contain.remove($.contain.children[4]);
+		}
+	    
+		$.contain.remove($.contain.children[3]);
+		mon--;
+	    
+	    if(mon === -1){
+	    	y--;
+	    	mon = 11;
+	    }
+	    
+	    d.month(mon);
+	    n = d.format('MMMM').capitalizeFirstLetter();
+	    
+	    $.monthSelector.text = n + " " + y;
+	    showCalendar(y, mon);
+   
+   } else if (e.direction == 'right') {
+		if($.contain.menuOn){
+			$.contain.menuOn = false;
+			$.contain.remove($.contain.children[4]);
+		}
+    
+    	$.contain.remove($.contain.children[3]);
+    
+    	mon++;
+    
+	    if(mon === 12){
+	    	y++;
+	    	mon = 0;
+	    }
+	    d.month(mon);
+	    n = d.format('MMMM').capitalizeFirstLetter();
+	    
+	    $.monthSelector.text = n + " " + y;
+	    showCalendar(y, mon);
+   }
 });
 
 //Menu btns
