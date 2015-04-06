@@ -6,7 +6,6 @@
         	<Button systemButton="Ti.UI.iPhone.SystemButton.TRASH" onClick="removeBtnTap" />
         </RightNavButtons>
 		
-		
 		<View id="dateEditorMenu" platform="android">
 			<Label text="Заметка" left="10" color="white" />
 			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" right="10" />

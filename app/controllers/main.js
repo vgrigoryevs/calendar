@@ -395,6 +395,7 @@ function indexMenuBtnClick(){
 			    dialog.addEventListener('click', onSelectDialog);
 			
 			function onSelectDialog(e){
+				alert(e.source.index);
 				if(e.source.selectedIndex === 0){//Camera choice
 					Titanium.Media.showCamera({
 						success:function(event) {
@@ -439,7 +440,7 @@ function indexMenuBtnClick(){
 						},
 						
 						error : function(error) {
-						               // If any error occurs during the process
+							alert(error);
 						}
 					});
 				}

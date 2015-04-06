@@ -141,12 +141,13 @@ function placeChange(e){
 }
 
 function fromDateClick(e){
-	var arr = thisNote.attributes.parent.split(".");
-	
-	var picker = Ti.UI.createPicker({
-		type: Ti.UI.PICKER_TYPE_DATE,
-		value: new Date(2015,0,1,0,0,0,0)
-	});
+	var arr = thisNote.attributes.parent.split("."),
+		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
+		
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE,
+			value: new Date(Date.UTC(arr[2],arr[1]-1,arr[0], 0, 0, 0, 0))
+		});
     
     if(OS_IOS) {
     	
@@ -154,13 +155,8 @@ function fromDateClick(e){
     		picker,
     		function(){
     			var e = picker;
-    			
-    			var abc = picker.value;
-    			abc.setHours(2);
-    			abc.setMinutes(22);
-	    		alert(abc);
 	    		
-	    		if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
+	    		if( e.value > new Date(Date.UTC(tillArr[2],tillArr[1]-1,tillArr[0], 0, 0, 0, 0))){
 	            	var dialog = Ti.UI.createAlertDialog({
 					    message: 'Дата должна быть меньше максимальной',
 					    ok: 'ОК',
@@ -224,112 +220,246 @@ function fromDateClick(e){
 }
 
 function fromTimeClick(e){
-	var picker = Ti.UI.createPicker({
-	});
+		var arr = thisNote.attributes.parent.split("."),
+		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
+		
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_TIME,
+			value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom, 0, 0, 0)
+		});
     
-    var arr = thisNote.attributes.parent.split(".");
+    if(OS_IOS) {
+    	
+    	var modalPicker = iosModal.createModalPicker(
+    		picker,
+    		function(){
+    			var e = picker;
+    			
+    			var localString = e.value.toLocaleString().split(" "),
+	    			hours = localString[3].split(":")[0];
+    			
+	    		getUsedDates(thisNote.attributes.parent);
+	            	
+	            if(timeArray[e.value.getHours()]){
+	            	var dialog = Ti.UI.createAlertDialog({
+					    message: 'Существует запись на это время',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            }
+	            	
+	            else{
+		            thisNote.attributes.hoursFrom = hours;
+		            $.tabView.children[2].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
+				}        
+	    			
+    			$.editorWin.remove(modalPicker);
+    		},
+    		function(){
+    			$.editorWin.remove(modalPicker);
+    		}
+    	 );
+    	
+    	$.editorWin.add(modalPicker);
+    }
     
-    picker.showTimePickerDialog({
-    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom),
-    	callback: function(e) {
-        	if (e.cancel) {
-            	Ti.API.info('user canceled dialog');
-            } else {
-            	
-            	getUsedDates(thisNote.attributes.parent);
-            	
-            	if(timeArray[e.value.getHours()]){
-            		var dialog = Ti.UI.createAlertDialog({
-				    message: 'Существует запись на это время',
-				    ok: 'ОК',
-				    title: 'Ошибка!'
-				});
-				
-				dialog.show();
-            	}
-            	
-            	else{
-	            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
-	            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
-				}            
-            }
-        }
-    });
-}
+    if(OS_ANDROID) { 
+    
+	    picker.showTimePickerDialog({
+	    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom),
+	    	callback: function(e) {
+	        	if (e.cancel) {
+	            	Ti.API.info('user canceled dialog');
+	            } else {
+	            	
+	            	getUsedDates(thisNote.attributes.parent);
+	            	
+	            	if(timeArray[e.value.getHours()]){
+	            		var dialog = Ti.UI.createAlertDialog({
+					    message: 'Существует запись на это время',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else{
+		            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
+		            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+					}            
+	            }
+	        }
+	    });
+	}
+}	
 
 function tillDateClick(e){
-	var picker = Ti.UI.createPicker({
-	});
+	var arr = thisNote.attributes.parent.split("."),
+		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_DATE,
+			value: new Date(Date.UTC(arr[2],arr[1]-1,arr[0], 0, 0, 0, 0))
+		});
     
-    var arr = thisNote.attributes.parent.split(".");
+    if(OS_IOS) {
+    	
+    	var modalPicker = iosModal.createModalPicker(
+    		picker,
+    		function(){
+    			var e = picker;
+	    		
+	    		if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
+	            	var dialog = Ti.UI.createAlertDialog({
+				    	message: 'Дата должна быть больше начальной',
+				    	ok: 'ОК',
+				    	title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            else{
+	            	thisNote.attributes.dateTill = e.value.getDate();
+	               	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            }
+	    			
+    			$.editorWin.remove(modalPicker);
+    		},
+    		function(){
+    			$.editorWin.remove(modalPicker);
+    		}
+    	 );
+    	
+    	$.editorWin.add(modalPicker);
+    }
     
-    picker.showDatePickerDialog({
-    	value: new Date(arr[2],arr[1]-1,arr[0]),
-    	callback: function(e) {
-        	if (e.cancel) {
-            	Ti.API.info('user canceled dialog');
-            } else {
-            	if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
-            		var dialog = Ti.UI.createAlertDialog({
-				    message: 'Дата должна быть больше начальной',
-				    ok: 'ОК',
-				    title: 'Ошибка!'
-				});
-				
-				dialog.show();
-            	}
-            	
-            	else{
-            		thisNote.attributes.dateTill = e.value.getDate();
-                	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-            	}
-            }
-        }
-    });
+    if(OS_ANDROID) { 
+    
+	    picker.showDatePickerDialog({
+	    	value: new Date(arr[2],arr[1]-1,arr[0]),
+	    	callback: function(e) {
+	        	if (e.cancel) {
+	            	Ti.API.info('user canceled dialog');
+	            } else {
+	            	if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
+	            		var dialog = Ti.UI.createAlertDialog({
+					    message: 'Дата должна быть больше начальной',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else{
+	            		thisNote.attributes.dateTill = e.value.getDate();
+	                	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	}
+	            }
+	        }
+	    });
+	}
 }
 
 function tillTimeClick(e){
-	var picker = Ti.UI.createPicker({
-	});
+		var arr = thisNote.attributes.parent.split("."),
+		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
+		
+		picker = Ti.UI.createPicker({
+			type: Ti.UI.PICKER_TYPE_TIME,
+			value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill, 0, 0, 0)
+		});
+    	
+    if(OS_IOS) {
+    	
+    	var modalPicker = iosModal.createModalPicker(
+    		picker,
+    		function(){
+				var e = picker;
+
+	    		var localString = e.value.toLocaleString().split(" "),
+	    			hours = localString[3].split(":")[0];
+
+	    		
+	    		getUsedDates(thisNote.attributes.parent);
+	            	
+	            if(hours < thisNote.attributes.hoursFrom){
+	            	var dialog = Ti.UI.createAlertDialog({
+					    message: 'Время должно быть больше начального',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else if(timeArray[+hours]){
+	            		var dialog = Ti.UI.createAlertDialog({
+					    message: 'Существует запись на это время',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else{
+	            	thisNote.attributes.hoursTill = hours;
+	            	$.tabView.children[3].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
+	            	}
+	    			
+    			$.editorWin.remove(modalPicker);
+    		},
+    		function(){
+    			$.editorWin.remove(modalPicker);
+    		}
+    	 );
+    	
+    	$.editorWin.add(modalPicker);
+    }
     
-    var arr = thisNote.attributes.parent.split(".");
+    if(OS_ANDROID) { 
     
-    picker.showTimePickerDialog({
-    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill),
-    	callback: function(e) {
-        	if (e.cancel) {
-            	Ti.API.info('user canceled dialog');
-            } else {
-            	
-            	getUsedDates(thisNote.attributes.parent);
-            	
-            	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
-            		var dialog = Ti.UI.createAlertDialog({
-				    message: 'Время должно быть больше начального',
-				    ok: 'ОК',
-				    title: 'Ошибка!'
-				});
-				
-				dialog.show();
-            	}
-            	
-            	else if(timeArray[e.value.getHours()]){
-            		var dialog = Ti.UI.createAlertDialog({
-				    message: 'Существует запись на это время',
-				    ok: 'ОК',
-				    title: 'Ошибка!'
-				});
-				
-				dialog.show();
-            	}
-            	
-            	else{
-            	thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
-            	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
-            	}
-            }
-        }
-    });
+	    picker.showTimePickerDialog({
+	    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill),
+	    	callback: function(e) {
+	        	if (e.cancel) {
+	            	Ti.API.info('user canceled dialog');
+	            } else {
+	            	
+	            	getUsedDates(thisNote.attributes.parent);
+	            	
+	            	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
+	            		var dialog = Ti.UI.createAlertDialog({
+					    message: 'Время должно быть больше начального',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else if(timeArray[e.value.getHours()]){
+	            		var dialog = Ti.UI.createAlertDialog({
+					    message: 'Существует запись на это время',
+					    ok: 'ОК',
+					    title: 'Ошибка!'
+					});
+					
+					dialog.show();
+	            	}
+	            	
+	            	else{
+	            	thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
+	            	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+	            	}
+	            }
+	        }
+	    });
+	}
 }
 
 function guestsChange(e){
