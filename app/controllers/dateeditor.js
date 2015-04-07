@@ -6,34 +6,58 @@ var args = arguments[0] || {},
 	thisNote,
 	usedDates,
 	timeArray = [];
-	
+
 var iosModal = require('iosModal');
 
 Alloy.Collections.note.fetch();
-thisNote = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
+var noteCol = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
+if (noteCol) {
+    $.thisNote.set(noteCol.toJSON());
+    alert(JSON.stringify($.thisNote.toJSON()));
+    transformFunction();
+} else {
+     $.thisNote.set( {
+            "title": "",
+            "place": "",
+            "dateFrom": +(parentId.split(".")[0]),
+            "hoursFrom": hours,
+            "hoursTill": hoursTill,
+            "dateTill": +(parentId.split(".")[0]),
+            "guests": "",
+            "description": "",
+            "color": "white",
+            "monthNumber": today.getMonth(),
+            "yearNumber": today.getFullYear(),
+            "parent": parentId,
+            "unicId": new Date()
+        });
 
-if(OS_IOS) { 
+        //$.groupDetail.set(emptyGroup);
+}
+transformFunction();
+
+if(OS_IOS) {
 	$.tabView.top = 0;
 }
 
 function getUsedDates(parentId) {
 	usedDates = Alloy.Collections.note.where({parent: parentId});
 	timeArray = [];
-	
+
 	for(child in usedDates) {
 		if(usedDates[child].attributes.hoursFrom != hours){
-		 
+
 			duration = usedDates[child].attributes.hoursTill - usedDates[child].attributes.hoursFrom;
-			
+
 			for(var i = 0; i <= duration; i++){
 				timeArray[(+usedDates[child].attributes.hoursFrom)+i] = true;
 			}
-			
+
 				if(duration === 1) {
 					timeArray[+usedDates[child].attributes.hoursTill] = undefined;
 				}
-			
-		}	
+
+		}
 	}
 }
 
@@ -55,11 +79,11 @@ function filterFunction(collection) {
 		    "parent": parentId,
 		    "unicId": new Date()
 		});
-		
+
 		collection.add(note);
 		return collection.where({parent: parentId, hoursFrom: hours});
 	}
-	
+
 	else {
 		return collection.where({parent: parentId, hoursFrom: hours});
 	}
@@ -68,7 +92,7 @@ function filterFunction(collection) {
 
 function transformFunction(model) {
  // Need to convert the model to a JSON object
-    var transform = model.toJSON();
+    var transform = $.thisNote.toJSON();
  // Example of creating a custom attribute, reference in the view using {custom}
     transform.custom = transform.parent + " " + transform.hoursFrom;
     transform.dateTill = parseInt(transform.dateTill, 10);
@@ -76,7 +100,9 @@ function transformFunction(model) {
     transform.customHoursTill = transform.hoursTill + " : " + "00";
     transform.customDateTill = transform.dateTill + "." + (transform.monthNumber + 1) + "." + transform.yearNumber;
 
- return transform;
+    $.thisNote.set(transform);
+
+    return transform;
 }
 
 function saveBtnTap() {
@@ -85,7 +111,7 @@ function saveBtnTap() {
 		var output = "Заполните необходимые поля: ";
 		for(var i = 0; i < validation.length; i++){
 			output += validation[i] + ", ";
-			
+
 			if(i === validation.length - 1) {
 				output = output.slice(0, - 2);
 			}
@@ -95,34 +121,34 @@ function saveBtnTap() {
 		    ok: 'OK',
 		    title: 'Ошибка!'
 		});
-		
+
 		dialog.show();
 	}
 	else{
-		thisNote.save();		
-		
-		if(thisNote.attributes.dateTill > thisNote.attributes.dateFrom) {
-			for(var i = 1; i <= thisNote.attributes.dateTill - thisNote.attributes.dateFrom; i++){
-				var parent = thisNote.attributes.parent.split(".");
+		$.thisNote.save();
+
+		if($.thisNote.attributes.dateTill > $.thisNote.attributes.dateFrom) {
+			for(var i = 1; i <= $.thisNote.attributes.dateTill - $.thisNote.attributes.dateFrom; i++){
+				var parent = $.thisNote.attributes.parent.split(".");
 					parent[0] = (+parent[0]) + i;
 					parent = parent.join(".");
-				
+
 				var note = Alloy.createModel('note', {
-					"title": thisNote.attributes.title,
-				    "place": thisNote.attributes.place,
-				    "dateFrom": thisNote.attributes.dateTill,
+					"title": $.thisNote.attributes.title,
+				    "place": $.thisNote.attributes.place,
+				    "dateFrom": $.thisNote.attributes.dateTill,
 				    "hoursFrom": "00",
-				    "hoursTill": thisNote.attributes.hoursTill,
-				    "dateTill": thisNote.attributes.dateTill,
-				    "guests": thisNote.attributes.guests,
-				    "description": thisNote.attributes.description,
-				    "color": thisNote.attributes.color,
-				    "monthNumber": thisNote.attributes.monthNumber,
-				    "yearNumber": thisNote.attributes.yearNumber,
+				    "hoursTill": $.thisNote.attributes.hoursTill,
+				    "dateTill": $.thisNote.attributes.dateTill,
+				    "guests": $.thisNote.attributes.guests,
+				    "description": $.thisNote.attributes.description,
+				    "color": $.thisNote.attributes.color,
+				    "monthNumber": $.thisNote.attributes.monthNumber,
+				    "yearNumber": $.thisNote.attributes.yearNumber,
 				    "parent": parent,
-				    "unicId": thisNote.attributes.unicId
+				    "unicId": $.thisNote.attributes.unicId
 				});
-				
+
 				Alloy.Collections.note.add(note);
 				note.save();
 			}
@@ -131,6 +157,9 @@ function saveBtnTap() {
 		Alloy.Collections.note.fetch();
 		Alloy.Globals.redrawIndex = true;
 		Alloy.Globals.redrawEditor = true;
+		if (args.callbackFunction) {
+		    args.callbackFunction(true);
+		}
 		$.editorWin.close();
 
 	}
@@ -138,16 +167,16 @@ function saveBtnTap() {
 
 function checkValidation() {
 	var output = [];
-	if(thisNote.attributes.title === ""){
+	if($.thisNote.attributes.title === ""){
 		output.push("Что");
 	}
-	if(thisNote.attributes.place === ""){
+	if($.thisNote.attributes.place === ""){
 		output.push("Где");
 	}
-	if(thisNote.attributes.description === ""){
+	if($.thisNote.attributes.description === ""){
 		output.push("Описание");
 	}
-	
+
 	if(output.length > 0){
 		return output;
 	}
@@ -155,73 +184,73 @@ function checkValidation() {
 }
 
 function removeBtnTap() {
-	
-	if(thisNote.attributes.dateTill > thisNote.attributes.dateFrom) {
-		while(Alloy.Collections.note.where({unicId: thisNote.attributes.unicId})[0]){
-			Alloy.Collections.note.where({unicId: thisNote.attributes.unicId})[0].destroy();
-		}	
+
+	if($.thisNote.attributes.dateTill > $.thisNote.attributes.dateFrom) {
+		while(Alloy.Collections.note.where({unicId: $.thisNote.attributes.unicId})[0]){
+			Alloy.Collections.note.where({unicId: $.thisNote.attributes.unicId})[0].destroy();
+		}
 	}
 
-	thisNote.destroy();
+	$.thisNote.destroy();
 	Alloy.Collections.note.fetch();
 	Alloy.Globals.redrawIndex = true;
 	Alloy.Globals.redrawEditor = true;
-	
+
 	$.editorWin.close();
 }
 
 function titleChange(e){
-	thisNote.attributes.title = e.value;
+	$.thisNote.attributes.title = e.value;
 }
 
 function placeChange(e){
-	thisNote.attributes.place = e.value;
+	$.thisNote.attributes.place = e.value;
 }
 
 function fromDateClick(e){
-	var arr = thisNote.attributes.parent.split("."),
+	var arr = $.thisNote.attributes.parent.split("."),
 		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
-		
+
 		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_DATE,
 			value: new Date(Date.UTC(arr[2],arr[1]-1,arr[0], 0, 0, 0, 0))
 		});
-    
+
     if(OS_IOS) {
-    	
+
     	var modalPicker = iosModal.createModalPicker(
     		picker,
     		function(){
     			var e = picker;
-	    		
+
 	    		if( e.value > new Date(Date.UTC(tillArr[2],tillArr[1]-1,tillArr[0], 0, 0, 0, 0))){
 	            	var dialog = Ti.UI.createAlertDialog({
 					    message: 'Дата должна быть меньше максимальной',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            }
-	            
+
 	            else {
-	            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-	            	thisNote.attributes.dateFrom = e.value.getDate();
-	            	thisNote.attributes.monthNumber = e.value.getMonth();
+	            	$.thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	$.thisNote.attributes.dateFrom = e.value.getDate();
+	            	$.thisNote.attributes.monthNumber = e.value.getMonth();
 	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            }
-	    			
+
     			$.editorWin.remove(modalPicker);
     		},
     		function(){
     			$.editorWin.remove(modalPicker);
     		}
     	 );
-    	
+
     	$.editorWin.add(modalPicker);
     }
-    
-    if(OS_ANDROID) { 
+
+    if(OS_ANDROID) {
 	    picker.showDatePickerDialog({
 	    	value: new Date(arr[2],arr[1]-1,arr[0]),
 	    	callback: function(e) {
@@ -231,25 +260,25 @@ function fromDateClick(e){
 	    			e.value.setSeconds(0);
 	    			e.value.setMilliseconds(0);
 	    		}
-	     		
+
 	        	if (e.cancel) {
 	            	Ti.API.info('user canceled dialog');
-	            } 
-	            
+	            }
+
 	            else if( e.value > moment($.tabView.children[3].children[1].children[0].text, "DD-MM-YYYY")){
 	            	var dialog = Ti.UI.createAlertDialog({
 					    message: 'Дата должна быть меньше максимальной',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            }
-	            
+
 	            else {
-	            	thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
-	            	thisNote.attributes.dateFrom = +(e.value.getDate());
-	            	thisNote.attributes.monthNumber = e.value.getMonth();
+	            	$.thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	$.thisNote.attributes.dateFrom = +(e.value.getDate());
+	            	$.thisNote.attributes.monthNumber = e.value.getMonth();
 	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            }
 	        }
@@ -258,141 +287,141 @@ function fromDateClick(e){
 }
 
 function fromTimeClick(e){
-		var arr = thisNote.attributes.parent.split("."),
+		var arr = $.thisNote.attributes.parent.split("."),
 		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
-		
+
 		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_TIME,
-			value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom, 0, 0, 0)
+			value: new Date(arr[2],arr[1]-1,arr[0], $.thisNote.attributes.hoursFrom, 0, 0, 0)
 		});
-    
+
     if(OS_IOS) {
-    	
+
     	var modalPicker = iosModal.createModalPicker(
     		picker,
     		function(){
     			var e = picker;
-    			
+
     			var localString = e.value.toLocaleString().split(" "),
 	    			hours = localString[3].split(":")[0];
-    			
-	    		getUsedDates(thisNote.attributes.parent);
-	            	
+
+	    		getUsedDates($.thisNote.attributes.parent);
+
 	            if(timeArray[e.value.getHours()]){
 	            	var dialog = Ti.UI.createAlertDialog({
 					    message: 'Существует запись на это время',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            }
-	            	
+
 	            else{
-		            thisNote.attributes.hoursFrom = hours;
+		            $.thisNote.attributes.hoursFrom = hours;
 		            $.tabView.children[2].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
-				}        
-	    			
+				}
+
     			$.editorWin.remove(modalPicker);
     		},
     		function(){
     			$.editorWin.remove(modalPicker);
     		}
     	 );
-    	
+
     	$.editorWin.add(modalPicker);
     }
-    
-    if(OS_ANDROID) { 
-    
+
+    if(OS_ANDROID) {
+
 	    picker.showTimePickerDialog({
-	    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursFrom),
+	    	value: new Date(arr[2],arr[1]-1,arr[0], $.thisNote.attributes.hoursFrom),
 	    	callback: function(e) {
 	        	if (e.cancel) {
 	            	Ti.API.info('user canceled dialog');
 	            } else {
-	            	
-	            	getUsedDates(thisNote.attributes.parent);
-	            	
+
+	            	getUsedDates($.thisNote.attributes.parent);
+
 	            	if(timeArray[e.value.getHours()]){
 	            		var dialog = Ti.UI.createAlertDialog({
 					    message: 'Существует запись на это время',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else{
-		            	thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
+		            	$.thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
 		            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
-					}            
+					}
 	            }
 	        }
 	    });
 	}
-}	
+}
 
 function tillDateClick(e){
-	var arr = thisNote.attributes.parent.split("."),
+	var arr = $.thisNote.attributes.parent.split("."),
 		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
 		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_DATE,
 			value: new Date(Date.UTC(arr[2],arr[1]-1,arr[0], 0, 0, 0, 0))
 		});
-    
+
     if(OS_IOS) {
-    	
+
     	var modalPicker = iosModal.createModalPicker(
     		picker,
     		function(){
     			var e = picker;
-	    		if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
+	    		if(e.value < moment($.thisNote.attributes.parent, "DD-MM-YYYY")){
 	            	var dialog = Ti.UI.createAlertDialog({
 				    	message: 'Дата должна быть больше начальной',
 				    	ok: 'ОК',
 				    	title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            else{
-	            	thisNote.attributes.dateTill = +(e.value.getDate());
+	            	$.thisNote.attributes.dateTill = +(e.value.getDate());
 	               	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            }
-	    			
+
     			$.editorWin.remove(modalPicker);
     		},
     		function(){
     			$.editorWin.remove(modalPicker);
     		}
     	 );
-    	
+
     	$.editorWin.add(modalPicker);
     }
-    
-    if(OS_ANDROID) { 
-    
+
+    if(OS_ANDROID) {
+
 	    picker.showDatePickerDialog({
 	    	value: new Date(arr[2],arr[1]-1,arr[0]),
 	    	callback: function(e) {
 	        	if (e.cancel) {
 	            	Ti.API.info('user canceled dialog');
 	            } else {
-	            	if(e.value < moment(thisNote.attributes.parent, "DD-MM-YYYY")){
+	            	if(e.value < moment($.thisNote.attributes.parent, "DD-MM-YYYY")){
 	            		var dialog = Ti.UI.createAlertDialog({
 					    message: 'Дата должна быть больше начальной',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else{
-	            		thisNote.attributes.dateTill = +(e.value.getDate());
+	            		$.thisNote.attributes.dateTill = +(e.value.getDate());
 	                	$.tabView.children[3].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            	}
 	            }
@@ -402,16 +431,16 @@ function tillDateClick(e){
 }
 
 function tillTimeClick(e){
-		var arr = thisNote.attributes.parent.split("."),
+		var arr = $.thisNote.attributes.parent.split("."),
 		tillArr = $.tabView.children[3].children[1].children[0].text.split("."),
-		
+
 		picker = Ti.UI.createPicker({
 			type: Ti.UI.PICKER_TYPE_TIME,
-			value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill, 0, 0, 0)
+			value: new Date(arr[2],arr[1]-1,arr[0], $.thisNote.attributes.hoursTill, 0, 0, 0)
 		});
-    	
+
     if(OS_IOS) {
-    	
+
     	var modalPicker = iosModal.createModalPicker(
     		picker,
     		function(){
@@ -420,77 +449,77 @@ function tillTimeClick(e){
 	    		var localString = e.value.toLocaleString().split(" "),
 	    			hours = localString[3].split(":")[0];
 
-	    		
-	    		getUsedDates(thisNote.attributes.parent);
-	            	
-	            if(hours < thisNote.attributes.hoursFrom){
+
+	    		getUsedDates($.thisNote.attributes.parent);
+
+	            if(hours < $.thisNote.attributes.hoursFrom){
 	            	var dialog = Ti.UI.createAlertDialog({
 					    message: 'Время должно быть больше начального',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else if(timeArray[+hours]){
 	            		var dialog = Ti.UI.createAlertDialog({
 					    message: 'Существует запись на это время',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else{
-	            	thisNote.attributes.hoursTill = hours;
+	            	$.thisNote.attributes.hoursTill = hours;
 	            	$.tabView.children[3].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
 	            	}
-	    			
+
     			$.editorWin.remove(modalPicker);
     		},
     		function(){
     			$.editorWin.remove(modalPicker);
     		}
     	 );
-    	
+
     	$.editorWin.add(modalPicker);
     }
-    
-    if(OS_ANDROID) { 
-    
+
+    if(OS_ANDROID) {
+
 	    picker.showTimePickerDialog({
-	    	value: new Date(arr[2],arr[1]-1,arr[0], thisNote.attributes.hoursTill),
+	    	value: new Date(arr[2],arr[1]-1,arr[0], $.thisNote.attributes.hoursTill),
 	    	callback: function(e) {
 	        	if (e.cancel) {
 	            	Ti.API.info('user canceled dialog');
 	            } else {
-	            	
-	            	getUsedDates(thisNote.attributes.parent);
-	            	
-	            	if(("0" + e.value.getHours()).slice(-2) < thisNote.attributes.hoursFrom){
+
+	            	getUsedDates($.thisNote.attributes.parent);
+
+	            	if(("0" + e.value.getHours()).slice(-2) < $.thisNote.attributes.hoursFrom){
 	            		var dialog = Ti.UI.createAlertDialog({
 					    message: 'Время должно быть больше начального',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else if(timeArray[e.value.getHours()]){
 	            		var dialog = Ti.UI.createAlertDialog({
 					    message: 'Существует запись на это время',
 					    ok: 'ОК',
 					    title: 'Ошибка!'
 					});
-					
+
 					dialog.show();
 	            	}
-	            	
+
 	            	else{
-	            	thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
+	            	$.thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
 	            	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
 	            	}
 	            }
@@ -500,18 +529,18 @@ function tillTimeClick(e){
 }
 
 function guestsChange(e){
-	thisNote.attributes.guests = e.value;
+	$.thisNote.attributes.guests = e.value;
 }
 
 function guestsPlaceholder() {
 	var textArea = $.tabView.children[4].children[1];
 	textArea._hintText = "Гости";
-	
+
 	if(textArea.value === "") {
 		textArea.value = "Гости";
 		textArea.color = "gray";
 	}
-	 
+
 	textArea.addEventListener('focus',function(e){
 	    if(e.source.value == e.source._hintText){
 	        e.source.value = "";
@@ -526,23 +555,23 @@ function guestsPlaceholder() {
 	});
 }
 
-if(OS_IOS) { 
+if(OS_IOS) {
 	guestsPlaceholder();
 }
 
 function descriptionChange(e){
-	thisNote.attributes.description = e.value;
+	$.thisNote.attributes.description = e.value;
 }
 
 function descrPlaceholder() {
 	var textArea = $.tabView.children[5].children[1];
 	textArea._hintText = "Описание";
-	
+
 	if(textArea.value === "") {
 		textArea.value = "Описание";
 		textArea.color = "gray";
 	}
-	 
+
 	textArea.addEventListener('focus',function(e){
 	    if(e.source.value == e.source._hintText){
 	        e.source.value = "";
@@ -557,12 +586,13 @@ function descrPlaceholder() {
 	});
 }
 
-if(OS_IOS) { 
+if(OS_IOS) {
 	descrPlaceholder();
 }
 
 function colorClick(e) {
-	if (OS_ANDROID) { 
+    var view = e;
+	if (OS_ANDROID) {
 		var data = [];
 		data[0]=Ti.UI.createTableViewRow({title:'Белый', colorBack:"white"});
 		data[1]=Ti.UI.createTableViewRow({title:'Красный', colorBack:"red"});
@@ -570,18 +600,18 @@ function colorClick(e) {
 		data[3]=Ti.UI.createTableViewRow({title:'Синий', colorBack:"blue"});
 		data[4]=Ti.UI.createTableViewRow({title:'Оранжевый', colorBack:"orange"});
 		data[5]=Ti.UI.createTableViewRow({title:'Розовый', colorBack:"pink"});
-		data[6]=Ti.UI.createTableViewRow({title:'Желтый', colorBack:"yellow"}); 
-		
+		data[6]=Ti.UI.createTableViewRow({title:'Желтый', colorBack:"yellow"});
+
 		var pickerTable = Ti.UI.createTableView({
 		    data: data
 		});
-		
+
 		pickerTable.addEventListener('click', function(e){
-			thisNote.attributes.color = e.source.colorBack;
+			$.thisNote.attributes.color = e.source.colorBack;
 			$.tabView.children[6].children[1].backgroundColor = e.source.colorBack;
 		    pickerDialog.hide();
 		});
-		 
+
 		var pickerDialog = Ti.UI.createAlertDialog({
 		    androidView: pickerTable
 		});
@@ -594,17 +624,17 @@ function colorClick(e) {
 			options: myArray,
 			selectedIndex: 0,
 		};
-			
+
 		var dialog = Ti.UI.createOptionDialog(opts);
-		
+
 		dialog.show();
 		dialog.addEventListener('click', onSelectDialog);
-			
+
 		function onSelectDialog(e){
 			var colors = ['white', 'red', 'green', 'blue', 'orange', 'pink', 'yellow'];
-			
-			$.tabView.children[6].children[1].backgroundColor = colors[e.index];
-			thisNote.attributes.color = colors[e.index];
+			//$.tabView.children[6].children[1].backgroundColor = colors[e.index];
+		//	$.thisNote.attributes.color = colors[e.index];
+		$.thisNote.set("color",colors[e.index]);
 		}
 	}
 }

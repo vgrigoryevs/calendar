@@ -1,66 +1,65 @@
 <Alloy>
-	<Collection src="note" />
+	<Model src="note" instance="true" id="thisNote"/>
 	<Window class="container" id="editorWin">
 		<RightNavButtons platform="ios">
 			<Button systemButton="Ti.UI.iPhone.SystemButton.SAVE" onClick="saveBtnTap" />
         	<Button systemButton="Ti.UI.iPhone.SystemButton.TRASH" onClick="removeBtnTap" />
         </RightNavButtons>
-		
+
 		<View id="dateEditorMenu" platform="android">
 			<Label text="Заметка" id="noteLabel" />
 			<ImageView id="saveBtn" image="/img/save.png" onClick="saveBtnTap" />
 			<ImageView id="removeBtn" image="/img/delete.png" onClick="removeBtnTap"/>
-		</View>		
-				
-		<ScrollView dataFilter="filterFunction" 
-				   dataCollection="note" 
-				   dataTransform="transformFunction"
-				   id="tabView" 
-				   >
-			
+		</View>
+
+		<ScrollView dataFilter="filterFunction"
+             model="$.thisNote"
+            dataTransform="transformFunction"
+            id="tabView">
+
 			<View id="firstRow">
 				<Label class="anno" text="Что"></Label>
-				<TextField value="{title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
+				<TextField value="{$.thisNote.title}" maxLength="100" hintText="Название мероприятия" id="titleField" onChange="titleChange"></TextField>
 			</View>
-			
+
 			<View class="viewRow">
 				<Label class="anno" text="Где"></Label>
-				<TextField value="{place}"  maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
+				<TextField value="{$.thisNote.place}"  maxLength="100" hintText="Место" id="placeField" onChange="placeChange"></TextField>
 			</View>
-			
+
 			<View class="viewRow">
 				<Label class="anno" text="С"></Label>
 				<View class="pickerContainer">
-					<Label class="dateLabel" onClick="fromDateClick" text="{parent}"></Label>
-					<Label class="timeLabel" onClick="fromTimeClick" text="{customHoursFrom}"></Label>
-				</View>		
+					<Label class="dateLabel" onClick="fromDateClick" text="{$.thisNote.parent}"></Label>
+					<Label class="timeLabel" onClick="fromTimeClick" text="{$.thisNote.customHoursFrom}"></Label>
+				</View>
 			</View>
-			
+
 			<View class="viewRow">
 				<Label class="anno" text="До"></Label>
 				<View class="pickerContainer">
-					<Label class="dateLabel" onClick="tillDateClick" text="{customDateTill}"></Label>
-					<Label class="timeLabel" onClick="tillTimeClick" text="{customHoursTill}"></Label>
+					<Label class="dateLabel" onClick="tillDateClick" text="{$.thisNote.customDateTill}"></Label>
+					<Label class="timeLabel" onClick="tillTimeClick" text="{$.thisNote.customHoursTill}"></Label>
 				</View>
-      		
-			</View>
-			
-			<View class="viewRow">
-				<Label class="anno" text="Гости"></Label>
-				<TextArea value="{guests}"  hintText="Гости" id="guestsField" onChange="guestsChange"></TextArea>
-			</View>
-			
-			<View class="viewRow">
-				<Label class="anno" text="Описание"></Label>
-				<TextArea value="{description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextArea>
-			</View>
-			
-			<View class="viewRow">
-				<Label class="anno" text="Цвет"></Label>
-				<Label onClick="colorClick" id="colorLabel" backgroundColor="{color}"></Label>
 
 			</View>
-			
-		</ScrollView>	
+
+			<View class="viewRow">
+				<Label class="anno" text="Гости"></Label>
+				<TextArea value="{$.thisNote.guests}"  hintText="Гости" id="guestsField" onChange="guestsChange"></TextArea>
+			</View>
+
+			<View class="viewRow">
+				<Label class="anno" text="Описание"></Label>
+				<TextArea value="{$.thisNote.description}" hintText="Описание" id="descriptionField" onChange="descriptionChange"></TextArea>
+			</View>
+
+			<View class="viewRow">
+				<Label class="anno" text="Цвет"></Label>
+				<Label onClick="colorClick" id="colorLabel" backgroundColor="{$.thisNote.color}"></Label>
+
+			</View>
+
+		</ScrollView>
 	</Window>
 </Alloy>
