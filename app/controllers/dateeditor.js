@@ -601,7 +601,7 @@ function colorClick(e) {
 
 		pickerTable.addEventListener('click', function(e){
 			$.thisNote.attributes.color = e.source.colorBack;
-			$.thisNote.set("color",colors[e.source.colorBack]);
+			$.thisNote.set("color",e.source.colorBack);
 		    pickerDialog.hide();
 		});
 
