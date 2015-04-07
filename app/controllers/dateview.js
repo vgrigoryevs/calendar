@@ -117,6 +117,7 @@ function showEvents() {
 		
 		Alloy.Models.note = Alloy.Collections.note.where({parent: parentId, hoursFrom: e.source.hoursFrom})[0];
 		var dateEditor = Alloy.createController("dateeditor", args).getView();
+
 	    			
 		if(OS_IOS) { 
 			Alloy.Globals.mainWindow.openWindow(dateEditor);
@@ -184,10 +185,12 @@ function showEvents() {
 
 function addBtnTap() {
 	var args = {
-		parentId : parentId
+		parentId : parentId,
+
 	};
 	
 	var dateEditor = Alloy.createController("dateeditor", args).getView();
+	
     			
 	if(OS_IOS) { 
 		Alloy.Globals.mainWindow.openWindow(dateEditor);

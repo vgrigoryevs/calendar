@@ -29,7 +29,7 @@ exports.definition = {
 	},
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
-			// extended functions and properties go here
+			
 		});
 
 		return Collection;

@@ -13,7 +13,6 @@ Alloy.Collections.note.fetch();
 var noteCol = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
 if (noteCol) {
     $.thisNote.set(noteCol.toJSON());
-    alert(JSON.stringify($.thisNote.toJSON()));
     transformFunction();
 } else {
      $.thisNote.set( {
@@ -234,10 +233,10 @@ function fromDateClick(e){
 	            }
 
 	            else {
-	            	$.thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            	$.thisNote.attributes.dateFrom = e.value.getDate();
 	            	$.thisNote.attributes.monthNumber = e.value.getMonth();
-	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	            	$.thisNote.set("parent",e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear());
+	            	
 	            }
 
     			$.editorWin.remove(modalPicker);
@@ -276,10 +275,9 @@ function fromDateClick(e){
 	            }
 
 	            else {
-	            	$.thisNote.attributes.parent = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
 	            	$.thisNote.attributes.dateFrom = +(e.value.getDate());
 	            	$.thisNote.attributes.monthNumber = e.value.getMonth();
-	                $.tabView.children[2].children[1].children[0].text = e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear();
+	                $.thisNote.set("parent",e.value.getDate() + "." + (e.value.getMonth()+1) + "." + e.value.getFullYear());
 	            }
 	        }
 	    });
@@ -319,7 +317,8 @@ function fromTimeClick(e){
 
 	            else{
 		            $.thisNote.attributes.hoursFrom = hours;
-		            $.tabView.children[2].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
+		            
+		            $.thisNote.set("customHoursFrom",hours + " : " + ("0" + e.value.getMinutes()).slice(-2));
 				}
 
     			$.editorWin.remove(modalPicker);
@@ -355,7 +354,7 @@ function fromTimeClick(e){
 
 	            	else{
 		            	$.thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
-		            	$.tabView.children[2].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
+		            	$.thisNote.set("customHoursFrom",hours + " : " + (("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2)));
 					}
 	            }
 	        }
@@ -460,21 +459,17 @@ function tillTimeClick(e){
 					});
 
 					dialog.show();
-	            	}
+	            	}	else if(timeArray[+hours]){
+		            		var dialog = Ti.UI.createAlertDialog({
+						    	message: 'Существует запись на это время',
+						    	ok: 'ОК',
+						    	title: 'Ошибка!'
+							});
 
-	            	else if(timeArray[+hours]){
-	            		var dialog = Ti.UI.createAlertDialog({
-					    message: 'Существует запись на это время',
-					    ok: 'ОК',
-					    title: 'Ошибка!'
-					});
-
-					dialog.show();
-	            	}
-
-	            	else{
-	            	$.thisNote.attributes.hoursTill = hours;
-	            	$.tabView.children[3].children[1].children[1].text = hours + " : " + ("0" + e.value.getMinutes()).slice(-2);
+							dialog.show();
+	            	}	else{
+	            			$.thisNote.attributes.hoursTill = hours;
+	            			$.thisNote.set("customHoursTill",hours + " : " + ("0" + e.value.getMinutes()).slice(-2));
 	            	}
 
     			$.editorWin.remove(modalPicker);
@@ -506,21 +501,18 @@ function tillTimeClick(e){
 					});
 
 					dialog.show();
-	            	}
+	            	}	else if(timeArray[e.value.getHours()]){
+	            			var dialog = Ti.UI.createAlertDialog({
+					    		message: 'Существует запись на это время',
+					    		ok: 'ОК',
+					    		title: 'Ошибка!'
+							});
 
-	            	else if(timeArray[e.value.getHours()]){
-	            		var dialog = Ti.UI.createAlertDialog({
-					    message: 'Существует запись на это время',
-					    ok: 'ОК',
-					    title: 'Ошибка!'
-					});
+							dialog.show();
+	            	}	else{
+	            			$.thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
+	            			$.thisNote.set("customHoursTill", ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2));
 
-					dialog.show();
-	            	}
-
-	            	else{
-	            	$.thisNote.attributes.hoursTill = ("0" + e.value.getHours()).slice(-2);
-	            	$.tabView.children[3].children[1].children[1].text = ("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2);
 	            	}
 	            }
 	        }
@@ -608,7 +600,7 @@ function colorClick(e) {
 
 		pickerTable.addEventListener('click', function(e){
 			$.thisNote.attributes.color = e.source.colorBack;
-			$.tabView.children[6].children[1].backgroundColor = e.source.colorBack;
+			$.thisNote.set("color",colors[e.source.colorBack]);
 		    pickerDialog.hide();
 		});
 
@@ -632,9 +624,8 @@ function colorClick(e) {
 
 		function onSelectDialog(e){
 			var colors = ['white', 'red', 'green', 'blue', 'orange', 'pink', 'yellow'];
-			//$.tabView.children[6].children[1].backgroundColor = colors[e.index];
-		//	$.thisNote.attributes.color = colors[e.index];
-		$.thisNote.set("color",colors[e.index]);
+			
+			$.thisNote.set("color",colors[e.index]);
 		}
 	}
 }
