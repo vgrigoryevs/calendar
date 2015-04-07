@@ -252,7 +252,15 @@ function showCalendar(year, month){
     	if(e.source.labelId){
     		var selectedDate = e.source,
     			args = {
-    				labelId: selectedDate.labelId
+    				labelId: selectedDate.labelId,
+    				callbackFunction: function(status){
+						if(status){
+							Alloy.Collections.note.fetch();
+							$.contain.remove($.contain.children[3]);
+			
+							showCalendar(y, mon);
+						}
+					}
     			},
     			dateView = Alloy.createController("dateview", args).getView();
     			if($.contain.menuOn){
@@ -403,14 +411,26 @@ function indexMenuBtnClick(){
 		});
 		
 		var showMenu = Ti.UI.createAnimation();
+		
 	    showMenu.duration = 300;
 	    showMenu.width = "100%";
 	    showMenu.height = 100;
 	    showMenu.right = 0;
 	    showMenu.opacity = 1;
 			
-		newBtn.addEventListener('click', function(e){		
-			var dateEditor = Alloy.createController("dateeditor").getView();
+		newBtn.addEventListener('click', function(e){
+			var args = {
+				callbackFunction: function(status){
+					if(status){
+						Alloy.Collections.note.fetch();
+						$.contain.remove($.contain.children[3]);
+		
+						showCalendar(y, mon);
+					}
+				}
+			};
+					
+			var dateEditor = Alloy.createController("dateeditor", args).getView();
 	    	
 	    	$.contain.menuOn = false;
 			$.contain.remove($.contain.children[4]);
@@ -535,15 +555,6 @@ if(OS_IOS) {
 	$.navigationView.top = 20;
 }
 
-$.contain.addEventListener('focus', function() {
-	if(Alloy.Globals.redrawIndex){
-		Alloy.Collections.note.fetch();
-		$.contain.remove($.contain.children[3]);
-		
-		showCalendar(y, mon);
-		Alloy.Globals.redrawIndex = false;
-	}
-});
 
 //Calendar initialization with current month
 var d = moment();
@@ -556,4 +567,3 @@ $.monthSelector.text = n + " " + y;
 Alloy.Collections.note.fetch();
  
 showCalendar(y, mon);
-Alloy.Globals.redrawIndex = false;

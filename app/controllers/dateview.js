@@ -10,6 +10,14 @@ if (OS_ANDROID) {
 	$.dateLabel.text = parentId; 
 }
 
+win.addEventListener('close', function() {
+    $.destroy();
+    
+    if (args.callbackFunction) {
+		args.callbackFunction(true);
+	}
+});
+
 function showEvents() {
 	function createTimeRow(time, i) {
 	  var row = Ti.UI.createView({

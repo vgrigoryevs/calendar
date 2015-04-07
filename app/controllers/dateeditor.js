@@ -154,7 +154,6 @@ function saveBtnTap() {
 		}
 
 		Alloy.Collections.note.fetch();
-		Alloy.Globals.redrawIndex = true;
 		if (args.callbackFunction) {
 		    args.callbackFunction(true);
 		}
