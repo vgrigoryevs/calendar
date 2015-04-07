@@ -355,7 +355,7 @@ function fromTimeClick(e){
 
 	            	else{
 		            	$.thisNote.attributes.hoursFrom = ("0" + e.value.getHours()).slice(-2);
-		            	$.thisNote.set("customHoursFrom",hours + " : " + (("0" + e.value.getHours()).slice(-2) + " : " + ("0" + e.value.getMinutes()).slice(-2)));
+		            	$.thisNote.set("customHoursFrom",hours + " : " + (("0" + e.value.getHours()).slice(-2)));
 					}
 	            }
 	        }
