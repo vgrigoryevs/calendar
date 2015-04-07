@@ -5,30 +5,9 @@ var args = arguments[0] || {},
 	
 if(OS_IOS) { 
 	win.title = parentId;
-	
-	win.addEventListener('focus', function() {
-	if(Alloy.Globals.redrawEditor){
-		Alloy.Collections.note.fetch();
-		win.remove(win.children[0]);
-		
-		showEvents();
-		Alloy.Globals.redrawEditor = false;
-	}
-});
-
 } 
 if (OS_ANDROID) { 
 	$.dateLabel.text = parentId; 
-	
-	win.addEventListener('focus', function() {
-		if(Alloy.Globals.redrawEditor){
-			Alloy.Collections.note.fetch();
-			win.remove(win.children[1]);
-			
-			showEvents();
-			Alloy.Globals.redrawEditor = false;
-		}
-	});
 }
 
 function showEvents() {
@@ -112,10 +91,24 @@ function showEvents() {
 	  label2.addEventListener('click', function(e){    		
 		var args = {
 			hoursFrom : e.source.hoursFrom,
-			parentId : parentId
+			parentId : parentId,
+			callbackFunction: function(status){
+				if(status){
+					if(OS_IOS){
+						Alloy.Collections.note.fetch();
+						win.remove(win.children[0]);
+						showEvents();
+					}
+					if (OS_ANDROID){
+						Alloy.Collections.note.fetch();
+						win.remove(win.children[1]);
+						showEvents();
+					}
+				}
+			}
 		};
 		
-		Alloy.Models.note = Alloy.Collections.note.where({parent: parentId, hoursFrom: e.source.hoursFrom})[0];
+		Alloy.Models.note = Alloy.Collections.note.findByParentHoursFrom(parentId,e.source.hoursFrom)[0];
 		var dateEditor = Alloy.createController("dateeditor", args).getView();
 
 	    			
@@ -150,7 +143,7 @@ function showEvents() {
 			time = "0" + time;
 		}
 		
-		var note = myNotes.where({parent: parentId, hoursFrom: time})[0];
+		var note = Alloy.Collections.note.findByParentHoursFrom(parentId, time)[0];
 		
 		//Grabin note description, if it exist
 		if(note){
@@ -186,7 +179,20 @@ function showEvents() {
 function addBtnTap() {
 	var args = {
 		parentId : parentId,
-
+		callbackFunction: function(status){
+			if(status){
+				if(OS_IOS){
+					Alloy.Collections.note.fetch();
+					win.remove(win.children[0]);
+					showEvents();
+				}
+				if (OS_ANDROID){
+					Alloy.Collections.note.fetch();
+					win.remove(win.children[1]);
+					showEvents();
+				}
+			}
+		}
 	};
 	
 	var dateEditor = Alloy.createController("dateeditor", args).getView();
@@ -204,4 +210,3 @@ function addBtnTap() {
 }
 
 showEvents();
-Alloy.Globals.redrawEditor = false;

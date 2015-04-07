@@ -10,7 +10,7 @@ var args = arguments[0] || {},
 var iosModal = require('iosModal');
 
 Alloy.Collections.note.fetch();
-var noteCol = Alloy.Collections.note.where({parent: parentId, hoursFrom: hours})[0];
+var noteCol = Alloy.Collections.note.findByParentHoursFrom(parentId, hours)[0];
 if (noteCol) {
     $.thisNote.set(noteCol.toJSON());
     transformFunction();
@@ -40,7 +40,7 @@ if(OS_IOS) {
 }
 
 function getUsedDates(parentId) {
-	usedDates = Alloy.Collections.note.where({parent: parentId});
+	usedDates = Alloy.Collections.note.findByParent(parentId);
 	timeArray = [];
 
 	for(child in usedDates) {
@@ -62,7 +62,7 @@ function getUsedDates(parentId) {
 
 
 function filterFunction(collection) {
-	if(!collection.where({parent: parentId, hoursFrom: hours})[0]){//If it is new
+	if(!Alloy.Collections.note.findByParentHoursFrom(parentId, hours)[0]){//If it is new
 		var note = Alloy.createModel('note', {
 			"title": "",
 		    "place": "",
@@ -80,11 +80,11 @@ function filterFunction(collection) {
 		});
 
 		collection.add(note);
-		return collection.where({parent: parentId, hoursFrom: hours});
+		return Alloy.Collections.note.findByParentHoursFrom(parentId, hours);
 	}
 
 	else {
-		return collection.where({parent: parentId, hoursFrom: hours});
+		return Alloy.Collections.note.findByParentHoursFrom(parentId, hours);
 	}
 
 }
@@ -155,7 +155,6 @@ function saveBtnTap() {
 
 		Alloy.Collections.note.fetch();
 		Alloy.Globals.redrawIndex = true;
-		Alloy.Globals.redrawEditor = true;
 		if (args.callbackFunction) {
 		    args.callbackFunction(true);
 		}
@@ -185,15 +184,18 @@ function checkValidation() {
 function removeBtnTap() {
 
 	if($.thisNote.attributes.dateTill > $.thisNote.attributes.dateFrom) {
-		while(Alloy.Collections.note.where({unicId: $.thisNote.attributes.unicId})[0]){
-			Alloy.Collections.note.where({unicId: $.thisNote.attributes.unicId})[0].destroy();
+		while(Alloy.Collections.note.findByUnicId($.thisNote.attributes.unicId)[0]){
+			Alloy.Collections.note.findByUnicId($.thisNote.attributes.unicId)[0].destroy();
 		}
 	}
 
 	$.thisNote.destroy();
 	Alloy.Collections.note.fetch();
 	Alloy.Globals.redrawIndex = true;
-	Alloy.Globals.redrawEditor = true;
+	
+	if (args.callbackFunction) {
+		args.callbackFunction(true);
+	}
 
 	$.editorWin.close();
 }

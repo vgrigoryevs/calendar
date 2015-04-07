@@ -29,7 +29,18 @@ exports.definition = {
 	},
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
-			
+			findByParentHoursFrom: function(parentId, hours){
+				return Alloy.Collections.note.where({parent: parentId, hoursFrom: hours});
+			},
+			findByParent: function(parentId){
+				return Alloy.Collections.note.where({parent: parentId});
+			},
+			findByUnicId: function(unic){
+				return Alloy.Collections.note.where({unicId: unic});
+			},
+			findByMonthYear: function(month, year){
+				return Alloy.Collections.note.where({monthNumber: month, yearNumber: year});
+			},
 		});
 
 		return Collection;

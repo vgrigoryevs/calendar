@@ -34,7 +34,7 @@ function showCalendar(year, month){
 	}
 	
 	//Searching dates of existing notes in this month
-	var myNotes = Alloy.Collections.note.where({monthNumber: month, yearNumber: year}),
+	var myNotes = Alloy.Collections.note.findByMonthYear(month,year),
 		datesWithNotes = [];
 	
 	if(myNotes[0]){
